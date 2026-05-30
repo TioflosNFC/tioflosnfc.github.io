@@ -1,0 +1,490 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order — Tioflos NFC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .order-page { background: var(--navy); min-height: 100vh; padding-top: 68px; }
+    .order-container { max-width: 780px; margin: 0 auto; padding: 4rem 5%; }
+    .order-title { font-size: clamp(1.8rem,4vw,2.5rem); font-weight: 800; color: var(--white); margin-bottom: 0.5rem; }
+    .order-sub { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 3rem; line-height: 1.7; }
+
+    /* Package selector */
+    .pkg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; margin-bottom: 0.5rem; }
+    .pkg-card {
+      border: 1.5px solid rgba(201,146,42,0.25); border-radius: 12px;
+      padding: 1.25rem 1rem; cursor: pointer; transition: all 0.2s; text-align: center;
+      position: relative;
+    }
+    .pkg-card.selected { border-color: var(--gold); background: rgba(201,146,42,0.1); }
+    .pkg-card input[type="radio"] { display: none; }
+    .pkg-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .pkg-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--white); }
+    .pkg-price { font-size: 0.8rem; color: var(--gold); margin-top: 0.2rem; }
+    .pkg-tag { font-size: 0.65rem; color: rgba(255,255,255,0.4); margin-top: 0.2rem; }
+    .pkg-popular {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--navy); font-size: 0.6rem;
+      font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    }
+
+    /* Section headers inside form */
+    .form-section-header {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.8rem;
+      color: var(--gold-light); text-transform: uppercase; letter-spacing: 2px;
+      margin: 2rem 0 1rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(201,146,42,0.2);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    /* Dark form inputs */
+    .order-form label { display: block; font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.75); margin-bottom: 0.4rem; }
+    .order-form input,
+    .order-form select,
+    .order-form textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid rgba(201,146,42,0.25); border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      background: rgba(255,255,255,0.06); color: var(--white);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      margin-bottom: 1.25rem;
+    }
+    .order-form input::placeholder,
+    .order-form textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .order-form input:focus,
+    .order-form select:focus,
+    .order-form textarea:focus {
+      border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,146,42,0.15);
+    }
+    .order-form select option { background: var(--navy); }
+    .order-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Platform inputs */
+    .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem; }
+    .platform-input {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: rgba(255,255,255,0.06); border: 1.5px solid rgba(201,146,42,0.2);
+      border-radius: 8px; padding: 0.55rem 0.75rem;
+      transition: border-color 0.2s;
+    }
+    .platform-input:focus-within { border-color: var(--gold); }
+    .platform-input .p-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .platform-input input {
+      border: none; background: none; padding: 0; margin: 0;
+      font-size: 0.82rem; color: var(--white); width: 100%; outline: none;
+      box-shadow: none;
+    }
+    .platform-input input::placeholder { color: rgba(255,255,255,0.25); }
+
+    /* Payment methods */
+    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    .pay-card {
+      border: 1.5px solid rgba(201,146,42,0.25); border-radius: 12px;
+      padding: 1.25rem; cursor: pointer; transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      text-align: center;
+    }
+    .pay-card.selected { border-color: var(--gold); background: rgba(201,146,42,0.1); }
+    .pay-card input[type="radio"] { display: none; }
+    .pay-logo { font-size: 2rem; }
+    .pay-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--white); }
+    .pay-number { font-size: 0.8rem; color: var(--gold); font-weight: 600; }
+
+    /* Payment details box */
+    .pay-details {
+      display: none; background: rgba(201,146,42,0.08);
+      border: 1px solid rgba(201,146,42,0.3); border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 1.25rem;
+    }
+    .pay-details.visible { display: block; }
+    .pay-details h4 { font-size: 0.85rem; font-weight: 700; color: var(--gold-light); margin-bottom: 0.75rem; }
+    .pay-details p { font-size: 0.875rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
+    .pay-details .account { font-size: 1.1rem; font-weight: 700; color: var(--white); letter-spacing: 1px; }
+
+    /* Screenshot upload */
+    .upload-area {
+      border: 2px dashed rgba(201,146,42,0.35); border-radius: 12px;
+      padding: 2rem; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s; margin-bottom: 1.25rem;
+      position: relative;
+    }
+    .upload-area:hover { border-color: var(--gold); background: rgba(201,146,42,0.05); }
+    .upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; margin: 0; padding: 0; border: none; background: none;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .upload-text { font-size: 0.875rem; color: rgba(255,255,255,0.6); }
+    .upload-text strong { color: var(--gold-light); }
+    .upload-preview { display: none; margin-top: 1rem; }
+    .upload-preview img { max-width: 200px; border-radius: 8px; border: 1px solid rgba(201,146,42,0.3); }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%; padding: 1.1rem; background: var(--gold); color: var(--navy);
+      border: none; border-radius: 12px; font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.05rem; cursor: pointer;
+      transition: background 0.2s, transform 0.2s; margin-top: 1rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* Success state */
+    .order-success {
+      display: none; text-align: center; padding: 4rem 2rem;
+    }
+    .order-success .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .order-success h2 { font-size: 2rem; font-weight: 800; color: var(--gold); margin-bottom: 1rem; }
+    .order-success p { color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 2rem; font-size: 1rem; }
+
+    @media (max-width: 600px) {
+      .pkg-grid { grid-template-columns: 1fr; }
+      .payment-grid { grid-template-columns: 1fr; }
+      .platform-grid { grid-template-columns: 1fr; }
+      .order-form .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Tioflos NFC" onerror="this.style.display='none'">
+    <span>Tioflos NFC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="designer.html">Card Designer</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="order.html">Order Now</a>
+  <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="designer.html">Card Designer</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="mob-cta" href="order.html">Order Now →</a>
+</div>
+
+<div class="order-page">
+  <div class="order-container">
+
+    <!-- FORM -->
+    <div id="order-form-wrap">
+      <h1 class="order-title">Order Your NFC Card</h1>
+      <p class="order-sub">Fill in your details below. We'll build your profile and deliver your card same day in Arba Minch.</p>
+
+      <form class="order-form" onsubmit="return false;">
+
+        <!-- PACKAGE -->
+        <div class="form-section-header">📦 Choose Your Package</div>
+        <div class="pkg-grid">
+          <label class="pkg-card selected" onclick="selectPkg(this,'Starter — 800 ETB')">
+            <input type="radio" name="pkg" value="Starter — 800 ETB" checked>
+            <div class="pkg-icon">⬜</div>
+            <div class="pkg-name">Starter</div>
+            <div class="pkg-price">800 ETB</div>
+            <div class="pkg-tag">Blank card</div>
+          </label>
+          <label class="pkg-card" onclick="selectPkg(this,'Business — 4,000 ETB')">
+            <div class="pkg-popular">Most Popular</div>
+            <input type="radio" name="pkg" value="Business — 4,000 ETB">
+            <div class="pkg-icon">🎨</div>
+            <div class="pkg-name">Business</div>
+            <div class="pkg-price">4,000 ETB</div>
+            <div class="pkg-tag">Custom print · 5 cards</div>
+          </label>
+          <label class="pkg-card" onclick="selectPkg(this,'Premium — 12,000 ETB')">
+            <input type="radio" name="pkg" value="Premium — 12,000 ETB">
+            <div class="pkg-icon">⭐</div>
+            <div class="pkg-name">Premium</div>
+            <div class="pkg-price">12,000 ETB</div>
+            <div class="pkg-tag">Custom print · 10+ cards</div>
+          </label>
+        </div>
+
+        <!-- BUSINESS INFO -->
+        <div class="form-section-header">🏢 Business Information</div>
+        <div class="form-row">
+          <div>
+            <label>Business / Your Name *</label>
+            <input type="text" id="o-biz" placeholder="e.g. Lante Hotel" required>
+          </div>
+          <div>
+            <label>Business Type *</label>
+            <select id="o-type" required>
+              <option value="">Select type...</option>
+              <option>Hotel / Resort</option>
+              <option>Restaurant / Cafe</option>
+              <option>Shop / Supermarket</option>
+              <option>Clinic / Pharmacy</option>
+              <option>Salon / Spa</option>
+              <option>School / College</option>
+              <option>Freelancer</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>Phone Number *</label>
+            <input type="tel" id="o-phone" placeholder="+251..." required>
+          </div>
+          <div>
+            <label>Tagline / Short Description</label>
+            <input type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch">
+          </div>
+        </div>
+        <div>
+          <label>Opening Hours</label>
+          <input type="text" id="o-hours" placeholder="e.g. Mon–Sat 8:00 AM – 9:00 PM">
+        </div>
+
+        <!-- PLATFORMS -->
+        <div class="form-section-header">🔗 Your Links &amp; Platforms</div>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:1rem;">Fill in only the platforms you use. Leave others blank.</p>
+
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:1px;">💬 Messaging</div>
+        <div class="platform-grid">
+          <div class="platform-input"><span class="p-icon">💬</span><input type="text" id="o-whatsapp" placeholder="WhatsApp number (+251...)"></div>
+          <div class="platform-input"><span class="p-icon">✈️</span><input type="text" id="o-telegram" placeholder="Telegram (@username)"></div>
+        </div>
+
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:1px;">📱 Social Media</div>
+        <div class="platform-grid">
+          <div class="platform-input"><span class="p-icon">📘</span><input type="text" id="o-facebook" placeholder="Facebook page URL"></div>
+          <div class="platform-input"><span class="p-icon">📸</span><input type="text" id="o-instagram" placeholder="Instagram (@username)"></div>
+          <div class="platform-input"><span class="p-icon">🎵</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)"></div>
+          <div class="platform-input"><span class="p-icon">▶️</span><input type="text" id="o-youtube" placeholder="YouTube channel URL"></div>
+          <div class="platform-input"><span class="p-icon">🐦</span><input type="text" id="o-twitter" placeholder="Twitter / X (@username)"></div>
+          <div class="platform-input"><span class="p-icon">👻</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)"></div>
+          <div class="platform-input"><span class="p-icon">💼</span><input type="text" id="o-linkedin" placeholder="LinkedIn profile URL"></div>
+        </div>
+
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:1px;">🌐 Business &amp; Discovery</div>
+        <div class="platform-grid">
+          <div class="platform-input"><span class="p-icon">📍</span><input type="text" id="o-maps" placeholder="Google Maps link"></div>
+          <div class="platform-input"><span class="p-icon">🌐</span><input type="text" id="o-website" placeholder="Website URL"></div>
+          <div class="platform-input"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link"></div>
+        </div>
+
+        <!-- DELIVERY -->
+        <div class="form-section-header">🚲 Delivery Details</div>
+        <div>
+          <label>Delivery Address (area / landmark in Arba Minch) *</label>
+          <input type="text" id="o-address" placeholder="e.g. Near Arba Minch University, Sikela area" required>
+        </div>
+        <div>
+          <label>Preferred Delivery Time</label>
+          <select id="o-time">
+            <option>Morning (8am–12pm)</option>
+            <option>Afternoon (12pm–5pm)</option>
+            <option>Evening (5pm–8pm)</option>
+            <option>Any time</option>
+          </select>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="form-section-header">💳 Payment Method</div>
+        <div class="payment-grid">
+          <label class="pay-card selected" onclick="selectPay(this,'Telebirr')">
+            <input type="radio" name="pay" value="Telebirr" checked>
+            <div class="pay-logo">📱</div>
+            <div class="pay-name">Telebirr</div>
+            <div class="pay-number">+251 906 368 383</div>
+          </label>
+          <label class="pay-card" onclick="selectPay(this,'CBE Birr')">
+            <input type="radio" name="pay" value="CBE Birr">
+            <div class="pay-logo">🏦</div>
+            <div class="pay-name">CBE Birr</div>
+            <div class="pay-number">1000365753931</div>
+          </label>
+        </div>
+
+        <!-- Payment details -->
+        <div class="pay-details visible" id="pay-details-telebirr">
+          <h4>📱 Pay via Telebirr</h4>
+          <p>Send payment to:<br>
+          <span class="account">+251 906 368 383</span><br>
+          Account name: <strong>Tioflos NFC</strong><br><br>
+          After paying, take a screenshot of the confirmation and upload it below.</p>
+        </div>
+        <div class="pay-details" id="pay-details-cbe">
+          <h4>🏦 Pay via CBE Birr</h4>
+          <p>Send payment to:<br>
+          <span class="account">1000365753931</span><br>
+          Account name: <strong>Tioflos NFC</strong><br><br>
+          After paying, take a screenshot of the confirmation and upload it below.</p>
+        </div>
+
+        <!-- Screenshot upload -->
+        <div>
+          <label>Payment Screenshot *</label>
+          <div class="upload-area" id="upload-area">
+            <input type="file" id="o-screenshot" accept="image/*" onchange="previewScreenshot(this)">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text"><strong>Click to upload</strong> your payment screenshot<br>JPG, PNG supported</div>
+            <div class="upload-preview" id="upload-preview">
+              <img id="preview-img" src="" alt="Payment screenshot">
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="form-section-header">📝 Additional Notes</div>
+        <div>
+          <label>Special Requests (logo, colors, menu items, etc.)</label>
+          <textarea id="o-notes" rows="4" placeholder="e.g. Our logo is blue and gold, we want a digital menu with 10 items, please include our WiFi password..."></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="submitOrder()">
+          ✈️ Send Order via Telegram
+        </button>
+      </form>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="order-success" id="order-success">
+      <div class="success-icon">🎉</div>
+      <h2>Order Sent!</h2>
+      <p>Your order has been sent to Tioflos NFC on Telegram.<br>We'll confirm within 1–2 hours and deliver to you by bike!</p>
+      <a href="index.html" class="btn-primary">← Back to Home</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+function selectPkg(el, val) {
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectPay(el, method) {
+  document.querySelectorAll('.pay-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('pay-details-telebirr').classList.remove('visible');
+  document.getElementById('pay-details-cbe').classList.remove('visible');
+  if (method === 'Telebirr') document.getElementById('pay-details-telebirr').classList.add('visible');
+  if (method === 'CBE Birr') document.getElementById('pay-details-cbe').classList.add('visible');
+}
+
+function previewScreenshot(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('preview-img').src = e.target.result;
+      document.getElementById('upload-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// Pre-select package from URL param
+const urlParams = new URLSearchParams(window.location.search);
+const pkgParam = urlParams.get('pkg');
+if (pkgParam) {
+  const map = { starter: 'Starter — 800 ETB', business: 'Business — 4,000 ETB', premium: 'Premium — 12,000 ETB' };
+  const cards = document.querySelectorAll('.pkg-card');
+  cards.forEach(c => {
+    const radio = c.querySelector('input[type="radio"]');
+    if (radio && radio.value === map[pkgParam]) {
+      document.querySelectorAll('.pkg-card').forEach(x => x.classList.remove('selected'));
+      c.classList.add('selected');
+      radio.checked = true;
+    }
+  });
+}
+
+function submitOrder() {
+  const biz     = document.getElementById('o-biz').value.trim();
+  const type    = document.getElementById('o-type').value;
+  const phone   = document.getElementById('o-phone').value.trim();
+  const address = document.getElementById('o-address').value.trim();
+  const pkg     = document.querySelector('input[name="pkg"]:checked')?.value || '';
+  const pay     = document.querySelector('input[name="pay"]:checked')?.value || '';
+
+  if (!biz || !type || !phone || !address) {
+    alert('Please fill in all required fields marked with *');
+    return;
+  }
+
+  const tagline     = document.getElementById('o-tagline').value.trim();
+  const hours       = document.getElementById('o-hours').value.trim();
+  const whatsapp    = document.getElementById('o-whatsapp').value.trim();
+  const telegram    = document.getElementById('o-telegram').value.trim();
+  const facebook    = document.getElementById('o-facebook').value.trim();
+  const instagram   = document.getElementById('o-instagram').value.trim();
+  const tiktok      = document.getElementById('o-tiktok').value.trim();
+  const youtube     = document.getElementById('o-youtube').value.trim();
+  const twitter     = document.getElementById('o-twitter').value.trim();
+  const snapchat    = document.getElementById('o-snapchat').value.trim();
+  const linkedin    = document.getElementById('o-linkedin').value.trim();
+  const maps        = document.getElementById('o-maps').value.trim();
+  const website     = document.getElementById('o-website').value.trim();
+  const tripadvisor = document.getElementById('o-tripadvisor').value.trim();
+  const time        = document.getElementById('o-time').value;
+  const notes       = document.getElementById('o-notes').value.trim();
+
+  const platforms = [
+    whatsapp    ? `💬 WhatsApp: ${whatsapp}` : '',
+    telegram    ? `✈️ Telegram: ${telegram}` : '',
+    facebook    ? `📘 Facebook: ${facebook}` : '',
+    instagram   ? `📸 Instagram: ${instagram}` : '',
+    tiktok      ? `🎵 TikTok: ${tiktok}` : '',
+    youtube     ? `▶️ YouTube: ${youtube}` : '',
+    twitter     ? `🐦 Twitter/X: ${twitter}` : '',
+    snapchat    ? `👻 Snapchat: ${snapchat}` : '',
+    linkedin    ? `💼 LinkedIn: ${linkedin}` : '',
+    maps        ? `📍 Google Maps: ${maps}` : '',
+    website     ? `🌐 Website: ${website}` : '',
+    tripadvisor ? `⭐ TripAdvisor: ${tripadvisor}` : '',
+  ].filter(Boolean).join('\n');
+
+  const msg =
+`🔔 NEW ORDER — Tioflos NFC
+
+📌 Business: ${biz}
+🏢 Type: ${type}
+📦 Package: ${pkg}
+${tagline ? `💬 Tagline: ${tagline}` : ''}
+${hours ? `🕐 Hours: ${hours}` : ''}
+
+📞 Phone: ${phone}
+
+🔗 Platforms:
+${platforms || 'None provided'}
+
+🚲 Delivery Address: ${address}
+🕐 Preferred Time: ${time}
+💳 Payment: ${pay}
+
+📝 Notes: ${notes || 'None'}
+
+✅ Sent from tioflosnfc.com`;
+
+  const tgUrl = `https://t.me/Tioflos?text=${encodeURIComponent(msg)}`;
+  window.open(tgUrl, '_blank');
+
+  document.getElementById('order-form-wrap').style.display = 'none';
+  document.getElementById('order-success').style.display = 'block';
+}
+</script>
+</body>
+</html>
