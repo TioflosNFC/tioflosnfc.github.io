@@ -285,7 +285,27 @@
           <label class="platform-toggle" onclick="togglePlatform(this,'⭐','TripAdvisor')"><input type="checkbox"><span class="pt-icon">⭐</span><span class="pt-name">TripAdvisor</span></label>
         </div>
 
-        <a href="order.html" class="btn-primary" style="display:block;text-align:center;margin-top:0.5rem">Order This Design →</a>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1rem;">
+          <button onclick="generateProfile()" class="btn-primary" style="width:100%;text-align:center;font-size:1rem;padding:1rem;">
+            ✨ Generate My NFC Profile Link
+          </button>
+          <a href="order.html" style="display:block;text-align:center;font-size:0.85rem;color:var(--mid);padding:0.5rem;">
+            Just want to order? → Go to Order Form
+          </a>
+        </div>
+
+        <!-- Generated link box -->
+        <div id="generated-box" style="display:none;margin-top:1rem;background:var(--gold-pale);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem;">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.5rem;">✅ Your Profile Link</div>
+          <div id="generated-link" style="font-size:0.78rem;color:var(--navy);word-break:break-all;background:var(--white);padding:0.6rem 0.75rem;border-radius:8px;border:1px solid var(--border);margin-bottom:0.75rem;"></div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <button onclick="copyLink()" style="flex:1;padding:0.6rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;">📋 Copy Link</button>
+            <button onclick="sendToTelegram()" style="flex:1;padding:0.6rem;background:#2AABEE;color:var(--white);border:none;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;">✈️ Send to Tioflos</button>
+          </div>
+          <div style="font-size:0.72rem;color:var(--mid);margin-top:0.75rem;line-height:1.6;">
+            💡 After sending, also send your <strong>payment screenshot</strong> and <strong>logo photo</strong> to complete your order.
+          </div>
+        </div>
       </div>
 
       <!-- DIGITAL PREVIEW -->
@@ -443,6 +463,88 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// ── GENERATE PROFILE LINK ──
+let generatedUrl = '';
+
+function generateProfile() {
+  const name    = document.getElementById('d-name').value.trim();
+  const type    = document.getElementById('d-type').value;
+  const tagline = document.getElementById('d-tagline').value.trim();
+  const phone   = document.getElementById('d-phone').value.trim();
+  const hours   = document.getElementById('d-hours').value.trim();
+
+  if (!name) {
+    alert('Please enter your business name first.');
+    return;
+  }
+
+  // Build params
+  const params = new URLSearchParams();
+  params.set('name', name);
+  if (type)    params.set('type', type);
+  if (tagline) params.set('tagline', tagline);
+  if (phone)   params.set('phone', phone);
+  if (hours)   params.set('hours', hours);
+  params.set('color', profileColor);
+
+  // Add active platforms
+  const platformMap = {
+    'WhatsApp':'whatsapp','Telegram':'telegram','Facebook':'facebook',
+    'Instagram':'instagram','TikTok':'tiktok','YouTube':'youtube',
+    'Twitter/X':'twitter','Snapchat':'snapchat','LinkedIn':'linkedin',
+    'Google Maps':'maps','Website':'website','TripAdvisor':'tripadvisor'
+  };
+  activePlatforms.forEach(p => {
+    const key = platformMap[p.name];
+    if (key) params.set(key, p.name.toLowerCase());
+  });
+
+  // Build URL
+  const base = window.location.origin + window.location.pathname.replace('designer.html','');
+  generatedUrl = `${base}profile.html?${params.toString()}`;
+
+  // Show the box
+  document.getElementById('generated-link').textContent = generatedUrl;
+  document.getElementById('generated-box').style.display = 'block';
+  document.getElementById('generated-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyLink() {
+  if (!generatedUrl) return;
+  navigator.clipboard.writeText(generatedUrl).then(() => {
+    alert('✅ Link copied to clipboard!');
+  }).catch(() => {
+    prompt('Copy this link:', generatedUrl);
+  });
+}
+
+function sendToTelegram() {
+  if (!generatedUrl) return;
+  const name    = document.getElementById('d-name').value.trim() || 'Unknown';
+  const type    = document.getElementById('d-type').value || '';
+  const phone   = document.getElementById('d-phone').value.trim() || 'Not provided';
+
+  const msg =
+`🔔 NEW NFC PROFILE — Tioflos NFC
+
+📌 Business: ${name}
+🏢 Type: ${type}
+📞 Phone: ${phone}
+
+🔗 Profile Link:
+${generatedUrl}
+
+📲 Program this link into their NFC card.
+
+⚠️ Waiting for:
+📷 Payment screenshot
+🖼️ Logo / profile photo
+
+✅ Sent from Card Designer`;
+
+  window.open(`https://t.me/Tioflos?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ── DIGITAL PROFILE PREVIEW ──

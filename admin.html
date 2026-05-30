@@ -1,0 +1,481 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Tioflos NFC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-mid: #1A2744;
+      --gold: #C9922A;
+      --gold-light: #F0C060;
+      --white: #FFFFFF;
+      --off-white: #F9F7F3;
+      --mid: #6B7280;
+      --border: rgba(201,146,42,0.15);
+      --green: #10B981;
+      --red: #EF4444;
+      --yellow: #F59E0B;
+      --blue: #3B82F6;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--white); min-height:100vh; }
+    h1,h2,h3,h4 { font-family:'Syne',sans-serif; }
+
+    /* LOGIN */
+    .login-screen {
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:var(--navy);
+    }
+    .login-box {
+      background:var(--navy-mid); border-radius:20px; padding:2.5rem;
+      border:1px solid var(--border); width:100%; max-width:380px; text-align:center;
+    }
+    .login-logo { font-size:2.5rem; margin-bottom:1rem; }
+    .login-box h2 { font-size:1.4rem; font-weight:800; color:var(--white); margin-bottom:0.4rem; }
+    .login-box p { font-size:0.85rem; color:rgba(255,255,255,0.45); margin-bottom:2rem; }
+    .login-box input {
+      width:100%; padding:0.85rem 1rem; border:1.5px solid var(--border);
+      border-radius:10px; background:rgba(255,255,255,0.06); color:var(--white);
+      font-family:'DM Sans',sans-serif; font-size:0.95rem; outline:none;
+      margin-bottom:1rem; transition:border-color 0.2s;
+    }
+    .login-box input:focus { border-color:var(--gold); }
+    .login-box input::placeholder { color:rgba(255,255,255,0.25); }
+    .login-btn {
+      width:100%; padding:0.9rem; background:var(--gold); color:var(--navy);
+      border:none; border-radius:10px; font-family:'Syne',sans-serif;
+      font-weight:800; font-size:1rem; cursor:pointer; transition:background 0.2s;
+    }
+    .login-btn:hover { background:var(--gold-light); }
+    .login-error { color:var(--red); font-size:0.82rem; margin-top:0.75rem; display:none; }
+
+    /* DASHBOARD */
+    .dashboard { display:none; }
+    .dash-header {
+      background:var(--navy-mid); padding:1rem 2rem;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
+    }
+    .dash-header h1 { font-size:1.1rem; font-weight:800; color:var(--gold-light); }
+    .dash-header-right { display:flex; align-items:center; gap:1rem; }
+    .dash-header-right span { font-size:0.8rem; color:rgba(255,255,255,0.5); }
+    .logout-btn {
+      padding:0.4rem 1rem; background:rgba(239,68,68,0.15); color:#EF4444;
+      border:1px solid rgba(239,68,68,0.3); border-radius:6px;
+      font-size:0.8rem; font-weight:700; cursor:pointer; transition:all 0.2s;
+      font-family:'Syne',sans-serif;
+    }
+    .logout-btn:hover { background:rgba(239,68,68,0.25); }
+
+    .dash-body { padding:2rem; }
+
+    /* STATS */
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+    .stat-card {
+      background:var(--navy-mid); border-radius:14px; padding:1.25rem 1.5rem;
+      border:1px solid var(--border);
+    }
+    .stat-label { font-size:0.72rem; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem; }
+    .stat-value { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; }
+    .stat-value.gold { color:var(--gold); }
+    .stat-value.green { color:var(--green); }
+    .stat-value.yellow { color:var(--yellow); }
+    .stat-value.blue { color:var(--blue); }
+
+    /* CONTROLS */
+    .controls { display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+    .search-input {
+      flex:1; min-width:200px; padding:0.7rem 1rem;
+      background:var(--navy-mid); border:1.5px solid var(--border);
+      border-radius:8px; color:var(--white); font-family:'DM Sans',sans-serif;
+      font-size:0.875rem; outline:none; transition:border-color 0.2s;
+    }
+    .search-input:focus { border-color:var(--gold); }
+    .search-input::placeholder { color:rgba(255,255,255,0.25); }
+    .filter-select {
+      padding:0.7rem 1rem; background:var(--navy-mid);
+      border:1.5px solid var(--border); border-radius:8px;
+      color:var(--white); font-family:'DM Sans',sans-serif;
+      font-size:0.875rem; outline:none; cursor:pointer;
+    }
+    .filter-select option { background:var(--navy); }
+    .add-demo-btn {
+      padding:0.7rem 1.25rem; background:rgba(201,146,42,0.15);
+      border:1px solid var(--border); border-radius:8px;
+      color:var(--gold-light); font-size:0.8rem; font-weight:700;
+      cursor:pointer; font-family:'Syne',sans-serif; transition:all 0.2s;
+    }
+    .add-demo-btn:hover { background:rgba(201,146,42,0.25); }
+
+    /* ORDERS TABLE */
+    .orders-wrap { overflow-x:auto; border-radius:14px; border:1px solid var(--border); }
+    table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+    thead th {
+      background:rgba(201,146,42,0.1); padding:0.85rem 1rem;
+      text-align:left; font-family:'Syne',sans-serif; font-weight:700;
+      font-size:0.72rem; color:var(--gold-light); text-transform:uppercase;
+      letter-spacing:1px; white-space:nowrap; border-bottom:1px solid var(--border);
+    }
+    tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
+    tbody tr:last-child { border-bottom:none; }
+    tbody tr:hover { background:rgba(255,255,255,0.03); }
+    tbody td { padding:0.85rem 1rem; color:rgba(255,255,255,0.8); vertical-align:middle; }
+    .td-id { font-family:'Syne',sans-serif; font-weight:700; font-size:0.75rem; color:var(--gold); }
+    .td-date { font-size:0.75rem; color:rgba(255,255,255,0.45); white-space:nowrap; }
+    .td-biz { font-weight:700; color:var(--white); }
+    .td-type { font-size:0.75rem; color:rgba(255,255,255,0.5); }
+
+    /* Status badges */
+    .badge {
+      display:inline-block; padding:0.25rem 0.65rem; border-radius:100px;
+      font-size:0.7rem; font-weight:700; white-space:nowrap;
+    }
+    .badge-pending { background:rgba(245,158,11,0.15); color:var(--yellow); border:1px solid rgba(245,158,11,0.3); }
+    .badge-confirmed { background:rgba(59,130,246,0.15); color:var(--blue); border:1px solid rgba(59,130,246,0.3); }
+    .badge-inprogress { background:rgba(201,146,42,0.15); color:var(--gold-light); border:1px solid rgba(201,146,42,0.3); }
+    .badge-delivered { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
+    .badge-paid { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
+    .badge-unpaid { background:rgba(239,68,68,0.15); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+
+    /* Action buttons */
+    .action-btns { display:flex; gap:0.4rem; flex-wrap:wrap; }
+    .act-btn {
+      padding:0.3rem 0.6rem; border-radius:6px; font-size:0.7rem;
+      font-weight:700; cursor:pointer; border:1px solid; transition:all 0.15s;
+      font-family:'Syne',sans-serif; white-space:nowrap;
+    }
+    .act-status { background:rgba(59,130,246,0.1); color:var(--blue); border-color:rgba(59,130,246,0.3); }
+    .act-status:hover { background:rgba(59,130,246,0.25); }
+    .act-paid { background:rgba(16,185,129,0.1); color:var(--green); border-color:rgba(16,185,129,0.3); }
+    .act-paid:hover { background:rgba(16,185,129,0.25); }
+    .act-link { background:rgba(201,146,42,0.1); color:var(--gold-light); border-color:rgba(201,146,42,0.3); }
+    .act-link:hover { background:rgba(201,146,42,0.25); }
+    .act-delete { background:rgba(239,68,68,0.1); color:var(--red); border-color:rgba(239,68,68,0.3); }
+    .act-delete:hover { background:rgba(239,68,68,0.25); }
+
+    /* Profile link input */
+    .link-input {
+      background:rgba(255,255,255,0.06); border:1px solid var(--border);
+      border-radius:6px; padding:0.3rem 0.5rem; color:var(--white);
+      font-size:0.72rem; width:160px; outline:none;
+      font-family:'DM Sans',sans-serif;
+    }
+
+    /* Empty state */
+    .empty-state { text-align:center; padding:4rem 2rem; color:rgba(255,255,255,0.3); }
+    .empty-state .es-icon { font-size:3rem; margin-bottom:1rem; }
+
+    @media (max-width:900px) {
+      .stats-grid { grid-template-columns:1fr 1fr; }
+      .dash-body { padding:1rem; }
+    }
+    @media (max-width:600px) {
+      .stats-grid { grid-template-columns:1fr 1fr; }
+      .dash-header { padding:1rem; }
+      .dash-header h1 { font-size:0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">🔐</div>
+    <h2>Admin Dashboard</h2>
+    <p>Tioflos NFC — Manager Access Only</p>
+    <input type="password" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Login →</button>
+    <div class="login-error" id="login-error">❌ Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <!-- HEADER -->
+  <div class="dash-header">
+    <h1>🏢 Tioflos NFC — Admin Dashboard</h1>
+    <div class="dash-header-right">
+      <span id="dash-time"></span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- STATS -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Orders</div>
+        <div class="stat-value gold" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pending</div>
+        <div class="stat-value yellow" id="stat-pending">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Delivered</div>
+        <div class="stat-value green" id="stat-delivered">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Est. Revenue</div>
+        <div class="stat-value blue" id="stat-revenue">0 ETB</div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <input class="search-input" type="text" id="search-input" placeholder="🔍 Search by business name, package..." oninput="renderOrders()">
+      <select class="filter-select" id="filter-status" onchange="renderOrders()">
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Delivered">Delivered</option>
+      </select>
+      <select class="filter-select" id="filter-paid" onchange="renderOrders()">
+        <option value="">All Payments</option>
+        <option value="paid">Paid</option>
+        <option value="unpaid">Unpaid</option>
+      </select>
+      <button class="add-demo-btn" onclick="addDemoOrder()">+ Add Demo Order</button>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="orders-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Business</th>
+            <th>Package</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Paid</th>
+            <th>Profile Link</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody"></tbody>
+      </table>
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <div class="es-icon">📭</div>
+        <div>No orders yet. Orders submitted on the website will appear here.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'Tedy@1234';
+const STATUS_CYCLE = ['Pending','Confirmed','In Progress','Delivered'];
+
+// ── AUTH ──
+function login() {
+  const pwd = document.getElementById('pwd-input').value;
+  if (pwd === ADMIN_PASSWORD) {
+    sessionStorage.setItem('tioflos_admin', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    initDashboard();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('tioflos_admin');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+}
+
+// Auto-login if session exists
+if (sessionStorage.getItem('tioflos_admin') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  initDashboard();
+}
+
+// ── DASHBOARD ──
+function initDashboard() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  renderOrders();
+}
+
+function updateClock() {
+  document.getElementById('dash-time').textContent = new Date().toLocaleString();
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
+}
+
+function saveOrders(orders) {
+  localStorage.setItem('tioflos_orders', JSON.stringify(orders));
+}
+
+function getRevenue(orders) {
+  let total = 0;
+  orders.forEach(o => {
+    if (o.paid) {
+      const pkg = o.pkg || '';
+      if (pkg.includes('800')) total += 800;
+      else if (pkg.includes('4,000') || pkg.includes('4000')) total += 4000;
+      else if (pkg.includes('12,000') || pkg.includes('12000')) total += 12000;
+    }
+  });
+  return total.toLocaleString();
+}
+
+function updateStats(orders) {
+  document.getElementById('stat-total').textContent = orders.length;
+  document.getElementById('stat-pending').textContent = orders.filter(o => o.status === 'Pending').length;
+  document.getElementById('stat-delivered').textContent = orders.filter(o => o.status === 'Delivered').length;
+  document.getElementById('stat-revenue').textContent = getRevenue(orders) + ' ETB';
+}
+
+function renderOrders() {
+  let orders = getOrders();
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const filterStatus = document.getElementById('filter-status').value;
+  const filterPaid = document.getElementById('filter-paid').value;
+
+  updateStats(orders);
+
+  // Filter
+  if (search) orders = orders.filter(o =>
+    (o.biz||'').toLowerCase().includes(search) ||
+    (o.pkg||'').toLowerCase().includes(search) ||
+    (o.type||'').toLowerCase().includes(search)
+  );
+  if (filterStatus) orders = orders.filter(o => o.status === filterStatus);
+  if (filterPaid === 'paid') orders = orders.filter(o => o.paid);
+  if (filterPaid === 'unpaid') orders = orders.filter(o => !o.paid);
+
+  const tbody = document.getElementById('orders-tbody');
+  const empty = document.getElementById('empty-state');
+
+  if (orders.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = orders.map(o => {
+    const statusClass = {
+      'Pending':'badge-pending','Confirmed':'badge-confirmed',
+      'In Progress':'badge-inprogress','Delivered':'badge-delivered'
+    }[o.status] || 'badge-pending';
+
+    const platforms = o.platforms ? Object.entries(o.platforms)
+      .filter(([k,v]) => v)
+      .map(([k,v]) => {
+        const icons = {whatsapp:'💬',telegram:'✈️',facebook:'📘',instagram:'📸',
+          tiktok:'🎵',youtube:'▶️',twitter:'🐦',snapchat:'👻',
+          linkedin:'💼',maps:'📍',website:'🌐',tripadvisor:'⭐'};
+        return icons[k] || '';
+      }).join(' ') : '';
+
+    return `
+      <tr>
+        <td><div class="td-id">${o.id}</div></td>
+        <td><div class="td-date">${o.date}</div></td>
+        <td>
+          <div class="td-biz">${o.biz || '—'}</div>
+          <div class="td-type">${o.type || ''}</div>
+          ${o.phone ? `<div class="td-type">📞 ${o.phone}</div>` : ''}
+          ${platforms ? `<div class="td-type" style="margin-top:2px;">${platforms}</div>` : ''}
+        </td>
+        <td>${o.pkg || '—'}</td>
+        <td>${o.pay || '—'}</td>
+        <td><span class="badge ${statusClass}">${o.status}</span></td>
+        <td><span class="badge ${o.paid ? 'badge-paid' : 'badge-unpaid'}">${o.paid ? '✓ Paid' : 'Unpaid'}</span></td>
+        <td>
+          <input class="link-input" type="text" placeholder="Paste profile link..."
+            value="${o.profileLink || ''}"
+            onchange="updateLink('${o.id}', this.value)"
+            title="${o.profileLink || ''}">
+          ${o.profileLink ? `<a href="${o.profileLink}" target="_blank" style="font-size:0.7rem;color:var(--gold-light);display:block;margin-top:3px;">🔗 Open</a>` : ''}
+        </td>
+        <td>
+          <div class="action-btns">
+            <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
+            <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
+            <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
+          </div>
+          ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
+          ${o.notes ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:2px;">📝 ${o.notes.substring(0,40)}${o.notes.length>40?'...':''}</div>` : ''}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function cycleStatus(id) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  const idx = STATUS_CYCLE.indexOf(o.status);
+  o.status = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+  saveOrders(orders);
+  renderOrders();
+}
+
+function togglePaid(id) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  o.paid = !o.paid;
+  saveOrders(orders);
+  renderOrders();
+}
+
+function updateLink(id, val) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  o.profileLink = val;
+  saveOrders(orders);
+  renderOrders();
+}
+
+function deleteOrder(id) {
+  if (!confirm('Delete this order?')) return;
+  const orders = getOrders().filter(x => x.id !== id);
+  saveOrders(orders);
+  renderOrders();
+}
+
+function addDemoOrder() {
+  const demos = [
+    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
+    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 800 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
+    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
+  ];
+  const d = demos[Math.floor(Math.random() * demos.length)];
+  const order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString(),
+    ...d,
+    status: 'Pending',
+    paid: false,
+    profileLink: ''
+  };
+  const orders = getOrders();
+  orders.unshift(order);
+  saveOrders(orders);
+  renderOrders();
+}
+</script>
+</body>
+</html>
