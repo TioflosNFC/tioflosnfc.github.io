@@ -8,6 +8,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* Photo upload area */
+    .photo-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px;
+      padding: 1.25rem; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 1.1rem; background: var(--white);
+    }
+    .photo-upload-area:hover { border-color: var(--gold); background: var(--gold-pale); }
+
     /* TABS */
     .designer-tabs {
       display: flex; gap: 0.5rem; margin-bottom: 3rem;
@@ -236,6 +245,18 @@
           </div>
         </div>
 
+        <span class="form-sub-label">Logo / Profile Photo</span>
+        <div class="photo-upload-area" id="d-photo-area" onclick="document.getElementById('d-photo-input').click()">
+          <input type="file" id="d-photo-input" accept="image/*" style="display:none" onchange="setProfilePhoto(this)">
+          <div id="d-photo-placeholder">
+            <div style="font-size:2rem;margin-bottom:0.4rem;">📷</div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--navy);">Click to upload logo or photo</div>
+            <div style="font-size:0.72rem;color:var(--mid);margin-top:0.2rem;">JPG, PNG supported</div>
+          </div>
+          <img id="d-photo-preview" src="" alt="" style="display:none;width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);">
+          <div id="d-photo-remove" style="display:none;font-size:0.72rem;color:var(--gold);margin-top:0.4rem;cursor:pointer;" onclick="removeProfilePhoto(event)">✕ Remove photo</div>
+        </div>
+
         <span class="form-sub-label">Profile Background Color</span>
         <div class="color-swatches">
           <div class="color-swatch active" style="background:#0A1628" onclick="setProfileColor('#0A1628',this)"></div>
@@ -273,7 +294,7 @@
         <div class="phone-wrap">
           <div class="phone-screen" id="digital-preview-screen">
             <div class="phone-header" id="dp-header" style="background:#0A1628">
-              <div class="phone-logo-area" id="dp-avatar">T</div>
+              <div class="phone-logo-area" id="dp-avatar" style="overflow:hidden;padding:0;">T</div>
               <div class="phone-biz-name" id="dp-name">Your Business Name</div>
               <div class="phone-biz-type" id="dp-type">Business Type</div>
               <div class="phone-tagline" id="dp-tagline">Your tagline here</div>
@@ -316,6 +337,18 @@
         <label>Tagline (optional)</label>
         <input type="text" id="c-tagline" placeholder="e.g. Best views in Arba Minch" oninput="updateCardPreview()">
 
+        <span class="form-sub-label">Logo / Profile Photo</span>
+        <div class="photo-upload-area" id="c-photo-area" onclick="document.getElementById('c-photo-input').click()">
+          <input type="file" id="c-photo-input" accept="image/*" style="display:none" onchange="setCardPhoto(this)">
+          <div id="c-photo-placeholder">
+            <div style="font-size:2rem;margin-bottom:0.4rem;">📷</div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--navy);">Click to upload logo or photo</div>
+            <div style="font-size:0.72rem;color:var(--mid);margin-top:0.2rem;">JPG, PNG supported</div>
+          </div>
+          <img id="c-photo-preview" src="" alt="" style="display:none;width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);">
+          <div id="c-photo-remove" style="display:none;font-size:0.72rem;color:var(--gold);margin-top:0.4rem;cursor:pointer;" onclick="removeCardPhoto(event)">✕ Remove photo</div>
+        </div>
+
         <span class="form-sub-label">Card Background Style</span>
         <div class="card-style-options">
           <div class="card-style-opt active" style="background:linear-gradient(135deg,#0A1628,#1A2744)" onclick="setCardStyle('linear-gradient(135deg,#0A1628,#1A2744)',this)"></div>
@@ -340,7 +373,7 @@
         <div class="physical-card-wrap">
           <div class="physical-card" id="card-preview" style="background:linear-gradient(135deg,#0A1628,#1A2744)">
             <div class="card-top">
-              <div class="card-logo-circle" id="card-initial">T</div>
+              <div class="card-logo-circle" id="card-initial" style="overflow:hidden;padding:0;">T</div>
               <div class="card-nfc-icon">📶</div>
             </div>
             <div class="card-bottom">
@@ -393,7 +426,7 @@
     <p>© 2025 Tioflos NFC. All rights reserved.</p>
     <div class="footer-social">
       <a href="https://t.me/Tioflos" target="_blank">✈️</a>
-      <a href="https://tiktok.com/@Tiofols6" target="_blank">🎵</a>
+      <a href="https://tiktok.com/@tioflos6" target="_blank">🎵</a>
       <a href="https://instagram.com/TIOFLOS1" target="_blank">📸</a>
     </div>
   </div>
@@ -414,12 +447,38 @@ function switchTab(tab, btn) {
 
 // ── DIGITAL PROFILE PREVIEW ──
 let profileColor = '#0A1628';
+let profilePhotoUrl = null;
 let activePlatforms = [
   {icon:'💬', name:'WhatsApp'},
   {icon:'✈️', name:'Telegram'},
   {icon:'📸', name:'Instagram'},
   {icon:'📍', name:'Maps'}
 ];
+
+function setProfilePhoto(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      profilePhotoUrl = e.target.result;
+      document.getElementById('d-photo-placeholder').style.display = 'none';
+      document.getElementById('d-photo-preview').src = e.target.result;
+      document.getElementById('d-photo-preview').style.display = 'inline-block';
+      document.getElementById('d-photo-remove').style.display = 'block';
+      updateDigitalPreview();
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function removeProfilePhoto(e) {
+  e.stopPropagation();
+  profilePhotoUrl = null;
+  document.getElementById('d-photo-placeholder').style.display = 'block';
+  document.getElementById('d-photo-preview').style.display = 'none';
+  document.getElementById('d-photo-remove').style.display = 'none';
+  document.getElementById('d-photo-input').value = '';
+  updateDigitalPreview();
+}
 
 function updateDigitalPreview() {
   const name    = document.getElementById('d-name').value || 'Your Business';
@@ -429,14 +488,22 @@ function updateDigitalPreview() {
   const hours   = document.getElementById('d-hours').value || '8:00 AM – 9:00 PM';
 
   document.getElementById('dp-header').style.background = profileColor;
-  document.getElementById('dp-avatar').textContent = name[0].toUpperCase();
+
+  // Avatar: photo or initial
+  const avatar = document.getElementById('dp-avatar');
+  if (profilePhotoUrl) {
+    avatar.innerHTML = `<img src="${profilePhotoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    avatar.innerHTML = name[0].toUpperCase();
+    avatar.style.padding = '';
+  }
+
   document.getElementById('dp-name').textContent = name;
   document.getElementById('dp-type').textContent = type;
   document.getElementById('dp-tagline').textContent = tagline;
   document.getElementById('dp-phone-text').textContent = phone;
   document.getElementById('dp-hours-text').textContent = 'Open: ' + hours;
 
-  // Update links grid
   const linksEl = document.getElementById('dp-links');
   const shown = activePlatforms.slice(0, 8);
   linksEl.innerHTML = shown.map(p => `
@@ -467,6 +534,33 @@ function togglePlatform(el, icon, name) {
 }
 
 // ── PHYSICAL CARD PREVIEW ──
+let cardPhotoUrl = null;
+
+function setCardPhoto(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      cardPhotoUrl = e.target.result;
+      document.getElementById('c-photo-placeholder').style.display = 'none';
+      document.getElementById('c-photo-preview').src = e.target.result;
+      document.getElementById('c-photo-preview').style.display = 'inline-block';
+      document.getElementById('c-photo-remove').style.display = 'block';
+      updateCardPreview();
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function removeCardPhoto(e) {
+  e.stopPropagation();
+  cardPhotoUrl = null;
+  document.getElementById('c-photo-placeholder').style.display = 'block';
+  document.getElementById('c-photo-preview').style.display = 'none';
+  document.getElementById('c-photo-remove').style.display = 'none';
+  document.getElementById('c-photo-input').value = '';
+  updateCardPreview();
+}
+
 function updateCardPreview() {
   const name    = document.getElementById('c-name').value || 'Your Business Name';
   const role    = document.getElementById('c-role').value || 'Business Type';
@@ -476,7 +570,13 @@ function updateCardPreview() {
   document.getElementById('card-name').textContent = name;
   document.getElementById('card-role').textContent = role;
   document.getElementById('card-tagline-text').textContent = tagline;
-  document.getElementById('card-initial').textContent = initial.toUpperCase();
+
+  const logoEl = document.getElementById('card-initial');
+  if (cardPhotoUrl) {
+    logoEl.innerHTML = `<img src="${cardPhotoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    logoEl.innerHTML = initial.toUpperCase();
+  }
 }
 
 function setCardStyle(gradient, el) {
