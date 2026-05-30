@@ -342,6 +342,18 @@
           </div>
         </div>
 
+        <!-- PROFILE PHOTO -->
+        <div class="form-section-header">🖼️ Logo / Profile Photo</div>
+        <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:0.75rem;">Upload your business logo or profile photo so we can add it to your digital profile.</p>
+        <div class="upload-area" id="logo-upload-area" onclick="document.getElementById('o-logo').click()">
+          <input type="file" id="o-logo" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;" onchange="previewLogo(this)">
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-text"><strong>Click to upload</strong> your logo or profile photo<br>JPG, PNG supported</div>
+          <div id="logo-preview" style="display:none;margin-top:1rem;">
+            <img id="logo-preview-img" src="" alt="Logo preview" style="max-width:120px;max-height:120px;border-radius:12px;border:2px solid rgba(201,146,42,0.4);">
+          </div>
+        </div>
+
         <!-- NOTES -->
         <div class="form-section-header">📝 Additional Notes</div>
         <div>
@@ -383,6 +395,17 @@ function selectPay(el, method) {
   document.getElementById('pay-details-cbe').classList.remove('visible');
   if (method === 'Telebirr') document.getElementById('pay-details-telebirr').classList.add('visible');
   if (method === 'CBE Birr') document.getElementById('pay-details-cbe').classList.add('visible');
+}
+
+function previewLogo(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('logo-preview-img').src = e.target.result;
+      document.getElementById('logo-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 
 function previewScreenshot(input) {
