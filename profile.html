@@ -8,244 +8,273 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --gold: #C9922A;
-      --gold-light: #F0C060;
-      --navy: #0A1628;
-      --white: #FFFFFF;
-      --off-white: #F9F7F3;
-      --mid: #6B7280;
-      --border: #E5E7EB;
+      --gold: #C9922A; --gold-light: #F0C060;
+      --navy: #0A1628; --white: #FFFFFF;
+      --off-white: #F9F7F3; --mid: #6B7280; --border: #E5E7EB;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--off-white);
-      min-height: 100vh;
-    }
-    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:#F0F2F5; min-height:100vh; }
+    h1,h2,h3 { font-family:'Syne',sans-serif; }
 
-    /* PROFILE CARD */
-    .profile-page {
-      max-width: 480px; margin: 0 auto;
-      min-height: 100vh; background: var(--white);
-      box-shadow: 0 0 40px rgba(0,0,0,0.08);
-    }
+    .profile-page { max-width:480px; margin:0 auto; min-height:100vh; background:var(--white); box-shadow:0 0 40px rgba(0,0,0,0.1); }
 
-    /* HEADER */
-    .profile-header {
-      padding: 2.5rem 1.5rem 1.75rem;
-      text-align: center; position: relative;
+    /* COVER */
+    .cover-area { position:relative; height:160px; overflow:visible; }
+    .cover-bg { width:100%; height:160px; object-fit:cover; display:block; }
+    .cover-color { width:100%; height:160px; display:block; }
+
+    /* PROFILE + LOGO overlap */
+    .overlap-row {
+      position:absolute; bottom:-45px; left:0; right:0;
+      display:flex; justify-content:space-between; align-items:flex-end;
+      padding:0 1.25rem;
     }
     .profile-avatar {
-      width: 90px; height: 90px; border-radius: 50%;
-      margin: 0 auto 1rem; display: flex; align-items: center;
-      justify-content: center; font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 2rem; color: var(--white);
-      overflow: hidden; border: 3px solid rgba(255,255,255,0.3);
+      width:90px; height:90px; border-radius:50%;
+      border:4px solid var(--white); overflow:hidden;
+      background:var(--gold); display:flex; align-items:center;
+      justify-content:center; font-family:'Syne',sans-serif;
+      font-weight:800; font-size:2rem; color:var(--white);
+      flex-shrink:0; box-shadow:0 4px 16px rgba(0,0,0,0.15);
     }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-name {
-      font-size: 1.4rem; font-weight: 800; color: var(--white);
-      margin-bottom: 0.25rem;
+    .profile-avatar img { width:100%; height:100%; object-fit:cover; }
+    .logo-box {
+      width:110px; height:72px; border-radius:12px;
+      border:3px solid var(--white); overflow:hidden;
+      background:var(--white); display:flex; align-items:center;
+      justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.15);
+      flex-shrink:0;
     }
-    .profile-type { font-size: 0.82rem; color: rgba(255,255,255,0.65); margin-bottom: 0.25rem; }
-    .profile-tagline { font-size: 0.78rem; color: rgba(255,255,255,0.5); font-style: italic; }
+    .logo-box img { width:100%; height:100%; object-fit:contain; padding:6px; }
+    .logo-box-placeholder {
+      font-family:'Syne',sans-serif; font-weight:800;
+      font-size:0.75rem; color:var(--mid); text-align:center; padding:0.5rem;
+    }
 
-    /* PLATFORM BUTTONS */
-    .platforms-section { padding: 1.25rem 1rem; }
-    .platforms-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0.6rem;
+    /* INFO */
+    .profile-info { padding:3.5rem 1.25rem 1rem; }
+    .profile-name { font-size:1.6rem; font-weight:800; color:#111827; margin-bottom:0.2rem; }
+    .profile-type { font-size:0.9rem; color:var(--mid); margin-bottom:0.15rem; }
+    .profile-tagline { font-size:0.82rem; color:#9CA3AF; font-style:italic; }
+
+    /* CONTACT ROWS */
+    .contact-section { padding:0.75rem 1.25rem; }
+    .contact-row {
+      display:flex; align-items:center; gap:0.85rem;
+      padding:0.6rem 0; border-bottom:1px solid var(--border);
     }
+    .contact-row:last-child { border-bottom:none; }
+    .contact-icon {
+      width:36px; height:36px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; flex-shrink:0;
+    }
+    .contact-text { font-size:0.875rem; color:#374151; font-weight:500; }
+    .contact-text a { color:#374151; text-decoration:none; }
+    .contact-text a:hover { color:var(--gold); }
+
+    /* PLATFORMS */
+    .platforms-section { padding:1rem 1.25rem; }
+    .platforms-title {
+      font-size:0.7rem; font-weight:700; color:var(--mid);
+      text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.75rem;
+    }
+    .platforms-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; }
     .platform-btn {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 0.3rem; padding: 0.75rem 0.4rem;
-      background: var(--off-white); border-radius: 12px;
-      border: 1px solid var(--border); text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      cursor: pointer;
+      display:flex; flex-direction:column; align-items:center; gap:0.3rem;
+      padding:0.75rem 0.3rem; background:var(--off-white);
+      border-radius:12px; border:1px solid var(--border);
+      text-decoration:none; transition:transform 0.15s, box-shadow 0.15s;
     }
-    .platform-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-    .platform-btn:active { transform: scale(0.96); }
-    .platform-btn .pb-icon { font-size: 1.4rem; }
-    .platform-btn .pb-label { font-size: 0.58rem; font-weight: 600; color: var(--mid); text-align: center; }
+    .platform-btn:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+    .platform-btn:active { transform:scale(0.95); }
+    .pb-icon { font-size:1.4rem; }
+    .pb-label { font-size:0.55rem; font-weight:600; color:var(--mid); text-align:center; }
 
-    /* INFO SECTION */
-    .info-section { padding: 0 1rem 1rem; }
-    .info-card {
-      background: var(--off-white); border-radius: 14px;
-      padding: 1.1rem 1.25rem; border: 1px solid var(--border);
-      margin-bottom: 0.75rem;
+    /* CTA */
+    .cta-section { padding:1rem 1.25rem 0.5rem; }
+    .cta-btn {
+      display:block; width:100%; padding:1rem;
+      background:var(--gold); color:var(--navy);
+      border-radius:14px; font-family:'Syne',sans-serif;
+      font-weight:800; font-size:1rem; text-align:center;
+      text-decoration:none; transition:background 0.2s;
+      box-shadow:0 4px 20px rgba(201,146,42,0.3);
     }
-    .info-card-title {
-      font-size: 0.65rem; font-weight: 700; color: var(--gold);
-      text-transform: uppercase; letter-spacing: 1.5px;
-      margin-bottom: 0.75rem;
-    }
-    .info-row {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.4rem 0; font-size: 0.875rem; color: #374151;
-      border-bottom: 1px solid var(--border);
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-row .ir-icon { font-size: 1rem; flex-shrink: 0; }
-    .info-row a { color: #374151; text-decoration: none; }
-    .info-row a:hover { color: var(--gold); }
-
-    /* SAVE CONTACT BUTTON */
-    .save-btn {
-      display: block; margin: 0 1rem 1rem;
-      padding: 0.9rem; background: var(--gold);
-      color: var(--navy); border-radius: 12px;
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 0.95rem; text-align: center;
-      text-decoration: none; transition: background 0.2s;
-    }
-    .save-btn:hover { background: var(--gold-light); }
+    .cta-btn:hover { background:var(--gold-light); }
 
     /* POWERED BY */
     .powered-by {
-      text-align: center; padding: 1.25rem;
-      font-size: 0.72rem; color: var(--mid);
-      border-top: 1px solid var(--border);
+      text-align:center; padding:1.25rem;
+      font-size:0.72rem; color:#9CA3AF;
+      border-top:1px solid var(--border); margin-top:1rem;
     }
-    .powered-by a { color: var(--gold); font-weight: 700; text-decoration: none; }
-
-    /* NOT FOUND */
-    .not-found {
-      text-align: center; padding: 4rem 2rem;
-    }
-    .not-found h2 { font-size: 1.5rem; color: var(--navy); margin-bottom: 1rem; }
-    .not-found p { color: var(--mid); font-size: 0.9rem; }
+    .powered-by a { color:var(--gold); font-weight:700; text-decoration:none; }
   </style>
 </head>
 <body>
 <div class="profile-page" id="profile-page">
-  <!-- Built by JavaScript from URL params -->
-  <div class="not-found" id="loading">
+  <div style="text-align:center;padding:4rem 2rem;">
     <div style="font-size:2rem;margin-bottom:1rem;">⏳</div>
-    <h2>Loading profile...</h2>
+    <p style="color:var(--mid);">Loading profile...</p>
   </div>
 </div>
 
 <script>
-  // All platform definitions
-  const PLATFORMS = {
-    whatsapp:    { icon: '💬', label: 'WhatsApp',   base: 'https://wa.me/' },
-    telegram:    { icon: '✈️', label: 'Telegram',   base: 'https://t.me/' },
-    facebook:    { icon: '📘', label: 'Facebook',   base: '' },
-    instagram:   { icon: '📸', label: 'Instagram',  base: 'https://instagram.com/' },
-    tiktok:      { icon: '🎵', label: 'TikTok',     base: 'https://tiktok.com/@' },
-    youtube:     { icon: '▶️', label: 'YouTube',    base: '' },
-    twitter:     { icon: '🐦', label: 'Twitter/X',  base: 'https://x.com/' },
-    snapchat:    { icon: '👻', label: 'Snapchat',   base: 'https://snapchat.com/add/' },
-    linkedin:    { icon: '💼', label: 'LinkedIn',   base: '' },
-    maps:        { icon: '📍', label: 'Maps',       base: '' },
-    website:     { icon: '🌐', label: 'Website',    base: '' },
-    tripadvisor: { icon: '⭐', label: 'TripAdvisor',base: '' },
-    phone:       { icon: '📞', label: 'Call',       base: 'tel:' },
-  };
+const PLATFORMS = {
+  whatsapp:    { icon:'💬', label:'WhatsApp',    base:'https://wa.me/' },
+  telegram:    { icon:'✈️', label:'Telegram',    base:'https://t.me/' },
+  facebook:    { icon:'📘', label:'Facebook',    base:'' },
+  instagram:   { icon:'📸', label:'Instagram',   base:'https://instagram.com/' },
+  tiktok:      { icon:'🎵', label:'TikTok',      base:'https://tiktok.com/@' },
+  youtube:     { icon:'▶️', label:'YouTube',     base:'' },
+  twitter:     { icon:'🐦', label:'Twitter/X',   base:'https://x.com/' },
+  snapchat:    { icon:'👻', label:'Snapchat',    base:'https://snapchat.com/add/' },
+  linkedin:    { icon:'💼', label:'LinkedIn',    base:'' },
+  maps:        { icon:'📍', label:'Maps',        base:'' },
+  website:     { icon:'🌐', label:'Website',     base:'' },
+  tripadvisor: { icon:'⭐', label:'TripAdvisor', base:'' },
+};
 
-  function getParam(params, key) {
-    return params.get(key) || '';
-  }
+const ICON_COLORS = {
+  whatsapp:'#25D366', telegram:'#2AABEE', facebook:'#1877F2',
+  instagram:'#E1306C', tiktok:'#000000', youtube:'#FF0000',
+  twitter:'#1DA1F2', snapchat:'#FFFC00', linkedin:'#0A66C2',
+  maps:'#EA4335', website:'#6B7280', tripadvisor:'#34E0A1',
+};
 
-  function buildProfile() {
-    const params = new URLSearchParams(window.location.search);
+function p(params, key) { return params.get(key) || ''; }
 
-    const name        = getParam(params, 'name');
-    const type        = getParam(params, 'type');
-    const tagline     = getParam(params, 'tagline');
-    const color       = getParam(params, 'color') || '#0A1628';
-    const phone       = getParam(params, 'phone');
-    const hours       = getParam(params, 'hours');
-    const photo       = getParam(params, 'photo'); // base64 if provided
+function buildProfile() {
+  const params = new URLSearchParams(window.location.search);
+  const name     = p(params,'name');
+  const type     = p(params,'type');
+  const tagline  = p(params,'tagline');
+  const color    = p(params,'color') || '#0A1628';
+  const phone    = p(params,'phone');
+  const phone2   = p(params,'phone2');
+  const phone3   = p(params,'phone3');
+  const hours    = p(params,'hours');
+  const cover    = p(params,'cover');
+  const avatar   = p(params,'avatar');
+  const logo     = p(params,'logo');
 
-    if (!name) {
-      document.getElementById('loading').innerHTML = `
-        <div style="font-size:2rem;margin-bottom:1rem;">❌</div>
-        <h2>Profile not found</h2>
-        <p>This NFC card profile doesn't exist or the link is broken.</p>
-      `;
-      return;
-    }
-
-    // Update page title
-    document.title = `${name} — NFC Profile`;
-
-    // Collect active platforms
-    const activePlatforms = [];
-    Object.keys(PLATFORMS).forEach(key => {
-      if (key === 'phone') return; // handled separately
-      const val = getParam(params, key);
-      if (val) {
-        const p = PLATFORMS[key];
-        let href = val.startsWith('http') ? val : p.base + val;
-        activePlatforms.push({ icon: p.icon, label: p.label, href });
-      }
-    });
-
-    // Build avatar
-    const avatarContent = photo
-      ? `<img src="${photo}" alt="${name}">`
-      : `<span>${name[0].toUpperCase()}</span>`;
-
-    // Build platform buttons
-    const platformBtns = activePlatforms.map(p => `
-      <a class="platform-btn" href="${p.href}" target="_blank" rel="noopener">
-        <span class="pb-icon">${p.icon}</span>
-        <span class="pb-label">${p.label}</span>
-      </a>
-    `).join('');
-
-    // Build info rows
-    let infoRows = '';
-    if (phone) infoRows += `<div class="info-row"><span class="ir-icon">📞</span><a href="tel:${phone}">${phone}</a></div>`;
-    if (hours) infoRows += `<div class="info-row"><span class="ir-icon">🕐</span><span>${hours}</span></div>`;
-    infoRows += `<div class="info-row"><span class="ir-icon">📍</span><span>Arba Minch, Ethiopia</span></div>`;
-
-    // Build WhatsApp save contact link
-    const waVal = getParam(params, 'whatsapp');
-    const waNum = waVal.replace(/\D/g,'');
-    const saveContactBtn = waNum
-      ? `<a class="save-btn" href="https://wa.me/${waNum}" target="_blank">💬 Chat on WhatsApp</a>`
-      : phone
-      ? `<a class="save-btn" href="tel:${phone}">📞 Call Now</a>`
-      : '';
-
-    // Render full profile
+  if (!name) {
     document.getElementById('profile-page').innerHTML = `
-      <div class="profile-header" style="background:${color}">
-        <div class="profile-avatar" style="background:rgba(255,255,255,0.15)">
-          ${avatarContent}
-        </div>
-        <div class="profile-name">${name}</div>
-        <div class="profile-type">${type}</div>
-        ${tagline ? `<div class="profile-tagline">${tagline}</div>` : ''}
-      </div>
-
-      ${activePlatforms.length > 0 ? `
-      <div class="platforms-section">
-        <div class="platforms-grid">${platformBtns}</div>
-      </div>` : ''}
-
-      ${infoRows ? `
-      <div class="info-section">
-        <div class="info-card">
-          <div class="info-card-title">Business Info</div>
-          ${infoRows}
-        </div>
-      </div>` : ''}
-
-      ${saveContactBtn}
-
-      <div class="powered-by">
-        Powered by <a href="https://tioflosnfc.github.io" target="_blank">Tioflos NFC</a> · Arba Minch, Ethiopia
-      </div>
-    `;
+      <div style="text-align:center;padding:4rem 2rem;">
+        <div style="font-size:2.5rem;margin-bottom:1rem;">❌</div>
+        <h2 style="font-family:'Syne',sans-serif;color:#111827;margin-bottom:0.5rem;">Profile not found</h2>
+        <p style="color:var(--mid);">This NFC card profile doesn't exist or the link is broken.</p>
+      </div>`;
+    return;
   }
 
-  buildProfile();
+  document.title = name + ' — NFC Profile';
+
+  // Cover
+  const coverHtml = cover
+    ? `<img class="cover-bg" src="${cover}" alt="Cover">`
+    : `<div class="cover-color" style="background:${color}"></div>`;
+
+  // Avatar
+  const avatarHtml = avatar
+    ? `<img src="${avatar}" alt="${name}">`
+    : `<span>${name[0].toUpperCase()}</span>`;
+
+  // Logo
+  const logoHtml = logo
+    ? `<img src="${logo}" alt="Logo">`
+    : `<div class="logo-box-placeholder">LOGO</div>`;
+
+  // Platforms
+  const activePlatforms = [];
+  Object.keys(PLATFORMS).forEach(key => {
+    const val = p(params, key);
+    if (val) {
+      const pl = PLATFORMS[key];
+      const href = val.startsWith('http') ? val : pl.base + val;
+      activePlatforms.push({ key, icon:pl.icon, label:pl.label, href });
+    }
+  });
+
+  const platformBtns = activePlatforms.map(pl => `
+    <a class="platform-btn" href="${pl.href}" target="_blank" rel="noopener">
+      <span class="pb-icon">${pl.icon}</span>
+      <span class="pb-label">${pl.label}</span>
+    </a>
+  `).join('');
+
+  // Contact rows
+  const phones = [phone, phone2, phone3].filter(Boolean);
+  const phoneRows = phones.map(ph => `
+    <div class="contact-row">
+      <div class="contact-icon" style="background:#EEF2FF;">📞</div>
+      <div class="contact-text"><a href="tel:${ph}">${ph}</a></div>
+    </div>`).join('');
+
+  const hoursRow = hours ? `
+    <div class="contact-row">
+      <div class="contact-icon" style="background:#FEF3C7;">🕐</div>
+      <div class="contact-text">${hours}</div>
+    </div>` : '';
+
+  const locationRow = `
+    <div class="contact-row">
+      <div class="contact-icon" style="background:#FEE2E2;">📍</div>
+      <div class="contact-text">Arba Minch, Ethiopia</div>
+    </div>`;
+
+  // CTA button
+  const waVal = p(params,'whatsapp');
+  const waNum = waVal.replace(/\D/g,'');
+  const ctaBtn = waNum
+    ? `<a class="cta-btn" href="https://wa.me/${waNum}" target="_blank">💬 Chat on WhatsApp</a>`
+    : phone
+    ? `<a class="cta-btn" href="tel:${phone}">📞 Call Now</a>`
+    : '';
+
+  document.getElementById('profile-page').innerHTML = `
+    <!-- COVER + OVERLAP -->
+    <div class="cover-area">
+      ${coverHtml}
+      <div class="overlap-row">
+        <div class="profile-avatar">${avatarHtml}</div>
+        <div class="logo-box">${logoHtml}</div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="profile-info">
+      <div class="profile-name">${name}</div>
+      ${type ? `<div class="profile-type">${type}</div>` : ''}
+      ${tagline ? `<div class="profile-tagline">${tagline}</div>` : ''}
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact-section">
+      ${phoneRows}
+      ${hoursRow}
+      ${locationRow}
+    </div>
+
+    <!-- PLATFORMS -->
+    ${activePlatforms.length > 0 ? `
+    <div class="platforms-section">
+      <div class="platforms-title">Connect with us</div>
+      <div class="platforms-grid">${platformBtns}</div>
+    </div>` : ''}
+
+    <!-- CTA -->
+    ${ctaBtn ? `<div class="cta-section">${ctaBtn}</div>` : ''}
+
+    <!-- POWERED BY -->
+    <div class="powered-by">
+      Powered by <a href="https://tioflosnfc.github.io" target="_blank">Tioflos NFC</a> · Arba Minch, Ethiopia
+    </div>
+  `;
+}
+
+buildProfile();
 </script>
 </body>
 </html>
