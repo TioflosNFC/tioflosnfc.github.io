@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tioflos NFC — Smart Digital Cards for Every Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy2: #0f1e38;
+  --gold: #C9922A;
+  --gold-light: #F0C060;
+  --gold-pale: #FDF3DC;
+  --white: #FFFFFF;
+  --off-white: #F9F7F3;
+  --mid: #6B7280;
+  --border: rgba(201,146,42,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--navy);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(10,22,40,0.97);backdrop-filter:blur(14px);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:68px;border-bottom:1px solid rgba(201,146,42,0.12);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo img{height:36px;}
+.nav-logo span{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:var(--gold-light);letter-spacing:0.5px;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold-light);}
+.nav-cta{background:var(--gold);color:var(--navy);padding:0.45rem 1.2rem;border-radius:6px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;text-decoration:none;transition:background 0.2s;}
+.nav-cta:hover{background:var(--gold-light);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--gold-light);border-radius:2px;transition:all 0.3s;}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(10,22,40,0.99);padding:1.5rem 5%;flex-direction:column;gap:1rem;z-index:199;border-bottom:1px solid var(--border);}
+.mobile-menu a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:1rem;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mobile-menu.open{display:flex;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 5% 5rem;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%, rgba(201,146,42,0.13) 0%, transparent 68%);}
+.hero-ring{position:absolute;width:700px;height:700px;border-radius:50%;border:1px solid rgba(201,146,42,0.07);top:50%;left:50%;transform:translate(-50%,-50%);}
+.hero-ring2{width:950px;height:950px;border-color:rgba(201,146,42,0.04);}
+.hero-content{position:relative;max-width:800px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,146,42,0.1);border:1px solid rgba(201,146,42,0.3);border-radius:100px;padding:0.4rem 1.1rem;margin-bottom:2rem;font-size:0.78rem;color:var(--gold-light);letter-spacing:0.8px;text-transform:uppercase;animation:fadeUp 0.6s ease both;}
+.hero h1{font-size:clamp(2.6rem,6.5vw,4.8rem);font-weight:800;color:var(--white);line-height:1.08;margin-bottom:1.5rem;animation:fadeUp 0.6s 0.1s ease both;}
+.hero h1 span{color:var(--gold);}
+.hero p{font-size:1.1rem;color:rgba(255,255,255,0.62);line-height:1.85;margin-bottom:2.5rem;animation:fadeUp 0.6s 0.2s ease both;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:fadeUp 0.6s 0.3s ease both;}
+.btn-primary{background:var(--gold);color:var(--navy);padding:0.9rem 2rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:transform 0.2s,background 0.2s;display:inline-block;}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-secondary{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.25);padding:0.9rem 2rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;text-decoration:none;transition:all 0.2s;display:inline-block;}
+.btn-secondary:hover{border-color:var(--gold-light);color:var(--gold-light);}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;flex-wrap:wrap;animation:fadeUp 0.6s 0.4s ease both;}
+.hero-stat{text-align:center;}
+.hero-stat strong{display:block;font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--gold);}
+.hero-stat span{font-size:0.8rem;color:rgba(255,255,255,0.5);letter-spacing:0.5px;}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:var(--navy2);padding:1.2rem 5%;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.trust-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.55);font-size:0.82rem;}
+.trust-item .ti{color:var(--gold);font-size:1.1rem;}
+
+/* ── SECTION COMMON ── */
+section{padding:6rem 5%;}
+.section-label{display:inline-block;font-size:0.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:rgba(201,146,42,0.1);padding:0.3rem 0.9rem;border-radius:100px;margin-bottom:1rem;border:1px solid rgba(201,146,42,0.2);}
+.section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:1rem;}
+.section-sub{color:var(--mid);font-size:1rem;line-height:1.75;max-width:560px;}
+.section-center{text-align:center;}
+.section-center .section-sub{margin:0 auto;}
+
+/* ── HOW IT WORKS ── */
+#how{background:var(--off-white);}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:3.5rem;max-width:1000px;margin-left:auto;margin-right:auto;}
+.step-card{background:var(--white);border-radius:16px;padding:2rem 1.5rem;border:1px solid rgba(0,0,0,0.06);position:relative;transition:transform 0.3s,box-shadow 0.3s;}
+.step-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(201,146,42,0.1);}
+.step-num{width:42px;height:42px;border-radius:10px;background:var(--navy);color:var(--gold);font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;}
+.step-card h3{font-size:1.05rem;font-weight:700;margin-bottom:0.6rem;color:var(--navy);}
+.step-card p{font-size:0.875rem;color:var(--mid);line-height:1.7;}
+
+/* ── DEMO TABS ── */
+#demo{background:var(--navy);}
+#demo .section-title{color:var(--white);}
+#demo .section-sub{color:rgba(255,255,255,0.5);}
+.demo-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;margin-top:2.5rem;margin-bottom:2.5rem;}
+.demo-tab{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.65);padding:0.55rem 1.2rem;border-radius:100px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.demo-tab.active,.demo-tab:hover{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600;}
+.demo-preview{max-width:380px;margin:0 auto;background:#111e33;border-radius:24px;overflow:hidden;border:1px solid rgba(201,146,42,0.2);box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+.demo-phone-bar{background:#0d1a2e;padding:0.9rem 1.2rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.demo-phone-dot{width:10px;height:10px;border-radius:50%;}
+.demo-phone-bar span{font-size:0.7rem;color:rgba(255,255,255,0.3);margin-left:auto;}
+.demo-profile{padding:1.8rem 1.5rem;}
+.demo-cover{height:100px;border-radius:12px;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden;}
+.demo-avatar{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.demo-biz-name{color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:0.25rem;}
+.demo-tagline{color:rgba(255,255,255,0.5);font-size:0.8rem;margin-bottom:1.2rem;}
+.demo-btns{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.2rem;}
+.demo-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.6rem 0.4rem;text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.75);cursor:pointer;transition:background 0.2s;}
+.demo-btn:hover{background:rgba(201,146,42,0.2);}
+.demo-section-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);margin-bottom:0.6rem;}
+.demo-item{background:rgba(255,255,255,0.05);border-radius:8px;padding:0.6rem 0.8rem;margin-bottom:0.4rem;font-size:0.78rem;color:rgba(255,255,255,0.7);display:flex;justify-content:space-between;}
+.demo-item span{color:var(--gold-light);font-weight:500;}
+
+/* ── PRICING ── */
+#pricing{background:var(--off-white);}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3.5rem;max-width:900px;margin-left:auto;margin-right:auto;}
+.price-card{background:var(--white);border-radius:20px;padding:2.2rem 2rem;border:1px solid rgba(0,0,0,0.07);position:relative;transition:transform 0.3s,box-shadow 0.3s;}
+.price-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(201,146,42,0.1);}
+.price-card.featured{background:var(--navy);border-color:var(--gold);box-shadow:0 20px 60px rgba(201,146,42,0.18);}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;padding:0.3rem 1rem;border-radius:100px;letter-spacing:0.5px;text-transform:uppercase;}
+.price-tier{font-size:0.78rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);margin-bottom:0.75rem;}
+.price-card.featured .price-tier{color:rgba(255,255,255,0.5);}
+.price-amount{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:0.25rem;}
+.price-card.featured .price-amount{color:var(--gold);}
+.price-unit{font-size:0.8rem;color:var(--mid);margin-bottom:1.5rem;}
+.price-card.featured .price-unit{color:rgba(255,255,255,0.45);}
+.price-features{list-style:none;margin-bottom:2rem;}
+.price-features li{display:flex;align-items:center;gap:8px;font-size:0.875rem;color:var(--mid);padding:0.45rem 0;border-bottom:1px solid rgba(0,0,0,0.05);}
+.price-card.featured .price-features li{color:rgba(255,255,255,0.65);border-color:rgba(255,255,255,0.07);}
+.price-features li::before{content:"✓";color:var(--gold);font-weight:700;flex-shrink:0;}
+.price-cta{display:block;text-align:center;padding:0.85rem;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;transition:all 0.2s;background:rgba(201,146,42,0.1);color:var(--gold);border:1px solid rgba(201,146,42,0.3);}
+.price-card.featured .price-cta{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+.price-cta:hover{background:var(--gold);color:var(--navy);}
+.price-card.featured .price-cta:hover{background:var(--gold-light);}
+.pricing-note{text-align:center;margin-top:2rem;font-size:0.85rem;color:var(--mid);background:rgba(201,146,42,0.07);border:1px solid rgba(201,146,42,0.15);border-radius:10px;padding:1rem;max-width:500px;margin-left:auto;margin-right:auto;}
+
+/* ── GALLERY ── */
+#gallery{background:var(--white);}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:3rem;}
+.gallery-card{border-radius:16px;overflow:hidden;aspect-ratio:3/4;position:relative;cursor:pointer;transition:transform 0.3s;}
+.gallery-card:hover{transform:scale(1.03);}
+.gallery-card:hover .gallery-overlay{opacity:1;}
+.gallery-bg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;}
+.gallery-icon{font-size:2.5rem;}
+.gallery-card h4{color:var(--white);font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;text-align:center;}
+.gallery-card p{color:rgba(255,255,255,0.6);font-size:0.75rem;text-align:center;}
+.gallery-overlay{position:absolute;inset:0;background:rgba(201,146,42,0.85);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;}
+.gallery-overlay span{color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;}
+
+/* ── BUILDER ── */
+#builder{background:var(--off-white);}
+.builder-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-top:3rem;max-width:900px;margin-left:auto;margin-right:auto;}
+.builder-form label{display:block;font-size:0.8rem;font-weight:600;color:var(--navy);margin-bottom:0.35rem;letter-spacing:0.3px;}
+.builder-form input,.builder-form select,.builder-form textarea{width:100%;padding:0.7rem 0.9rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.875rem;color:var(--navy);background:var(--white);margin-bottom:1rem;transition:border-color 0.2s;outline:none;}
+.builder-form input:focus,.builder-form select:focus,.builder-form textarea:focus{border-color:var(--gold);}
+.builder-form textarea{resize:vertical;min-height:80px;}
+.color-row{display:flex;gap:0.6rem;margin-bottom:1rem;flex-wrap:wrap;}
+.color-swatch{width:32px;height:32px;border-radius:8px;cursor:pointer;border:3px solid transparent;transition:transform 0.2s,border-color 0.2s;}
+.color-swatch:hover{transform:scale(1.1);}
+.color-swatch.active{border-color:var(--gold);}
+.builder-preview{background:var(--navy);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.preview-phone-bar{background:#0a1628;padding:0.8rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.preview-dot{width:8px;height:8px;border-radius:50%;}
+.preview-url{font-size:0.65rem;color:rgba(255,255,255,0.25);margin-left:auto;}
+.preview-body{padding:1.5rem;}
+.preview-cover{height:90px;border-radius:12px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;transition:background 0.3s;}
+.preview-name{color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.2rem;}
+.preview-tag{color:rgba(255,255,255,0.45);font-size:0.78rem;margin-bottom:1rem;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.preview-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:0.55rem;text-align:center;font-size:0.7rem;color:rgba(255,255,255,0.65);}
+.order-preview-btn{display:block;margin-top:1.2rem;text-align:center;padding:0.8rem;background:var(--gold);color:var(--navy);border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;cursor:pointer;border:none;width:100%;transition:background 0.2s;}
+.order-preview-btn:hover{background:var(--gold-light);}
+
+/* ── ORDER ── */
+#order{background:var(--navy);}
+#order .section-title{color:var(--white);}
+#order .section-sub{color:rgba(255,255,255,0.5);}
+.order-form{max-width:640px;margin:2.5rem auto 0;background:rgba(255,255,255,0.04);border:1px solid rgba(201,146,42,0.15);border-radius:20px;padding:2.5rem;}
+.order-form label{display:block;font-size:0.8rem;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:0.35rem;}
+.order-form input,.order-form select,.order-form textarea{width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:1.2rem;outline:none;transition:border-color 0.2s;}
+.order-form input:focus,.order-form select:focus,.order-form textarea:focus{border-color:var(--gold);}
+.order-form select option{background:var(--navy);}
+.order-form textarea{resize:vertical;min-height:90px;}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.2rem;}
+.pkg-opt{border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.8rem 0.6rem;text-align:center;cursor:pointer;transition:all 0.2s;}
+.pkg-opt.selected,.pkg-opt:hover{border-color:var(--gold);background:rgba(201,146,42,0.1);}
+.pkg-opt strong{display:block;font-family:'Syne',sans-serif;font-size:0.9rem;color:var(--white);}
+.pkg-opt span{font-size:0.75rem;color:var(--gold);}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem;}
+.pay-opt{border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:0.75rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s;font-size:0.8rem;color:rgba(255,255,255,0.7);}
+.pay-opt.selected,.pay-opt:hover{border-color:var(--gold);background:rgba(201,146,42,0.1);color:var(--white);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.order-submit{width:100%;padding:1rem;background:var(--gold);color:var(--navy);font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;border:none;border-radius:10px;cursor:pointer;transition:background 0.2s;letter-spacing:0.3px;}
+.order-submit:hover{background:var(--gold-light);}
+.order-success{display:none;text-align:center;padding:2rem;}
+.order-success.visible{display:block;}
+.order-success .check{font-size:3.5rem;margin-bottom:1rem;}
+.order-success h3{font-size:1.4rem;color:var(--gold);margin-bottom:0.5rem;}
+.order-success p{color:rgba(255,255,255,0.6);font-size:0.9rem;line-height:1.7;}
+
+/* ── REVIEWS ── */
+#reviews{background:var(--off-white);}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem;}
+.review-card{background:var(--white);border-radius:16px;padding:1.8rem;border:1px solid rgba(0,0,0,0.06);transition:box-shadow 0.3s;}
+.review-card:hover{box-shadow:0 10px 30px rgba(201,146,42,0.08);}
+.review-stars{color:var(--gold);font-size:1rem;margin-bottom:0.75rem;letter-spacing:2px;}
+.review-text{font-size:0.875rem;color:var(--mid);line-height:1.75;margin-bottom:1rem;font-style:italic;}
+.reviewer-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--navy);}
+.reviewer-biz{font-size:0.78rem;color:var(--mid);}
+.review-form-wrap{background:var(--white);border:1px solid rgba(201,146,42,0.2);border-radius:16px;padding:2rem;max-width:500px;margin:2.5rem auto 0;}
+.review-form-wrap h3{font-size:1.1rem;margin-bottom:1.5rem;color:var(--navy);}
+.star-rating{display:flex;gap:6px;margin-bottom:1rem;font-size:1.6rem;cursor:pointer;}
+.star-rating span{color:#ddd;transition:color 0.15s;}
+.star-rating span.lit{color:var(--gold);}
+.review-form input,.review-form textarea{width:100%;padding:0.65rem 0.9rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.875rem;margin-bottom:0.9rem;outline:none;transition:border-color 0.2s;}
+.review-form input:focus,.review-form textarea:focus{border-color:var(--gold);}
+.review-form textarea{resize:vertical;min-height:80px;}
+.review-submit{width:100%;padding:0.8rem;background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;border:none;border-radius:8px;cursor:pointer;transition:background 0.2s;}
+.review-submit:hover{background:var(--gold);color:var(--navy);}
+
+/* ── CONTACT ── */
+#contact{background:var(--navy);}
+#contact .section-title{color:var(--white);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start;max-width:900px;margin-left:auto;margin-right:auto;}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem;}
+.contact-item{display:flex;gap:1rem;align-items:flex-start;}
+.contact-icon{width:44px;height:44px;border-radius:10px;background:rgba(201,146,42,0.12);border:1px solid rgba(201,146,42,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.contact-item-text strong{display:block;color:var(--white);font-family:'Syne',sans-serif;font-size:0.95rem;margin-bottom:0.25rem;}
+.contact-item-text a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.875rem;transition:color 0.2s;}
+.contact-item-text a:hover{color:var(--gold-light);}
+.delivery-box{background:rgba(255,255,255,0.04);border:1px solid rgba(201,146,42,0.15);border-radius:14px;padding:1.5rem;margin-top:1rem;}
+.delivery-box h4{font-size:0.95rem;color:var(--gold-light);margin-bottom:1rem;}
+.delivery-box ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.delivery-box li{font-size:0.82rem;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:8px;}
+.delivery-box li::before{content:"✓";color:var(--gold);}
+.social-row{display:flex;gap:0.75rem;margin-top:1.5rem;}
+.social-link{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.65rem 1rem;color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.82rem;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.social-link:hover{background:rgba(201,146,42,0.15);border-color:rgba(201,146,42,0.3);color:var(--gold-light);}
+.contact-map{border-radius:16px;overflow:hidden;height:280px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);}
+.map-placeholder{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;text-align:center;padding:2rem;}
+.map-placeholder .map-icon{font-size:2.5rem;}
+.map-placeholder p{font-size:0.85rem;color:rgba(255,255,255,0.4);}
+.map-placeholder a{font-size:0.85rem;color:var(--gold-light);text-decoration:none;border:1px solid rgba(201,146,42,0.3);padding:0.4rem 1rem;border-radius:6px;transition:background 0.2s;}
+.map-placeholder a:hover{background:rgba(201,146,42,0.15);}
+
+/* ── FOOTER ── */
+footer{background:#060e1c;padding:3rem 5% 2rem;border-top:1px solid rgba(201,146,42,0.12);}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.footer-brand img{height:36px;margin-bottom:0.75rem;}
+.footer-brand p{font-size:0.82rem;color:rgba(255,255,255,0.35);max-width:220px;line-height:1.7;}
+.footer-links h5{font-family:'Syne',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1rem;}
+.footer-links ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+.footer-links a{color:rgba(255,255,255,0.45);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold-light);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{font-size:0.78rem;color:rgba(255,255,255,0.28);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ── SCROLL TO TOP ── */
+#scrollTop{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:100;transition:background 0.2s,transform 0.2s;box-shadow:0 4px 16px rgba(201,146,42,0.4);}
+#scrollTop.show{display:flex;}
+#scrollTop:hover{background:var(--gold-light);transform:translateY(-2px);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .builder-wrap,.contact-grid,.form-row{grid-template-columns:1fr;}
+  .pkg-grid,.pay-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-stats{gap:1.5rem;}
+  section{padding:4rem 5%;}
+  .footer-top{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="https://tioflosnfc.github.io/logo.png" alt="Tioflos NFC" onerror="this.style.display='none'">
+    <span>Tioflos NFC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#order">Order Now</a>
+  <div class="hamburger" onclick="toggleMenu()" id="ham">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#how" onclick="closeMenu()">How It Works</a>
+  <a href="#demo" onclick="closeMenu()">Live Demo</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#order" onclick="closeMenu()">Order Now</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring hero-ring2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">📍 Arba Minch's First NFC Card Service</div>
+    <h1>Tap. Connect.<br><span>Impress Anyone.</span></h1>
+    <p>Smart NFC digital cards for hotels, restaurants, shops, clinics and every business in Arba Minch. One tap — your full profile on any phone.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#order">Order Your Card</a>
+      <a class="btn-secondary" href="#demo">See How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>1-tap</strong><span>Share everything</span></div>
+      <div class="hero-stat"><strong>Free</strong><span>No app needed</span></div>
+      <div class="hero-stat"><strong>24/7</strong><span>Always available</span></div>
+      <div class="hero-stat"><strong>Same Day</strong><span>Delivery in Arba Minch</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="ti">🚲</span> Same-day bike delivery</div>
+    <div class="trust-item"><span class="ti">📱</span> Works on any phone</div>
+    <div class="trust-item"><span class="ti">🔒</span> Secure & private</div>
+    <div class="trust-item"><span class="ti">🛠</span> We build it for you</div>
+    <div class="trust-item"><span class="ti">💳</span> Telebirr / CBE Birr accepted</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-center reveal">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">From order to delivery — simple, fast, and completely done for you.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal">
+      <div class="step-num">1</div>
+      <h3>Place Your Order</h3>
+      <p>Fill the order form with your business details, choose your package, and pick a payment method.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">2</div>
+      <h3>We Build Your Profile</h3>
+      <p>We design your beautiful digital profile with your logo, contacts, menu, gallery, and social links.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">3</div>
+      <h3>Card Delivered to You</h3>
+      <p>Your programmed NFC card is delivered to your door by bike — same day in Arba Minch.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-num">4</div>
+      <h3>Tap &amp; Impress</h3>
+      <p>Hand someone your card. They tap it. Your full profile opens instantly on their phone. No app needed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="section-center reveal">
+    <div class="section-label" style="background:rgba(201,146,42,0.15);color:var(--gold-light);border-color:rgba(201,146,42,0.3);">Live Preview</div>
+    <h2 class="section-title">See What Your Clients Get</h2>
+    <p class="section-sub">Pick a business type and see exactly what the profile looks like when someone taps your NFC card.</p>
+  </div>
+  <div class="demo-tabs">
+    <button class="demo-tab active" onclick="setDemo('hotel',this)">🏨 Hotel</button>
+    <button class="demo-tab" onclick="setDemo('restaurant',this)">🍽️ Restaurant</button>
+    <button class="demo-tab" onclick="setDemo('shop',this)">🛒 Shop</button>
+    <button class="demo-tab" onclick="setDemo('clinic',this)">🏥 Clinic</button>
+    <button class="demo-tab" onclick="setDemo('salon',this)">💈 Salon</button>
+    <button class="demo-tab" onclick="setDemo('freelancer',this)">👔 Freelancer</button>
+  </div>
+  <div class="demo-preview reveal">
+    <div class="demo-phone-bar">
+      <div class="demo-phone-dot" style="background:#ff5f57"></div>
+      <div class="demo-phone-dot" style="background:#febc2e"></div>
+      <div class="demo-phone-dot" style="background:#28c840"></div>
+      <span>tioflos.link/card</span>
+    </div>
+    <div class="demo-profile" id="demoContent"></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-center reveal">
+    <div class="section-label">Packages</div>
+    <h2 class="section-title">Simple, Clear Pricing</h2>
+    <p class="section-sub">All prices include card programming, profile setup, and delivery in Arba Minch.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">800</div>
+      <div class="price-unit">ETB — perfect to get started</div>
+      <ul class="price-features">
+        <li>1 NFC Card</li>
+        <li>Digital profile setup</li>
+        <li>Contact &amp; WhatsApp button</li>
+        <li>Google Maps link</li>
+        <li>Social media links</li>
+        <li>Same-day delivery</li>
+      </ul>
+      <a class="price-cta" href="#order" onclick="selectPkg('Starter')">Order Starter</a>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-tier">Business</div>
+      <div class="price-amount">4,000</div>
+      <div class="price-unit">ETB — best for growing businesses</div>
+      <ul class="price-features">
+        <li>5 NFC Cards</li>
+        <li>Full profile + branding</li>
+        <li>Digital menu / services</li>
+        <li>Photo gallery</li>
+        <li>Booking form</li>
+        <li>1 month support</li>
+      </ul>
+      <a class="price-cta" href="#order" onclick="selectPkg('Business')">Order Business</a>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-tier">Premium</div>
+      <div class="price-amount">12,000</div>
+      <div class="price-unit">ETB — full service package</div>
+      <ul class="price-features">
+        <li>10+ NFC Cards</li>
+        <li>Full branding + design</li>
+        <li>Room service / order form</li>
+        <li>Attraction guide (hotels)</li>
+        <li>WiFi tap card</li>
+        <li>Review link setup</li>
+        <li>6 months support</li>
+      </ul>
+      <a class="price-cta" href="#order" onclick="selectPkg('Premium')">Order Premium</a>
+    </div>
+  </div>
+  <div class="pricing-note reveal">🔄 Monthly support available — <strong>400 ETB/month</strong> for updates, replacements &amp; new staff cards</div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-center reveal">
+    <div class="section-label">Our Work</div>
+    <h2 class="section-title">Gallery</h2>
+    <p class="section-sub">Real NFC cards and profiles we've built for businesses in Arba Minch.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#1a3a5c,#0d2438)">
+      <div class="gallery-bg"><div class="gallery-icon">🏨</div><h4>Hotel Profile</h4><p>Full menu + booking</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#3a1a0d,#5c2a12)">
+      <div class="gallery-bg"><div class="gallery-icon">🍽️</div><h4>Restaurant Card</h4><p>Digital menu + gallery</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#1a3a1a,#0d2a0d)">
+      <div class="gallery-bg"><div class="gallery-icon">💈</div><h4>Salon Profile</h4><p>Services + booking</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#1a1a5c,#0d0d38)">
+      <div class="gallery-bg"><div class="gallery-icon">🏥</div><h4>Clinic Card</h4><p>Appointment + contacts</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#3a2a0d,#5c400d)">
+      <div class="gallery-bg"><div class="gallery-icon">🛒</div><h4>Shop Profile</h4><p>Catalog + WhatsApp order</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+    <div class="gallery-card reveal" style="background:linear-gradient(135deg,#2a0d3a,#1a0d28)">
+      <div class="gallery-bg"><div class="gallery-icon">👔</div><h4>Freelancer Card</h4><p>Portfolio + contacts</p></div>
+      <div class="gallery-overlay"><span>View Profile →</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE BUILDER -->
+<section id="builder">
+  <div class="section-center reveal">
+    <div class="section-label">Design Your Card</div>
+    <h2 class="section-title">Build Your Profile</h2>
+    <p class="section-sub">Fill in your details and see a live preview of your NFC profile before ordering.</p>
+  </div>
+  <div class="builder-wrap">
+    <div class="builder-form">
+      <label>Business / Your Name</label>
+      <input type="text" id="bName" placeholder="e.g. Lante Hotel" oninput="updatePreview()">
+      <label>Business Type</label>
+      <select id="bType" onchange="updatePreview()">
+        <option value="hotel">🏨 Hotel / Resort</option>
+        <option value="restaurant">🍽️ Restaurant / Cafe</option>
+        <option value="shop">🛒 Shop</option>
+        <option value="clinic">🏥 Clinic</option>
+        <option value="salon">💈 Salon / Spa</option>
+        <option value="freelancer">👔 Freelancer</option>
+      </select>
+      <label>Phone Number</label>
+      <input type="tel" id="bPhone" placeholder="+251 9XX XXX XXX" oninput="updatePreview()">
+      <label>Tagline / Short Description</label>
+      <input type="text" id="bTag" placeholder="e.g. Best views in Arba Minch" oninput="updatePreview()">
+      <label>Card Background Color</label>
+      <div class="color-row">
+        <div class="color-swatch active" style="background:linear-gradient(135deg,#1a3a5c,#0d2438)" onclick="setBg('linear-gradient(135deg,#1a3a5c,#0d2438)',this)" title="Navy"></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#3a1a0d,#5c2a12)" onclick="setBg('linear-gradient(135deg,#3a1a0d,#5c2a12)',this)" title="Mahogany"></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#0d3a1a,#0a2a12)" onclick="setBg('linear-gradient(135deg,#0d3a1a,#0a2a12)',this)" title="Forest"></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#2a1a5c,#1a0d38)" onclick="setBg('linear-gradient(135deg,#2a1a5c,#1a0d38)',this)" title="Purple"></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#c9922a,#8a5a0d)" onclick="setBg('linear-gradient(135deg,#c9922a,#8a5a0d)',this)" title="Gold"></div>
+        <div class="color-swatch" style="background:linear-gradient(135deg,#1a1a1a,#0a0a0a)" onclick="setBg('linear-gradient(135deg,#1a1a1a,#0a0a0a)',this)" title="Black"></div>
+      </div>
+      <button class="order-preview-btn" onclick="scrollToOrder()">Order This Design →</button>
+    </div>
+    <div class="builder-preview">
+      <div class="preview-phone-bar">
+        <div class="preview-dot" style="background:#ff5f57"></div>
+        <div class="preview-dot" style="background:#febc2e"></div>
+        <div class="preview-dot" style="background:#28c840"></div>
+        <span class="preview-url">tioflos.link/card</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-cover" id="previewCover" style="background:linear-gradient(135deg,#1a3a5c,#0d2438)">🏨</div>
+        <div class="preview-name" id="previewName">Your Business Name</div>
+        <div class="preview-tag" id="previewTag">Your tagline here</div>
+        <div class="preview-grid">
+          <div class="preview-btn">📞 Call</div>
+          <div class="preview-btn">💬 WhatsApp</div>
+          <div class="preview-btn">📍 Location</div>
+          <div class="preview-btn">📸 Instagram</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="section-center reveal">
+    <div class="section-label" style="background:rgba(201,146,42,0.15);color:var(--gold-light);border-color:rgba(201,146,42,0.3);">Place Your Order</div>
+    <h2 class="section-title">Order Your NFC Card</h2>
+    <p class="section-sub">Fill in your details and we'll deliver your card to you in Arba Minch.</p>
+  </div>
+  <div class="order-form reveal" id="orderFormWrap">
+    <div class="form-row">
+      <div>
+        <label>Business / Your Name *</label>
+        <input type="text" id="oName" placeholder="Lante Hotel">
+      </div>
+      <div>
+        <label>Phone Number *</label>
+        <input type="tel" id="oPhone" placeholder="+251 906 368 383">
+      </div>
+    </div>
+    <label>Business Type *</label>
+    <select id="oType" style="margin-bottom:1.2rem">
+      <option value="">Select type...</option>
+      <option>Hotel / Resort</option>
+      <option>Restaurant / Cafe</option>
+      <option>Shop / Supermarket</option>
+      <option>Clinic / Pharmacy</option>
+      <option>Salon / Spa</option>
+      <option>School / College</option>
+      <option>Freelancer</option>
+      <option>Other</option>
+    </select>
+    <label>WhatsApp Number</label>
+    <input type="tel" id="oWhatsapp" placeholder="+251 9XX XXX XXX" style="margin-bottom:1.2rem">
+    <label>Choose Your Package *</label>
+    <div class="pkg-grid">
+      <div class="pkg-opt" id="pkg-Starter" onclick="selectPkg('Starter')"><strong>Starter</strong><span>800 ETB</span></div>
+      <div class="pkg-opt selected" id="pkg-Business" onclick="selectPkg('Business')"><strong>Business</strong><span>4,000 ETB</span></div>
+      <div class="pkg-opt" id="pkg-Premium" onclick="selectPkg('Premium')"><strong>Premium</strong><span>12,000 ETB</span></div>
+    </div>
+    <label>Payment Method *</label>
+    <div class="pay-grid">
+      <div class="pay-opt selected" id="pay-Telebirr" onclick="selectPay('Telebirr')">📱 Telebirr</div>
+      <div class="pay-opt" id="pay-CBE" onclick="selectPay('CBE')">🏦 CBE Birr</div>
+      <div class="pay-opt" id="pay-Cash" onclick="selectPay('Cash')">💵 Cash on Delivery</div>
+    </div>
+    <label>Delivery Address *</label>
+    <input type="text" id="oAddress" placeholder="Area / landmark in Arba Minch" style="margin-bottom:1.2rem">
+    <label>Instagram / Facebook / TikTok (optional)</label>
+    <input type="text" id="oSocial" placeholder="@yourhandle" style="margin-bottom:1.2rem">
+    <label>Additional Notes</label>
+    <textarea id="oNotes" placeholder="Logo, colors, special requests..."></textarea>
+    <button class="order-submit" onclick="submitOrder()">📲 Send Order via Telegram</button>
+  </div>
+  <div class="order-success" id="orderSuccess">
+    <div class="check">🎉</div>
+    <h3>Order Sent!</h3>
+    <p>Your order has been sent to Tioflos NFC on Telegram.<br>We'll confirm within 1–2 hours and deliver to you by bike!</p>
+    <br>
+    <a class="btn-primary" href="#home">Back to Home</a>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-center reveal">
+    <div class="section-label">Reviews</div>
+    <h2 class="section-title">What Our Clients Say</h2>
+    <p class="section-sub">Real feedback from businesses using Tioflos NFC cards in Arba Minch.</p>
+  </div>
+  <div class="reviews-grid" id="reviewsGrid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Amazing service! Our guests love tapping the card and seeing the hotel profile and menu instantly. Very professional and delivered same day."</p>
+      <div class="reviewer-name">Dawit Tesfaye</div>
+      <div class="reviewer-biz">Arbaminch Paradise Hotel</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The digital menu is so easy to update. No more printing! Customers can see everything on their phone the moment they tap the card."</p>
+      <div class="reviewer-name">Meron Alemu</div>
+      <div class="reviewer-biz">Lante Cafe</div>
+    </div>
+  </div>
+  <div class="review-form-wrap reveal">
+    <h3>Leave a Review</h3>
+    <div class="star-rating" id="starRating">
+      <span onclick="setStars(1)">★</span>
+      <span onclick="setStars(2)">★</span>
+      <span onclick="setStars(3)">★</span>
+      <span onclick="setStars(4)">★</span>
+      <span onclick="setStars(5)">★</span>
+    </div>
+    <div class="review-form">
+      <input type="text" id="rName" placeholder="Your Name">
+      <input type="text" id="rBiz" placeholder="Your Business">
+      <textarea id="rText" placeholder="Your Review"></textarea>
+      <button class="review-submit" onclick="submitReview()">Submit Review</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-center reveal">
+    <div class="section-label" style="background:rgba(201,146,42,0.15);color:var(--gold-light);border-color:rgba(201,146,42,0.3);">Get In Touch</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.5)">We're here to help — reach us on any channel.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-item-text">
+          <strong>Phone</strong>
+          <a href="tel:+251906368383">+251 906 368 383</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✈️</div>
+        <div class="contact-item-text">
+          <strong>Telegram</strong>
+          <a href="https://t.me/Tioflos" target="_blank">@Tioflos</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div class="contact-item-text">
+          <strong>Location</strong>
+          <a href="#">Arba Minch, Ethiopia</a>
+        </div>
+      </div>
+      <div class="delivery-box">
+        <h4>🚲 Bike Delivery in Arba Minch</h4>
+        <ul>
+          <li>Same-day delivery within city center</li>
+          <li>Delivery to Sikela, Shecha, and nearby areas</li>
+          <li>Free delivery within city center</li>
+          <li>Outside areas — small delivery fee applies</li>
+          <li>Payment: Telebirr, CBE Birr, or Cash on delivery</li>
+        </ul>
+      </div>
+      <div class="social-row">
+        <a class="social-link" href="https://t.me/Tioflos" target="_blank">✈️ Telegram</a>
+        <a class="social-link" href="https://tiktok.com/@Tiofols6" target="_blank">🎵 TikTok</a>
+        <a class="social-link" href="https://instagram.com/TIOFLOS1" target="_blank">📸 Instagram</a>
+      </div>
+    </div>
+    <div class="contact-map reveal">
+      <div class="map-placeholder">
+        <div class="map-icon">📍</div>
+        <p style="color:rgba(255,255,255,0.6);font-weight:600;">Arba Minch, Ethiopia</p>
+        <p>SNNPR, Southern Ethiopia</p>
+        <br>
+        <a href="https://maps.google.com/?q=Arba+Minch+Ethiopia" target="_blank">Open in Google Maps →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="https://tioflosnfc.github.io/logo.png" alt="Tioflos NFC" onerror="this.style.display='none'">
+      <p>Arba Minch's first and most complete NFC digital card service — serving hotels, restaurants, clinics, shops, and any business.</p>
+    </div>
+    <div class="footer-links">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#demo">Live Demo</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#order">Order Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+251906368383">+251 906 368 383</a></li>
+        <li><a href="https://t.me/Tioflos" target="_blank">@Tioflos on Telegram</a></li>
+        <li><a href="https://tiktok.com/@Tiofols6" target="_blank">@Tiofols6 on TikTok</a></li>
+        <li><a href="https://instagram.com/TIOFLOS1" target="_blank">@TIOFLOS1 on Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Tioflos NFC. All rights reserved. Arba Minch, Ethiopia.</p>
+    <p style="color:rgba(255,255,255,0.2);font-size:0.75rem;">Smart NFC Cards · Digital Profiles · Same-Day Delivery</p>
+  </div>
+</footer>
+
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── MOBILE MENU ──
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── SCROLL TOP ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);
+});
+
+// ── DEMO PROFILES ──
+const demoData = {
+  hotel:{
+    icon:'🏨',bg:'linear-gradient(135deg,#1a3a5c,#0d2438)',
+    name:'Lante Lake View Hotel',
+    tag:'Stunning views over Lake Abaya',
+    btns:['📞 Call','💬 WhatsApp','🏊 Pool Info','📖 Booking'],
+    items:[['Deluxe Room','700 ETB/night'],['Suite','1,200 ETB/night'],['Breakfast','150 ETB'],['Tour Package','From 2,000 ETB']]
+  },
+  restaurant:{
+    icon:'🍽️',bg:'linear-gradient(135deg,#3a1a0d,#5c2a12)',
+    name:'Abay Restaurant',
+    tag:'Traditional Ethiopian cuisine',
+    btns:['📞 Call','💬 Order','📍 Location','⭐ Reviews'],
+    items:[['Injera Combo','120 ETB'],['Tibs','180 ETB'],['Coffee Ceremony','80 ETB'],['Tej','60 ETB']]
+  },
+  shop:{
+    icon:'🛒',bg:'linear-gradient(135deg,#0d3a0d,#0a2a0a)',
+    name:'Negarit General Store',
+    tag:'Everything you need, delivered fast',
+    btns:['📞 Call','💬 WhatsApp Order','📍 Location','📦 Catalog'],
+    items:[['Groceries','Available',''],['Electronics','In stock'],['Household','Wide range'],['Delivery','Arba Minch']]
+  },
+  clinic:{
+    icon:'🏥',bg:'linear-gradient(135deg,#1a1a5c,#0d0d38)',
+    name:'Arba Minch Health Clinic',
+    tag:'Professional care you can trust',
+    btns:['📞 Emergency','💬 Appointment','📍 Directions','🕐 Hours'],
+    items:[['General Consultation','200 ETB'],['Lab Tests','From 150 ETB'],['Open Hours','8am – 8pm'],['Emergency','24/7']]
+  },
+  salon:{
+    icon:'💈',bg:'linear-gradient(135deg,#3a0d3a,#1a0d28)',
+    name:'Glam Studio',
+    tag:'Look your best, feel amazing',
+    btns:['📞 Call','💬 Book Now','📸 Gallery','⭐ Reviews'],
+    items:[['Haircut','80 ETB'],['Color','250 ETB'],['Facial','180 ETB'],['Nail Art','120 ETB']]
+  },
+  freelancer:{
+    icon:'👔',bg:'linear-gradient(135deg,#1a2a1a,#0d1a0d)',
+    name:'Belay Designs',
+    tag:'Graphic design & branding',
+    btns:['📞 Call','💬 Message','💼 Portfolio','📧 Email'],
+    items:[['Logo Design','500 ETB'],['Poster','200 ETB'],['Social Media Kit','800 ETB'],['Web Design','From 3,000 ETB']]
+  }
+};
+
+function setDemo(type, btn){
+  document.querySelectorAll('.demo-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const d = demoData[type];
+  document.getElementById('demoContent').innerHTML = `
+    <div class="demo-cover" style="background:${d.bg}">${d.icon}</div>
+    <div class="demo-biz-name">${d.name}</div>
+    <div class="demo-tagline">${d.tag}</div>
+    <div class="demo-btns">
+      ${d.btns.map(b=>`<div class="demo-btn">${b}</div>`).join('')}
+    </div>
+    <div class="demo-section-label">Services / Menu</div>
+    ${d.items.map(i=>`<div class="demo-item"><span>${i[0]}</span><span>${i[1]}</span></div>`).join('')}
+  `;
+}
+setDemo('hotel', document.querySelector('.demo-tab'));
+
+// ── BUILDER PREVIEW ──
+let currentBg = 'linear-gradient(135deg,#1a3a5c,#0d2438)';
+const typeEmoji = {hotel:'🏨',restaurant:'🍽️',shop:'🛒',clinic:'🏥',salon:'💈',freelancer:'👔'};
+
+function updatePreview(){
+  const name = document.getElementById('bName').value || 'Your Business Name';
+  const tag = document.getElementById('bTag').value || 'Your tagline here';
+  const type = document.getElementById('bType').value;
+  document.getElementById('previewName').textContent = name;
+  document.getElementById('previewTag').textContent = tag;
+  document.getElementById('previewCover').textContent = typeEmoji[type]||'🏢';
+}
+
+function setBg(bg, el){
+  currentBg = bg;
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('previewCover').style.background = bg;
+}
+
+function scrollToOrder(){
+  document.getElementById('order').scrollIntoView({behavior:'smooth'});
+}
+
+// ── ORDER ──
+let selectedPkg = 'Business';
+let selectedPay = 'Telebirr';
+
+function selectPkg(p){
+  selectedPkg = p;
+  document.querySelectorAll('.pkg-opt').forEach(el=>el.classList.remove('selected'));
+  const el = document.getElementById('pkg-'+p);
+  if(el) el.classList.add('selected');
+}
+
+function selectPay(p){
+  selectedPay = p;
+  document.querySelectorAll('.pay-opt').forEach(el=>el.classList.remove('selected'));
+  const el = document.getElementById('pay-'+p);
+  if(el) el.classList.add('selected');
+}
+
+function submitOrder(){
+  const name = document.getElementById('oName').value.trim();
+  const phone = document.getElementById('oPhone').value.trim();
+  const type = document.getElementById('oType').value;
+  const addr = document.getElementById('oAddress').value.trim();
+  if(!name||!phone||!type||!addr){
+    alert('Please fill all required fields (Name, Phone, Business Type, Address).');
+    return;
+  }
+  const whatsapp = document.getElementById('oWhatsapp').value.trim();
+  const social = document.getElementById('oSocial').value.trim();
+  const notes = document.getElementById('oNotes').value.trim();
+  const msg = encodeURIComponent(
+    `🆕 NEW NFC ORDER from Tioflos NFC Website\n\n`+
+    `📋 Name: ${name}\n📞 Phone: ${phone}\n🏢 Type: ${type}\n`+
+    `💬 WhatsApp: ${whatsapp||'—'}\n📦 Package: ${selectedPkg}\n`+
+    `💳 Payment: ${selectedPay}\n📍 Address: ${addr}\n`+
+    `📱 Social: ${social||'—'}\n📝 Notes: ${notes||'—'}`
+  );
+  window.open(`https://t.me/Tioflos?text=${msg}`,'_blank');
+  document.getElementById('orderFormWrap').style.display='none';
+  document.getElementById('orderSuccess').classList.add('visible');
+}
+
+// ── REVIEWS ──
+let stars = 5;
+function setStars(n){
+  stars=n;
+  document.querySelectorAll('#starRating span').forEach((s,i)=>{
+    s.classList.toggle('lit',i<n);
+  });
+}
+setStars(5);
+
+function submitReview(){
+  const name = document.getElementById('rName').value.trim();
+  const biz = document.getElementById('rBiz').value.trim();
+  const text = document.getElementById('rText').value.trim();
+  if(!name||!text){alert('Please enter your name and review.');return;}
+  const card = document.createElement('div');
+  card.className='review-card';
+  card.innerHTML=`
+    <div class="review-stars">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+    <p class="review-text">"${text}"</p>
+    <div class="reviewer-name">${name}</div>
+    <div class="reviewer-biz">${biz||'Arba Minch'}</div>
+  `;
+  document.getElementById('reviewsGrid').appendChild(card);
+  document.getElementById('rName').value='';
+  document.getElementById('rBiz').value='';
+  document.getElementById('rText').value='';
+  setStars(5);
+  alert('Thank you for your review!');
+}
+</script>
+</body>
+</html>
