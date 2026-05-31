@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -415,6 +415,7 @@ function renderOrders() {
           </div>
           ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
           ${o.notes ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:2px;">📝 ${o.notes.substring(0,40)}${o.notes.length>40?'...':''}</div>` : ''}
+          ${o.cardColor ? `<div style="font-size:0.7rem;color:var(--gold-light);margin-top:2px;">💳 Card: <span style="display:inline-block;width:10px;height:10px;background:${o.cardColor};border-radius:50%;margin-right:4px;vertical-align:middle;border:1px solid #fff;"></span> ${o.cardColor} | Label: "${o.cardText || ''}" | Logo: ${o.cardLogoOpt || 'both'}</div>` : ''}
         </td>
       </tr>
     `;

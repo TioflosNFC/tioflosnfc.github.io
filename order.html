@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="styles.css">
 <style>
 .order-page{background:var(--navy);min-height:100vh;padding-top:68px}
-.order-container{max-width:720px;margin:0 auto;padding:3rem 5%}
-.progress-bar{display:flex;align-items:center;justify-content:center;margin-bottom:3rem}
+.order-container{max-width:1120px;margin:0 auto;padding:3rem 5%}
+.progress-bar{display:flex;align-items:center;justify-content:center;margin-bottom:3rem;max-width:720px;margin-left:auto;margin-right:auto}
 .progress-step{display:flex;flex-direction:column;align-items:center;gap:.4rem}
 .progress-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;font-size:.9rem;border:2px solid rgba(201,146,42,.3);color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);transition:all .3s}
 .progress-circle.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
@@ -22,6 +22,10 @@
 .step-panel.active{display:block}
 .step-title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:var(--white);margin-bottom:.5rem}
 .step-sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
+
+/* Step-specific width control */
+#step1, #step3, #step4 { max-width:720px; margin:0 auto; }
+
 /* Packages */
 .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
 .pkg-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem 1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative;background:rgba(255,255,255,.03)}
@@ -33,11 +37,12 @@
 .pkg-price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}
 .pkg-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.5}
 .pkg-tag{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.4rem}
-/* Form */
+
+/* Form Section Styling */
 .form-sec{font-family:Syne,sans-serif;font-weight:700;font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:2px;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,146,42,.2)}
 .o-label{display:block;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:.4rem}
 .o-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(201,146,42,.25);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.9rem;background:rgba(255,255,255,.06);color:var(--white);outline:none;transition:border-color .2s;margin-bottom:1.25rem}
-.o-input::placeholder{color:rgba(255,255,255,.25)}
+.o-input::placeholder{color:rgba(255,255,255,0.25)}
 .o-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,146,42,.15)}
 .o-input option{background:var(--navy)}
 .o-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
@@ -45,7 +50,8 @@
 .phone-row .o-input{margin-bottom:0;flex:1}
 .remove-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#EF4444;font-size:.8rem;padding:.5rem .75rem;cursor:pointer;font-weight:700;white-space:nowrap}
 .add-phone-btn{background:none;border:1px dashed rgba(201,146,42,.4);border-radius:8px;color:var(--gold-light);font-size:.78rem;font-weight:700;padding:.4rem .85rem;cursor:pointer;font-family:Syne,sans-serif;margin-bottom:1.25rem}
-/* Photos */
+
+/* Photos Upload UI */
 .photo-uploads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem}
 .photo-upload{border:2px dashed rgba(201,146,42,.3);border-radius:12px;padding:1rem .5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);position:relative}
 .photo-upload:hover{border-color:var(--gold)}
@@ -55,7 +61,8 @@
 .pu-sub{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.2rem}
 .photo-preview{width:100%;height:60px;object-fit:cover;border-radius:8px;display:none;margin-top:.5rem}
 .photo-preview.circle{border-radius:50%;width:50px;height:50px;margin:.5rem auto 0}
-/* Platforms */
+
+/* Platforms Grid */
 .plat-group-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
 .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
 .platform-row{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,146,42,.2);border-radius:8px;padding:.55rem .75rem;transition:border-color .2s}
@@ -63,7 +70,105 @@
 .platform-row .p-icon{font-size:1.1rem;flex-shrink:0}
 .platform-row input{border:none;background:none;padding:0;margin:0;font-size:.82rem;color:var(--white);width:100%;outline:none}
 .platform-row input::placeholder{color:rgba(255,255,255,.25)}
-/* Payment */
+
+/* Designer Layout Grid */
+.designer-grid { display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; align-items: start; }
+.designer-inputs { min-width: 0; }
+.designer-preview-wrap {
+  position: sticky; top: 90px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(201, 146, 42, 0.15);
+  border-radius: 20px; padding: 1.5rem;
+  min-height: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.preview-tabs { display: flex; background: rgba(255, 255, 255, 0.05); padding: 4px; border-radius: 10px; margin-bottom: 1.5rem; }
+.preview-tab-btn {
+  flex: 1; background: transparent; border: none;
+  color: rgba(255, 255, 255, 0.6); padding: 0.6rem;
+  border-radius: 8px; font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.preview-tab-btn.active { background: var(--gold); color: var(--navy); }
+
+/* Color Picker */
+.color-options { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.color-opt {
+  width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative;
+}
+.color-opt:hover { transform: scale(1.1); }
+.color-opt.active { border-color: var(--white); box-shadow: 0 0 0 2px var(--gold); }
+.custom-picker-btn { overflow: hidden; }
+
+/* CSS NFC Card Mockup */
+.preview-card {
+  width: 100%; max-width: 290px; aspect-ratio: 1.586;
+  border-radius: 16px; background: var(--navy-mid); padding: 1.25rem;
+  position: relative; overflow: hidden; display: flex;
+  flex-direction: column; justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s ease; margin: 0 auto;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
+}
+.preview-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+}
+.card-shine {
+  position: absolute; top: -150%; left: -150%; width: 300%; height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 50%);
+  transform: rotate(30deg); pointer-events: none;
+}
+.card-nfc-chip {
+  width: 38px; height: 28px;
+  background: linear-gradient(135deg, #F0C060, #C9922A);
+  border-radius: 5px; position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.2);
+}
+.card-nfc-chip::after {
+  content: ''; position: absolute; inset: 3px;
+  border: 1.2px solid rgba(0,0,0,0.12); border-radius: 2.5px;
+}
+.card-nfc-wave { font-size: 1.1rem; color: rgba(255,255,255,0.4); }
+.card-logo-area { display: flex; align-items: center; gap: 12px; }
+.card-logo-img {
+  width: 44px; height: 44px; object-fit: contain;
+  border-radius: 6px; background: rgba(255,255,255,0.15);
+  padding: 3px; display: none;
+}
+.card-logo-placeholder {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, #C9922A, #F0C060);
+  color: var(--navy); font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.card-name-text {
+  font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4); line-height: 1.2;
+}
+.card-tap-hint {
+  font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4); font-weight: 600; margin-top: 2px;
+}
+
+/* Phone Screen Mockup */
+.preview-phone {
+  width: 230px; margin: 0 auto; background: #1A2744;
+  border-radius: 28px; padding: 8px; border: 2px solid rgba(201,146,42,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.preview-screen { background: #F8F9FA; border-radius: 20px; overflow: hidden; min-height: 380px; color: var(--navy); }
+.preview-phone-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 0.4rem 0.2rem; background: var(--white); border-radius: 8px; border: 1px solid #E5E7EB;
+}
+.preview-phone-icon { font-size: 0.9rem; }
+.preview-phone-label { font-size: 0.45rem; color: #6B7280; font-weight: 600; }
+
+/* Payment & Done details */
 .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .pay-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s;text-align:center;background:rgba(255,255,255,.03)}
 .pay-card:hover{border-color:rgba(201,146,42,.5)}
@@ -87,13 +192,15 @@
 .ps-label{font-size:.85rem;color:rgba(255,255,255,.6)}
 .ps-pkg{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white)}
 .ps-price{font-family:Syne,sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold)}
-/* Buttons */
+
+/* Button layouts */
 .btn-row{display:flex;gap:1rem;margin-top:1.5rem}
 .btn-next{flex:1;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:Syne,sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s}
 .btn-next:hover{background:var(--gold-light)}
 .btn-next:disabled{opacity:.4;cursor:not-allowed}
 .btn-back{padding:1rem 1.5rem;background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;font-family:Syne,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
 .btn-back:hover{border-color:rgba(255,255,255,.5);color:var(--white)}
+
 /* Success */
 .success-screen{text-align:center;padding:2rem 0}
 .success-icon{font-size:4rem;margin-bottom:1rem}
@@ -104,6 +211,11 @@
 .summary-row:last-child{border-bottom:none}
 .sr-label{color:rgba(255,255,255,.45)}
 .sr-val{color:var(--white);font-weight:600}
+
+@media(max-width:900px){
+  .designer-grid{grid-template-columns:1fr}
+  .designer-preview-wrap{position:static;min-height:auto}
+}
 @media(max-width:600px){
   .pkg-grid{grid-template-columns:1fr}
   .pay-grid{grid-template-columns:1fr}
@@ -153,7 +265,7 @@
       <div class="progress-line" id="line1"></div>
       <div class="progress-step">
         <div class="progress-circle" id="pc2">2</div>
-        <div class="progress-label" id="pl2">Profile</div>
+        <div class="progress-label" id="pl2">Profile & Card</div>
       </div>
       <div class="progress-line" id="line2"></div>
       <div class="progress-step">
@@ -200,107 +312,208 @@
       </div>
     </div>
 
-    <!-- STEP 2: PROFILE + LINKS (merged) -->
+    <!-- STEP 2: PROFILE + CARD DESIGNER -->
     <div class="step-panel" id="step2">
-      <h1 class="step-title">Build Your Profile</h1>
-      <p class="step-sub">Fill in your business details and add your links. This is exactly what customers will see when they tap your NFC card.</p>
+      <h1 class="step-title">Design Your Card & Profile</h1>
+      <p class="step-sub">Fill in your business details and customize your NFC card design. Watch it build in real-time on the preview panel!</p>
 
-      <!-- Business Info -->
-      <div class="form-sec">Business Information</div>
-      <div class="o-row">
-        <div>
-          <label class="o-label">Business / Your Name *</label>
-          <input class="o-input" type="text" id="o-biz" placeholder="e.g. Lante Hotel">
-        </div>
-        <div>
-          <label class="o-label">Business Type *</label>
-          <select class="o-input" id="o-type">
-            <option value="">Select type...</option>
-            <option>Hotel / Resort</option>
-            <option>Restaurant / Cafe</option>
-            <option>Shop / Supermarket</option>
-            <option>Clinic / Pharmacy</option>
-            <option>Salon / Spa</option>
-            <option>School / College</option>
-            <option>Freelancer</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="o-row">
-        <div>
-          <label class="o-label">Tagline / Short Description</label>
-          <input class="o-input" type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch">
-        </div>
-        <div>
-          <label class="o-label">Opening Hours</label>
-          <input class="o-input" type="text" id="o-hours" placeholder="e.g. Mon–Sat 8am–9pm">
-        </div>
-      </div>
-      <label class="o-label">Phone Number *</label>
-      <div class="phone-row">
-        <input class="o-input" type="tel" id="o-phone" placeholder="+251...">
-      </div>
-      <div id="extra-phones"></div>
-      <button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button>
+      <div class="designer-grid">
+        <!-- LEFT: INPUTS -->
+        <div class="designer-inputs">
+          
+          <!-- Business Info -->
+          <div class="form-sec">Business Information</div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Business / Your Name *</label>
+              <input class="o-input" type="text" id="o-biz" placeholder="e.g. Lante Hotel" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Business Type *</label>
+              <select class="o-input" id="o-type" onchange="updateDesignerPreview()">
+                <option value="">Select type...</option>
+                <option>Hotel / Resort</option>
+                <option>Restaurant / Cafe</option>
+                <option>Shop / Supermarket</option>
+                <option>Clinic / Pharmacy</option>
+                <option>Salon / Spa</option>
+                <option>School / College</option>
+                <option>Freelancer</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Tagline / Short Description</label>
+              <input class="o-input" type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Opening Hours</label>
+              <input class="o-input" type="text" id="o-hours" placeholder="e.g. Mon–Sat 8am–9pm" oninput="updateDesignerPreview()">
+            </div>
+          </div>
+          <label class="o-label">Phone Number *</label>
+          <div class="phone-row">
+            <input class="o-input" type="tel" id="o-phone" placeholder="+251..." oninput="updateDesignerPreview()">
+          </div>
+          <div id="extra-phones"></div>
+          <button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button>
 
-      <!-- Photos -->
-      <div class="form-sec">Photos</div>
-      <div class="photo-uploads">
-        <div class="photo-upload" onclick="document.getElementById('up-cover').click()">
-          <input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)">
-          <div class="pu-icon">🖼</div>
-          <div class="pu-label">Cover Photo</div>
-          <div class="pu-sub">Banner image</div>
-          <img class="photo-preview" id="prev-cover">
-        </div>
-        <div class="photo-upload" onclick="document.getElementById('up-avatar').click()">
-          <input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)">
-          <div class="pu-icon">👤</div>
-          <div class="pu-label">Profile Photo</div>
-          <div class="pu-sub">Circular avatar</div>
-          <img class="photo-preview circle" id="prev-avatar">
-        </div>
-        <div class="photo-upload" onclick="document.getElementById('up-logo').click()">
-          <input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)">
-          <div class="pu-icon">🏢</div>
-          <div class="pu-label">Logo</div>
-          <div class="pu-sub">Company logo</div>
-          <img class="photo-preview" id="prev-logo">
-        </div>
-      </div>
+          <!-- Design Physical Card -->
+          <div class="form-sec">Design Your NFC Card</div>
+          <div class="o-form-group">
+            <label class="o-label">Select Card Background Color</label>
+            <div class="color-options">
+              <div class="color-opt active" style="background:#0A1628" onclick="setCardColor('#0A1628', this)" title="Deep Navy"></div>
+              <div class="color-opt" style="background:#111827" onclick="setCardColor('#111827', this)" title="Matte Black"></div>
+              <div class="color-opt" style="background:#1E3F20" onclick="setCardColor('#1E3F20', this)" title="Forest Green"></div>
+              <div class="color-opt" style="background:#7F1D1D" onclick="setCardColor('#7F1D1D', this)" title="Crimson Red"></div>
+              <div class="color-opt" style="background:#4C1D95" onclick="setCardColor('#4C1D95', this)" title="Royal Purple"></div>
+              <div class="color-opt" style="background:#C9922A" onclick="setCardColor('#C9922A', this)" title="Classic Gold"></div>
+              <div class="color-opt custom-picker-btn" style="background:linear-gradient(45deg, red, blue)" title="Custom Color">
+                <input type="color" id="card-color-picker" style="opacity:0;position:absolute;width:100%;height:100%;cursor:pointer;" onchange="setCardColor(this.value, this.parentElement)">
+              </div>
+            </div>
+          </div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Name Printed on Card</label>
+              <input class="o-input" type="text" id="o-card-text" placeholder="Defaults to Business Name" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Logo Display</label>
+              <select class="o-input" id="o-card-logo-opt" onchange="updateDesignerPreview()">
+                <option value="both">Show Logo & Name</option>
+                <option value="logo">Show Logo Only</option>
+                <option value="name">Show Name Only</option>
+              </select>
+            </div>
+          </div>
 
-      <!-- Links -->
-      <div class="form-sec">Your Links & Social Media</div>
-      <div class="plat-group-label">Messaging</div>
-      <div class="platform-grid">
-        <div class="platform-row"><span class="p-icon">💬</span><input type="text" id="o-whatsapp" placeholder="WhatsApp (+251...)"></div>
-        <div class="platform-row"><span class="p-icon">✈️</span><input type="text" id="o-telegram" placeholder="Telegram (@username)"></div>
-      </div>
-      <div class="plat-group-label">Social Media</div>
-      <div class="platform-grid">
-        <div class="platform-row"><span class="p-icon">📘</span><input type="text" id="o-facebook" placeholder="Facebook URL"></div>
-        <div class="platform-row"><span class="p-icon">📸</span><input type="text" id="o-instagram" placeholder="Instagram (@username)"></div>
-        <div class="platform-row"><span class="p-icon">🎵</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)"></div>
-        <div class="platform-row"><span class="p-icon">▶️</span><input type="text" id="o-youtube" placeholder="YouTube URL"></div>
-        <div class="platform-row"><span class="p-icon">🐦</span><input type="text" id="o-twitter" placeholder="Twitter/X (@username)"></div>
-        <div class="platform-row"><span class="p-icon">👻</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)"></div>
-        <div class="platform-row"><span class="p-icon">💼</span><input type="text" id="o-linkedin" placeholder="LinkedIn URL"></div>
-      </div>
-      <div class="plat-group-label">Business & Discovery</div>
-      <div class="platform-grid">
-        <div class="platform-row"><span class="p-icon">📍</span><input type="text" id="o-maps" placeholder="Google Maps link"></div>
-        <div class="platform-row"><span class="p-icon">🌐</span><input type="text" id="o-website" placeholder="Website URL"></div>
-        <div class="platform-row"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link"></div>
-      </div>
+          <!-- Photos -->
+          <div class="form-sec">Photos & Assets</div>
+          <div class="photo-uploads">
+            <div class="photo-upload" onclick="document.getElementById('up-cover').click()">
+              <input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)">
+              <div class="pu-icon">🖼</div>
+              <div class="pu-label">Cover Photo</div>
+              <div class="pu-sub">Banner image</div>
+              <img class="photo-preview" id="prev-cover">
+            </div>
+            <div class="photo-upload" onclick="document.getElementById('up-avatar').click()">
+              <input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)">
+              <div class="pu-icon">👤</div>
+              <div class="pu-label">Profile Photo</div>
+              <div class="pu-sub">Circular avatar</div>
+              <img class="photo-preview circle" id="prev-avatar">
+            </div>
+            <div class="photo-upload" onclick="document.getElementById('up-logo').click()">
+              <input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)">
+              <div class="pu-icon">🏢</div>
+              <div class="pu-label">Logo</div>
+              <div class="pu-sub">Company logo</div>
+              <img class="photo-preview" id="prev-logo">
+            </div>
+          </div>
 
-      <!-- Notes -->
-      <div class="form-sec">Additional Notes</div>
-      <textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items, card design preferences..."></textarea>
+          <!-- Links -->
+          <div class="form-sec">Your Links & Social Media</div>
+          <div class="plat-group-label">Messaging</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">💬</span><input type="text" id="o-whatsapp" placeholder="WhatsApp (+251...)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">✈️</span><input type="text" id="o-telegram" placeholder="Telegram (@username)" oninput="updateDesignerPreview()"></div>
+          </div>
+          <div class="plat-group-label">Social Media</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">📘</span><input type="text" id="o-facebook" placeholder="Facebook URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">📸</span><input type="text" id="o-instagram" placeholder="Instagram (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🎵</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">▶️</span><input type="text" id="o-youtube" placeholder="YouTube URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🐦</span><input type="text" id="o-twitter" placeholder="Twitter/X (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">👻</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">💼</span><input type="text" id="o-linkedin" placeholder="LinkedIn URL" oninput="updateDesignerPreview()"></div>
+          </div>
+          <div class="plat-group-label">Business & Discovery</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">📍</span><input type="text" id="o-maps" placeholder="Google Maps link" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🌐</span><input type="text" id="o-website" placeholder="Website URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link" oninput="updateDesignerPreview()"></div>
+          </div>
 
-      <div class="btn-row">
-        <button class="btn-back" onclick="goStep(1)">Back</button>
-        <button class="btn-next" onclick="goStep(3)">Continue →</button>
+          <!-- Notes -->
+          <div class="form-sec">Additional Notes</div>
+          <textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items, card design preferences..."></textarea>
+
+          <div class="btn-row">
+            <button class="btn-back" onclick="goStep(1)">Back</button>
+            <button class="btn-next" onclick="goStep(3)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: PREVIEW -->
+        <div class="designer-preview-wrap">
+          <div class="preview-tabs">
+            <button type="button" class="preview-tab-btn active" id="tab-btn-profile" onclick="switchPreviewTab('profile')">📱 Live Profile</button>
+            <button type="button" class="preview-tab-btn" id="tab-btn-card" onclick="switchPreviewTab('card')">💳 Physical Card</button>
+          </div>
+
+          <!-- Digital Profile Preview (Phone) -->
+          <div class="preview-phone-wrap" id="preview-panel-profile">
+            <div class="preview-phone">
+              <div class="preview-screen">
+                <div class="preview-header-img-wrap" id="phone-preview-cover-wrap" style="height:90px; background:#e2e8f0; position:relative; overflow:hidden;">
+                  <img id="phone-preview-cover" style="width:100%; height:100%; object-fit:cover; display:none;">
+                </div>
+                <div class="preview-header" id="phone-preview-header" style="background:#0A1628; padding: 1rem 0.75rem 0.5rem; text-align:center; position:relative; margin-top:-35px; transition: background-color 0.3s;">
+                  <div class="preview-avatar-wrap" style="display:flex; justify-content:space-between; align-items:flex-end; padding:0 0.5rem; margin-bottom:0.5rem;">
+                    <div class="preview-avatar" id="phone-preview-avatar" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--white); background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--white); overflow:hidden;">
+                      <span id="phone-preview-avatar-letter">T</span>
+                      <img id="phone-preview-avatar-img" style="width:100%; height:100%; object-fit:cover; display:none;">
+                    </div>
+                    <div class="preview-logo-box" style="width:60px; height:40px; border-radius:6px; border:2px solid var(--white); background:var(--white); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                      <span id="phone-preview-logo-text" style="font-size:0.5rem; color:var(--mid); font-weight:700;">LOGO</span>
+                      <img id="phone-preview-logo-img" style="width:100%; height:100%; object-fit:contain; padding:2px; display:none;">
+                    </div>
+                  </div>
+                  <div class="preview-name" id="phone-preview-name" style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business Name</div>
+                  <div style="font-size:0.6rem; color:var(--gold-light); margin-top:2px;" id="phone-preview-type">Business Type</div>
+                  <div class="preview-tagline" id="phone-preview-tagline" style="font-size:0.65rem; color:rgba(255,255,255,0.6); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Your tagline here</div>
+                </div>
+                <div style="padding:0.75rem">
+                  <div class="preview-btns" id="phone-preview-links" style="display:grid; grid-template-columns: repeat(4,1fr); gap:6px;">
+                    <!-- Links populated dynamically by JS -->
+                  </div>
+                  <div style="margin-top:0.75rem;padding:0.4rem;background:#F3F4F6;border-radius:6px;font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;letter-spacing:1px">Business Info</div>
+                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280; border-bottom: 1px solid #f3f4f6;" id="phone-preview-info-hours">🕐 Open: Mon–Sat 8am–9pm</div>
+                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280;" id="phone-preview-info-location">📍 Arba Minch, Ethiopia</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Physical Card Preview -->
+          <div class="preview-card-wrap" id="preview-panel-card" style="display:none; padding:2rem 0;">
+            <div class="preview-card" id="card-mockup">
+              <div class="card-shine"></div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+                <div class="card-nfc-chip"></div>
+                <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
+              </div>
+              
+              <div class="card-logo-area">
+                <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
+                <img class="card-logo-img" id="card-mockup-logo-img">
+                <div style="display:flex; flex-direction:column; min-width:0;">
+                  <div class="card-name-text" id="card-mockup-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business</div>
+                  <div class="card-tap-hint" id="card-mockup-hint">Tioflos NFC</div>
+                </div>
+              </div>
+            </div>
+            <p style="text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:1.5rem;">Front side design. Rounded corner card with premium matte coating.</p>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -375,9 +588,10 @@ function toggleMenu() {
 
 let selectedPkg = '', selectedPay = '', phoneCount = 1;
 let photoData = { cover:'', avatar:'', logo:'', screenshot:'' };
+let selectedCardColor = '#0A1628';
 
 function goStep(n) {
-  // Validate step 2
+  // Validate step 2 inputs
   if (n === 3) {
     var b = document.getElementById('o-biz').value.trim();
     var t = document.getElementById('o-type').value;
@@ -396,6 +610,11 @@ function goStep(n) {
   document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('step' + n).classList.add('active');
   updateProgress(n);
+  
+  if (n === 2) {
+    updateDesignerPreview();
+  }
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -443,7 +662,7 @@ function addPhone() {
   phoneCount++;
   var d = document.createElement('div');
   d.className = 'phone-row';
-  d.innerHTML = '<input class="o-input" type="tel" placeholder="+251... (Phone ' + phoneCount + ')"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;">✕</button>';
+  d.innerHTML = '<input class="o-input" type="tel" placeholder="+251... (Phone ' + phoneCount + ')" oninput="updateDesignerPreview()"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;updateDesignerPreview();">✕</button>';
   document.getElementById('extra-phones').appendChild(d);
 }
 
@@ -451,11 +670,37 @@ function previewPhoto(input, previewId, isCircle) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function(e) {
+      // 1. Set the preview image in the upload form
       var img = document.getElementById(previewId);
       img.src = e.target.result;
       img.style.display = 'block';
+      
       var key = input.id === 'up-cover' ? 'cover' : input.id === 'up-avatar' ? 'avatar' : 'logo';
       photoData[key] = e.target.result;
+
+      // 2. Set the preview image in the Live Mockups
+      if (key === 'cover') {
+        const coverImg = document.getElementById('phone-preview-cover');
+        coverImg.src = e.target.result;
+        coverImg.style.display = 'block';
+      } else if (key === 'avatar') {
+        const avatarImg = document.getElementById('phone-preview-avatar-img');
+        avatarImg.src = e.target.result;
+        avatarImg.style.display = 'block';
+        document.getElementById('phone-preview-avatar-letter').style.display = 'none';
+      } else if (key === 'logo') {
+        // Update Phone logo preview
+        const logoImg = document.getElementById('phone-preview-logo-img');
+        logoImg.src = e.target.result;
+        logoImg.style.display = 'block';
+        document.getElementById('phone-preview-logo-text').style.display = 'none';
+
+        // Update Card logo preview
+        const cardLogoImg = document.getElementById('card-mockup-logo-img');
+        cardLogoImg.src = e.target.result;
+        cardLogoImg.style.display = 'block';
+        document.getElementById('card-mockup-logo-placeholder').style.display = 'none';
+      }
     };
     reader.readAsDataURL(input.files[0]);
   }
@@ -474,6 +719,152 @@ function previewScreenshot(input) {
   }
 }
 
+/* Card color selection logic */
+function setCardColor(color, el) {
+  selectedCardColor = color;
+  document.querySelectorAll('.color-opt').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  
+  // Update Physical Card Mockup background color
+  document.getElementById('card-mockup').style.backgroundColor = color;
+  
+  // If the color is very light, adjust card details text color to navy/black, otherwise keep white
+  const isLight = isColorLight(color);
+  const cardNameText = document.getElementById('card-mockup-name');
+  if (isLight) {
+    cardNameText.style.color = '#0A1628';
+    document.getElementById('card-mockup-wave').style.color = 'rgba(10,22,40,0.3)';
+    document.getElementById('card-mockup-hint').style.color = 'rgba(10,22,40,0.4)';
+  } else {
+    cardNameText.style.color = '#FFFFFF';
+    document.getElementById('card-mockup-wave').style.color = 'rgba(255,255,255,0.3)';
+    document.getElementById('card-mockup-hint').style.color = 'rgba(255,255,255,0.4)';
+  }
+
+  // Update Phone Screen Mockup Header background color for visual symmetry
+  const phoneHeader = document.getElementById('phone-preview-header');
+  if (phoneHeader) {
+    phoneHeader.style.backgroundColor = color;
+  }
+}
+
+// Simple color brightness checker
+function isColorLight(hex) {
+  if (hex.startsWith('#')) hex = hex.substring(1);
+  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 180;
+}
+
+/* Switches preview tabs on the right preview block */
+function switchPreviewTab(tab) {
+  document.querySelectorAll('.preview-tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('preview-panel-profile').style.display = 'none';
+  document.getElementById('preview-panel-card').style.display = 'none';
+  
+  if (tab === 'profile') {
+    document.getElementById('tab-btn-profile').classList.add('active');
+    document.getElementById('preview-panel-profile').style.display = 'block';
+  } else if (tab === 'card') {
+    document.getElementById('tab-btn-card').classList.add('active');
+    document.getElementById('preview-panel-card').style.display = 'block';
+  }
+}
+
+/* Dynamic Live rendering of inputs */
+function updateDesignerPreview() {
+  const bizName = document.getElementById('o-biz').value.trim() || 'Your Business Name';
+  const bizType = document.getElementById('o-type').value || 'Business Type';
+  const tagline = document.getElementById('o-tagline').value.trim() || 'Your tagline here';
+  const hours = document.getElementById('o-hours').value.trim() || 'Mon–Sat 8am–9pm';
+  const customCardText = document.getElementById('o-card-text').value.trim();
+  const cardText = customCardText || bizName;
+  const logoOpt = document.getElementById('o-card-logo-opt').value;
+
+  // Update Phone preview text
+  document.getElementById('phone-preview-name').textContent = bizName;
+  document.getElementById('phone-preview-type').textContent = bizType;
+  document.getElementById('phone-preview-tagline').textContent = tagline;
+  document.getElementById('phone-preview-info-hours').textContent = '🕐 Open: ' + hours;
+
+  // Avatar text letter backup
+  if (!photoData.avatar) {
+    document.getElementById('phone-preview-avatar-letter').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
+    document.getElementById('phone-preview-avatar-letter').style.display = 'block';
+    document.getElementById('phone-preview-avatar-img').style.display = 'none';
+  } else {
+    document.getElementById('phone-preview-avatar-letter').style.display = 'none';
+    document.getElementById('phone-preview-avatar-img').style.display = 'block';
+  }
+
+  // Logo box text logo backup on phone preview
+  if (!photoData.logo) {
+    document.getElementById('phone-preview-logo-text').style.display = 'block';
+    document.getElementById('phone-preview-logo-img').style.display = 'none';
+  } else {
+    document.getElementById('phone-preview-logo-text').style.display = 'none';
+    document.getElementById('phone-preview-logo-img').style.display = 'block';
+  }
+
+  // Card preview text
+  document.getElementById('card-mockup-name').textContent = cardText;
+  document.getElementById('card-mockup-logo-placeholder').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
+
+  // Card logo display logic
+  const cardLogoPlaceholder = document.getElementById('card-mockup-logo-placeholder');
+  const cardLogoImg = document.getElementById('card-mockup-logo-img');
+  
+  if (logoOpt === 'name') {
+    cardLogoPlaceholder.style.display = 'none';
+    cardLogoImg.style.display = 'none';
+    document.getElementById('card-mockup-name').style.display = 'block';
+  } else if (logoOpt === 'logo') {
+    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
+    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
+    document.getElementById('card-mockup-name').style.display = 'none';
+  } else { // both
+    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
+    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
+    document.getElementById('card-mockup-name').style.display = 'block';
+  }
+
+  // Update Active Social Links on Phone Preview
+  const linksContainer = document.getElementById('phone-preview-links');
+  linksContainer.innerHTML = '';
+
+  const platforms = [
+    { id: 'o-whatsapp', name: 'WhatsApp', icon: '💬' },
+    { id: 'o-telegram', name: 'Telegram', icon: '✈️' },
+    { id: 'o-facebook', name: 'Facebook', icon: '📘' },
+    { id: 'o-instagram', name: 'Instagram', icon: '📸' },
+    { id: 'o-tiktok', name: 'TikTok', icon: '🎵' },
+    { id: 'o-youtube', name: 'YouTube', icon: '▶️' },
+    { id: 'o-twitter', name: 'Twitter/X', icon: '🐦' },
+    { id: 'o-snapchat', name: 'Snapchat', icon: '👻' },
+    { id: 'o-linkedin', name: 'LinkedIn', icon: '💼' },
+    { id: 'o-maps', name: 'Maps', icon: '📍' },
+    { id: 'o-website', name: 'Website', icon: '🌐' },
+    { id: 'o-tripadvisor', name: 'TripAdvisor', icon: '⭐' }
+  ];
+
+  platforms.forEach(p => {
+    const val = document.getElementById(p.id).value.trim();
+    if (val) {
+      const btn = document.createElement('div');
+      btn.className = 'preview-phone-btn';
+      btn.innerHTML = `<span class="preview-phone-icon">${p.icon}</span><span class="preview-phone-label">${p.name}</span>`;
+      linksContainer.appendChild(btn);
+    }
+  });
+
+  if (linksContainer.children.length === 0) {
+    linksContainer.innerHTML = '<div style="grid-column: span 4; font-size: 0.55rem; color: #9CA3AF; text-align: center; padding: 0.5rem 0;">(Your social links will appear here)</div>';
+  }
+}
+
 function submitOrder() {
   if (!selectedPay) { alert('Please select a payment method.'); return; }
   if (!photoData.screenshot) { alert('Please upload your payment screenshot.'); return; }
@@ -487,6 +878,10 @@ function submitOrder() {
   var extras  = document.querySelectorAll('#extra-phones input');
   var phone2  = extras[0] ? extras[0].value.trim() : '';
   var phone3  = extras[1] ? extras[1].value.trim() : '';
+
+  var customCardText = document.getElementById('o-card-text').value.trim();
+  var printedName = customCardText || biz;
+  var cardLogoOpt = document.getElementById('o-card-logo-opt').value;
 
   var order = {
     id: 'ORD-' + Date.now(),
@@ -520,6 +915,9 @@ function submitOrder() {
     avatarPhoto:     photoData.avatar,
     logoPhoto:       photoData.logo,
     screenshotPhoto: photoData.screenshot,
+    cardColor:       selectedCardColor,
+    cardText:        printedName,
+    cardLogoOpt:     cardLogoOpt,
     status: 'Pending',
     paid: false,
     profileLink: ''
@@ -537,6 +935,29 @@ function submitOrder() {
 
   goStep(4);
 }
+
+// Auto-fill package from URL query string if provided
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  const pkg = params.get('pkg');
+  if (pkg) {
+    let pkgCard = null;
+    let pkgNameVal = '';
+    if (pkg === 'starter') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(1)');
+      pkgNameVal = 'Starter - 800 ETB';
+    } else if (pkg === 'business') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(2)');
+      pkgNameVal = 'Business - 4,000 ETB';
+    } else if (pkg === 'premium') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(3)');
+      pkgNameVal = 'Premium - 12,000 ETB';
+    }
+    if (pkgCard) {
+      selectPkg(pkgCard, pkgNameVal);
+    }
+  }
+};
 </script>
 </body>
 </html>
