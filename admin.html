@@ -510,9 +510,9 @@ function deleteOrder(id) {
 
 function addDemoOrder() {
   const demos = [
-    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 2,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
-    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 500 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
-    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 2,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
+    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
+    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 800 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
+    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
   ];
   const d = demos[Math.floor(Math.random() * demos.length)];
   const order = {
@@ -526,11 +526,11 @@ function addDemoOrder() {
   const orders = getOrders();
   
   // Set prices and cardQty based on package
-  let baseP = 500, extraP = 500, baseQ = 1;
+  let baseP = 800, extraP = 500, baseQ = 1;
   if (d.pkg.toLowerCase().includes('business')) {
-    baseP = 2000; extraP = 400; baseQ = 5;
+    baseP = 4000; extraP = 2000; baseQ = 5;
   } else if (d.pkg.toLowerCase().includes('premium')) {
-    baseP = 4000; extraP = 400; baseQ = 10;
+    baseP = 12000; extraP = 4000; baseQ = 10;
   }
   
   const cardQty = baseQ;
@@ -649,11 +649,11 @@ function saveEditOrder() {
   o.notes = document.getElementById('edit-notes').value.trim();
 
   // Re-calculate pricing if changed
-  let baseP = 500, extraP = 500, baseQ = 1;
+  let baseP = 800, extraP = 500, baseQ = 1;
   if (o.pkg.toLowerCase().includes('business')) {
-    baseP = 2000; extraP = 400; baseQ = 5;
+    baseP = 4000; extraP = 2000; baseQ = 5;
   } else if (o.pkg.toLowerCase().includes('premium')) {
-    baseP = 4000; extraP = 400; baseQ = 10;
+    baseP = 12000; extraP = 4000; baseQ = 10;
   }
   
   let total = baseP;

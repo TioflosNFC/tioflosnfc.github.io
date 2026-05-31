@@ -290,26 +290,26 @@
       <h1 class="step-title">Choose Your Package</h1>
       <p class="step-sub">Select the package that fits your business needs.</p>
       <div class="pkg-grid">
-        <div class="pkg-card" onclick="selectPkg(this,'Starter - 500 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Starter - 800 ETB')">
           <div class="pkg-icon">⬜</div>
           <div class="pkg-name">Starter</div>
-          <div class="pkg-price">500 ETB</div>
+          <div class="pkg-price">800 ETB</div>
           <div class="pkg-desc">1 NFC Card (blank) + Digital profile setup</div>
           <div class="pkg-tag">Blank card</div>
         </div>
-        <div class="pkg-card" onclick="selectPkg(this,'Business - 2,000 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Business - 4,000 ETB')">
           <div class="pkg-popular">Most Popular</div>
           <div class="pkg-icon">🎨</div>
           <div class="pkg-name">Business</div>
-          <div class="pkg-price">2,000 ETB</div>
+          <div class="pkg-price">4,000 ETB</div>
           <div class="pkg-desc">5 NFC Cards (custom printed) + Full profile + branding</div>
           <div class="pkg-tag">Custom print</div>
         </div>
-        <div class="pkg-card" onclick="selectPkg(this,'Premium - 4,000 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Premium - 12,000 ETB')">
           <div class="pkg-icon">⭐</div>
           <div class="pkg-name">Premium</div>
-          <div class="pkg-price">4,000 ETB</div>
-          <div class="pkg-desc">10 NFC Cards (custom printed) + Full branding + 6 months support</div>
+          <div class="pkg-price">12,000 ETB</div>
+          <div class="pkg-desc">10+ NFC Cards (custom printed) + Full branding + 6 months support</div>
           <div class="pkg-tag">Custom print</div>
         </div>
       </div>
@@ -581,7 +581,7 @@
           </div>
         </div>
         <div id="extra-cards-notice" style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; line-height:1.4;">
-          Business package includes 5 cards. Extra custom-printed cards cost 400 ETB each.
+          Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.
         </div>
       </div>
 
@@ -675,22 +675,22 @@ function goStep(n) {
   if (n === 3) {
     if (selectedPkg.startsWith('Starter')) {
       baseQty = 1;
-      basePrice = 500;
+      basePrice = 800;
       extraPrice = 500;
       document.getElementById('qty-desc-text').textContent = 'Includes 1 blank card';
       document.getElementById('extra-cards-notice').textContent = 'Starter package includes 1 card. Extra blank cards cost 500 ETB each.';
     } else if (selectedPkg.startsWith('Business')) {
       baseQty = 5;
-      basePrice = 2000;
-      extraPrice = 400;
+      basePrice = 4000;
+      extraPrice = 2000;
       document.getElementById('qty-desc-text').textContent = 'Includes 5 custom cards';
-      document.getElementById('extra-cards-notice').textContent = 'Business package includes 5 cards. Extra custom-printed cards cost 400 ETB each.';
+      document.getElementById('extra-cards-notice').textContent = 'Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.';
     } else if (selectedPkg.startsWith('Premium')) {
       baseQty = 10;
-      basePrice = 4000;
-      extraPrice = 400;
+      basePrice = 12000;
+      extraPrice = 4000;
       document.getElementById('qty-desc-text').textContent = 'Includes 10 custom cards';
-      document.getElementById('extra-cards-notice').textContent = 'Premium package includes 10 cards. Extra custom-printed cards cost 400 ETB each.';
+      document.getElementById('extra-cards-notice').textContent = 'Premium package includes 10 cards. Extra custom-printed cards cost 4,000 ETB each.';
     }
     cardQty = baseQty;
     calculatePrice();
@@ -1379,13 +1379,13 @@ window.onload = function() {
     let pkgNameVal = '';
     if (pkg === 'starter') {
       pkgCard = document.querySelector('.pkg-card:nth-child(1)');
-      pkgNameVal = 'Starter - 500 ETB';
+      pkgNameVal = 'Starter - 800 ETB';
     } else if (pkg === 'business') {
       pkgCard = document.querySelector('.pkg-card:nth-child(2)');
-      pkgNameVal = 'Business - 2,000 ETB';
+      pkgNameVal = 'Business - 4,000 ETB';
     } else if (pkg === 'premium') {
       pkgCard = document.querySelector('.pkg-card:nth-child(3)');
-      pkgNameVal = 'Premium - 4,000 ETB';
+      pkgNameVal = 'Premium - 12,000 ETB';
     }
     if (pkgCard) {
       selectPkg(pkgCard, pkgNameVal);
