@@ -255,6 +255,7 @@
             <th>Business</th>
             <th>Package</th>
             <th>Payment</th>
+            <th>Screenshot</th>
             <th>Status</th>
             <th>Paid</th>
             <th>Profile Link</th>
@@ -398,6 +399,14 @@ function renderOrders() {
         </td>
         <td>${o.pkg || '—'}</td>
         <td>${o.pay || '—'}</td>
+        <td>
+          ${o.screenshotPhoto
+            ? `<a href="${o.screenshotPhoto}" target="_blank">
+                <img src="${o.screenshotPhoto}" style="width:60px;height:44px;object-fit:cover;border-radius:6px;border:1px solid rgba(201,146,42,0.4);cursor:pointer;" title="Click to view full screenshot">
+               </a>`
+            : `<span style="font-size:0.7rem;color:rgba(255,255,255,0.3);">No screenshot</span>`
+          }
+        </td>
         <td><span class="badge ${statusClass}">${o.status}</span></td>
         <td><span class="badge ${o.paid ? 'badge-paid' : 'badge-unpaid'}">${o.paid ? '✓ Paid' : 'Unpaid'}</span></td>
         <td>

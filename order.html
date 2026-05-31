@@ -234,9 +234,12 @@
     <span>Tioflos NFC</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#demo">Demo</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="order.html" class="active">Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <a class="nav-cta" href="order.html">Order Now</a>
   <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
@@ -246,9 +249,12 @@
 
 <div class="mobile-menu" id="mobile-menu">
   <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html#how" onclick="toggleMenu()">How It Works</a></li>
+    <li><a href="index.html#demo" onclick="toggleMenu()">Demo</a></li>
+    <li><a href="index.html#pricing" onclick="toggleMenu()">Pricing</a></li>
+    <li><a href="index.html#gallery" onclick="toggleMenu()">Gallery</a></li>
+    <li><a href="order.html">Order</a></li>
+    <li><a href="index.html#contact" onclick="toggleMenu()">Contact</a></li>
   </ul>
   <a class="mob-cta" href="order.html">Order Now</a>
 </div>
@@ -922,6 +928,34 @@ function submitOrder() {
     paid: false,
     profileLink: ''
   };
+
+  // Auto-generate profile link from order data
+  var profileParams = new URLSearchParams();
+  profileParams.set('name', biz);
+  if (type)    profileParams.set('type', type);
+  if (tagline) profileParams.set('tagline', tagline);
+  if (phone)   profileParams.set('phone', phone);
+  if (phone2)  profileParams.set('phone2', phone2);
+  if (phone3)  profileParams.set('phone3', phone3);
+  if (hours)   profileParams.set('hours', hours);
+  profileParams.set('color', selectedCardColor || '#0A1628');
+  // Add platform links
+  var plats = order.platforms;
+  if (plats.whatsapp)    profileParams.set('whatsapp', plats.whatsapp);
+  if (plats.telegram)    profileParams.set('telegram', plats.telegram);
+  if (plats.facebook)    profileParams.set('facebook', plats.facebook);
+  if (plats.instagram)   profileParams.set('instagram', plats.instagram);
+  if (plats.tiktok)      profileParams.set('tiktok', plats.tiktok);
+  if (plats.youtube)     profileParams.set('youtube', plats.youtube);
+  if (plats.twitter)     profileParams.set('twitter', plats.twitter);
+  if (plats.snapchat)    profileParams.set('snapchat', plats.snapchat);
+  if (plats.linkedin)    profileParams.set('linkedin', plats.linkedin);
+  if (plats.maps)        profileParams.set('maps', plats.maps);
+  if (plats.website)     profileParams.set('website', plats.website);
+  if (plats.tripadvisor) profileParams.set('tripadvisor', plats.tripadvisor);
+  // Build the full profile URL
+  var baseUrl = window.location.origin + window.location.pathname.replace('order.html', '');
+  order.profileLink = baseUrl + 'profile.html?' + profileParams.toString();
 
   var orders = JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
   orders.unshift(order);
