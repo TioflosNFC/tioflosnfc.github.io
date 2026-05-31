@@ -1,8 +1,542 @@
-﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Order - Tioflos NFC</title><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><style>.order-page{background:var(--navy);min-height:100vh;padding-top:68px}.order-container{max-width:720px;margin:0 auto;padding:3rem 5%}.progress-bar{display:flex;align-items:center;justify-content:center;margin-bottom:3rem}.progress-step{display:flex;flex-direction:column;align-items:center;gap:.4rem}.progress-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;font-size:.9rem;border:2px solid rgba(201,146,42,.3);color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);transition:all .3s}.progress-circle.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}.progress-circle.done{background:var(--gold);border-color:var(--gold);color:var(--navy)}.progress-label{font-size:.62rem;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:1px}.progress-label.active{color:var(--gold-light)}.progress-line{width:50px;height:2px;background:rgba(201,146,42,.2);margin-bottom:1.2rem}.progress-line.done{background:var(--gold)}.step-panel{display:none}.step-panel.active{display:block}.step-title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:var(--white);margin-bottom:.5rem}.step-sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;line-height:1.7}.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}.pkg-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem 1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative;background:rgba(255,255,255,.03)}.pkg-card:hover{border-color:rgba(201,146,42,.5)}.pkg-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}.pkg-popular{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.6rem;font-weight:700;padding:.2rem .7rem;border-radius:100px;text-transform:uppercase;white-space:nowrap}.pkg-icon{font-size:2rem;margin-bottom:.5rem}.pkg-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}.pkg-price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}.pkg-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.5}.pkg-tag{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.4rem}.form-sec{font-family:Syne,sans-serif;font-weight:700;font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:2px;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,146,42,.2)}.o-label{display:block;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:.4rem}.o-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(201,146,42,.25);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.9rem;background:rgba(255,255,255,.06);color:var(--white);outline:none;transition:border-color .2s;margin-bottom:1.25rem}.o-input::placeholder{color:rgba(255,255,255,.25)}.o-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,146,42,.15)}.o-input option{background:var(--navy)}.o-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.phone-row{display:flex;gap:.5rem;align-items:center;margin-bottom:1.25rem}.phone-row .o-input{margin-bottom:0;flex:1}.remove-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#EF4444;font-size:.8rem;padding:.5rem .75rem;cursor:pointer;font-weight:700;white-space:nowrap}.add-phone-btn{background:none;border:1px dashed rgba(201,146,42,.4);border-radius:8px;color:var(--gold-light);font-size:.78rem;font-weight:700;padding:.4rem .85rem;cursor:pointer;font-family:Syne,sans-serif;margin-bottom:1.25rem}.photo-uploads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem}.photo-upload{border:2px dashed rgba(201,146,42,.3);border-radius:12px;padding:1rem .5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);position:relative}.photo-upload:hover{border-color:var(--gold)}.photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.pu-icon{font-size:1.5rem;margin-bottom:.3rem}.pu-label{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.6)}.pu-sub{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.2rem}.photo-preview{width:100%;height:60px;object-fit:cover;border-radius:8px;display:none;margin-top:.5rem}.photo-preview.circle{border-radius:50%;width:50px;height:50px;margin:.5rem auto 0}.plat-group-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}.platform-row{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,146,42,.2);border-radius:8px;padding:.55rem .75rem;transition:border-color .2s}.platform-row:focus-within{border-color:var(--gold)}.platform-row .p-icon{font-size:1.1rem;flex-shrink:0}.platform-row input{border:none;background:none;padding:0;margin:0;font-size:.82rem;color:var(--white);width:100%;outline:none}.platform-row input::placeholder{color:rgba(255,255,255,.25)}.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}.pay-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s;text-align:center;background:rgba(255,255,255,.03)}.pay-card:hover{border-color:rgba(201,146,42,.5)}.pay-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}.pay-icon{font-size:2rem;margin-bottom:.5rem}.pay-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}.pay-num{font-size:.82rem;color:var(--gold);font-weight:600}.pay-details{display:none;background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.3);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}.pay-details.show{display:block}.pay-details h4{font-size:.9rem;font-weight:700;color:var(--gold-light);margin-bottom:.75rem}.pay-details p{font-size:.875rem;color:rgba(255,255,255,.7);line-height:1.75}.acct{font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:1px}.screenshot-upload{border:2px dashed rgba(201,146,42,.35);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;position:relative}.screenshot-upload:hover{border-color:var(--gold)}.screenshot-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.su-icon{font-size:2rem;margin-bottom:.5rem}.su-text{font-size:.875rem;color:rgba(255,255,255,.6)}.su-text strong{color:var(--gold-light)}#screenshot-preview{max-width:200px;border-radius:8px;border:1px solid rgba(201,146,42,.3);display:none;margin:1rem auto 0}.price-summary{background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.25);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}.ps-label{font-size:.85rem;color:rgba(255,255,255,.6)}.ps-pkg{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white)}.ps-price{font-family:Syne,sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold)}.btn-row{display:flex;gap:1rem;margin-top:1.5rem}.btn-next{flex:1;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:Syne,sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s}.btn-next:hover{background:var(--gold-light)}.btn-next:disabled{opacity:.4;cursor:not-allowed}.btn-back{padding:1rem 1.5rem;background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;font-family:Syne,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}.btn-back:hover{border-color:rgba(255,255,255,.5);color:var(--white)}.success-screen{text-align:center;padding:2rem 0}.success-icon{font-size:4rem;margin-bottom:1rem}.success-screen h2{font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:1rem}.success-screen p{color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:2rem;font-size:1rem}.summary-box{background:rgba(255,255,255,.05);border:1px solid rgba(201,146,42,.2);border-radius:14px;padding:1.5rem;margin-bottom:2rem;text-align:left}.summary-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.875rem}.summary-row:last-child{border-bottom:none}.sr-label{color:rgba(255,255,255,.45)}.sr-val{color:var(--white);font-weight:600}@media(max-width:600px){.pkg-grid{grid-template-columns:1fr}.pay-grid{grid-template-columns:1fr}.photo-uploads{grid-template-columns:1fr}.platform-grid{grid-template-columns:1fr}.o-row{grid-template-columns:1fr}.progress-line{width:25px}}</style></head><body>
-<nav><a class="nav-logo" href="index.html"><img src="logo.png" alt="Tioflos NFC" onerror="this.style.display='none'"><span>Tioflos NFC</span></a><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="designer.html">Card Designer</a></li><li><a href="contact.html">Contact</a></li></ul><a class="nav-cta" href="order.html">Order Now</a><button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button></nav><div class="mobile-menu" id="mobile-menu"><ul><li><a href="index.html">Home</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="designer.html">Card Designer</a></li><li><a href="contact.html">Contact</a></li></ul><a class="mob-cta" href="order.html">Order Now</a></div><div class="order-page"><div class="order-container"><div class="progress-bar"><div class="progress-step"><div class="progress-circle active" id="pc1">1</div><div class="progress-label active" id="pl1">Package</div></div><div class="progress-line" id="line1"></div><div class="progress-step"><div class="progress-circle" id="pc2">2</div><div class="progress-label" id="pl2">Profile</div></div><div class="progress-line" id="line2"></div><div class="progress-step"><div class="progress-circle" id="pc3">3</div><div class="progress-label" id="pl3">Links</div></div><div class="progress-line" id="line3"></div><div class="progress-step"><div class="progress-circle" id="pc4">4</div><div class="progress-label" id="pl4">Payment</div></div><div class="progress-line" id="line4"></div><div class="progress-step"><div class="progress-circle" id="pc5">5</div><div class="progress-label" id="pl5">Done</div></div></div>
-<div class="step-panel active" id="step1"><h1 class="step-title">Choose Your Package</h1><p class="step-sub">Select the package that fits your business needs.</p><div class="pkg-grid"><div class="pkg-card" onclick="selectPkg(this,'Starter - 800 ETB')"><div class="pkg-icon">&#9634;</div><div class="pkg-name">Starter</div><div class="pkg-price">800 ETB</div><div class="pkg-desc">1 NFC Card (blank) + Digital profile setup</div><div class="pkg-tag">Blank card</div></div><div class="pkg-card" onclick="selectPkg(this,'Business - 4,000 ETB')"><div class="pkg-popular">Most Popular</div><div class="pkg-icon">&#127912;</div><div class="pkg-name">Business</div><div class="pkg-price">4,000 ETB</div><div class="pkg-desc">5 NFC Cards (custom printed) + Full profile + branding</div><div class="pkg-tag">Custom print</div></div><div class="pkg-card" onclick="selectPkg(this,'Premium - 12,000 ETB')"><div class="pkg-icon">&#11088;</div><div class="pkg-name">Premium</div><div class="pkg-price">12,000 ETB</div><div class="pkg-desc">10+ NFC Cards (custom printed) + Full branding + 6 months support</div><div class="pkg-tag">Custom print</div></div></div><div class="btn-row"><button class="btn-next" id="btn-next1" onclick="goStep(2)" disabled>Continue &rarr;</button></div></div>
-<div class="step-panel" id="step2"><h1 class="step-title">Build Your Profile</h1><p class="step-sub">This is what your customers will see when they tap your NFC card.</p><div class="form-sec">Business Information</div><div class="o-row"><div><label class="o-label">Business / Your Name *</label><input class="o-input" type="text" id="o-biz" placeholder="e.g. Lante Hotel"></div><div><label class="o-label">Business Type *</label><select class="o-input" id="o-type"><option value="">Select type...</option><option>Hotel / Resort</option><option>Restaurant / Cafe</option><option>Shop / Supermarket</option><option>Clinic / Pharmacy</option><option>Salon / Spa</option><option>School / College</option><option>Freelancer</option><option>Other</option></select></div></div><div class="o-row"><div><label class="o-label">Tagline / Short Description</label><input class="o-input" type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch"></div><div><label class="o-label">Opening Hours</label><input class="o-input" type="text" id="o-hours" placeholder="e.g. Mon-Sat 8am-9pm"></div></div><label class="o-label">Phone Number *</label><div class="phone-row"><input class="o-input" type="tel" id="o-phone" placeholder="+251..."></div><div id="extra-phones"></div><button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button><div class="form-sec">Photos</div><div class="photo-uploads"><div class="photo-upload" onclick="document.getElementById('up-cover').click()"><input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)"><div class="pu-icon">&#128444;</div><div class="pu-label">Cover Photo</div><div class="pu-sub">Banner image</div><img class="photo-preview" id="prev-cover"></div><div class="photo-upload" onclick="document.getElementById('up-avatar').click()"><input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)"><div class="pu-icon">&#128100;</div><div class="pu-label">Profile Photo</div><div class="pu-sub">Circular avatar</div><img class="photo-preview circle" id="prev-avatar"></div><div class="photo-upload" onclick="document.getElementById('up-logo').click()"><input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)"><div class="pu-icon">&#127970;</div><div class="pu-label">Logo</div><div class="pu-sub">Company logo</div><img class="photo-preview" id="prev-logo"></div></div><div class="form-sec">Additional Notes</div><textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items..."></textarea><div class="btn-row"><button class="btn-back" onclick="goStep(1)">Back</button><button class="btn-next" onclick="goStep(3)">Continue</button></div></div>
-<div class="step-panel" id="step3"><h1 class="step-title">Your Links</h1><p class="step-sub">Add your social media and contact links. Fill in only the ones you use.</p><div class="plat-group-label">Messaging</div><div class="platform-grid"><div class="platform-row"><span class="p-icon">&#128172;</span><input type="text" id="o-whatsapp" placeholder="WhatsApp (+251...)"></div><div class="platform-row"><span class="p-icon">&#9992;</span><input type="text" id="o-telegram" placeholder="Telegram (@username)"></div></div><div class="plat-group-label">Social Media</div><div class="platform-grid"><div class="platform-row"><span class="p-icon">&#128216;</span><input type="text" id="o-facebook" placeholder="Facebook URL"></div><div class="platform-row"><span class="p-icon">&#128248;</span><input type="text" id="o-instagram" placeholder="Instagram (@username)"></div><div class="platform-row"><span class="p-icon">&#127925;</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)"></div><div class="platform-row"><span class="p-icon">&#9654;</span><input type="text" id="o-youtube" placeholder="YouTube URL"></div><div class="platform-row"><span class="p-icon">&#128038;</span><input type="text" id="o-twitter" placeholder="Twitter/X (@username)"></div><div class="platform-row"><span class="p-icon">&#128123;</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)"></div><div class="platform-row"><span class="p-icon">&#128188;</span><input type="text" id="o-linkedin" placeholder="LinkedIn URL"></div></div><div class="plat-group-label">Business and Discovery</div><div class="platform-grid"><div class="platform-row"><span class="p-icon">&#128205;</span><input type="text" id="o-maps" placeholder="Google Maps link"></div><div class="platform-row"><span class="p-icon">&#127760;</span><input type="text" id="o-website" placeholder="Website URL"></div><div class="platform-row"><span class="p-icon">&#11088;</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link"></div></div><div class="btn-row"><button class="btn-back" onclick="goStep(2)">Back</button><button class="btn-next" onclick="goStep(4)">Continue</button></div></div>
-<div class="step-panel" id="step4"><h1 class="step-title">Complete Payment</h1><p class="step-sub">Pay for your order to confirm it. Upload your payment screenshot as proof.</p><div class="price-summary"><div><div class="ps-label">Selected Package</div><div class="ps-pkg" id="ps-pkg-name">-</div></div><div class="ps-price" id="ps-pkg-price">-</div></div><label class="o-label">Choose Payment Method</label><div class="pay-grid"><div class="pay-card" onclick="selectPay(this,'Telebirr')"><div class="pay-icon">&#128241;</div><div class="pay-name">Telebirr</div><div class="pay-num">+251 906 368 383</div></div><div class="pay-card" onclick="selectPay(this,'CBE Birr')"><div class="pay-icon">&#127970;</div><div class="pay-name">CBE Birr</div><div class="pay-num">1000365753931</div></div></div><div class="pay-details" id="pay-details-telebirr"><h4>Pay via Telebirr</h4><p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: Tioflos NFC<br><br>After paying, upload your screenshot below.</p></div><div class="pay-details" id="pay-details-cbe"><h4>Pay via CBE Birr</h4><p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: Tioflos NFC<br><br>After paying, upload your screenshot below.</p></div><label class="o-label" style="margin-top:1rem;">Payment Screenshot</label><div class="screenshot-upload"><input type="file" id="up-screenshot" accept="image/*" onchange="previewScreenshot(this)"><div class="su-icon">&#128247;</div><div class="su-text"><strong>Click to upload</strong> your payment screenshot</div><img id="screenshot-preview"></div><div class="btn-row"><button class="btn-back" onclick="goStep(3)">Back</button><button class="btn-next" onclick="submitOrder()">Submit Order</button></div></div>
-<div class="step-panel" id="step5"><div class="success-screen"><div class="success-icon">&#127881;</div><h2>Order Submitted!</h2><p>Your order has been received. We will review your payment and contact you within 1-2 hours to confirm delivery.</p><div class="summary-box" id="summary-box"></div><a href="index.html" class="btn-next" style="display:block;text-decoration:none;text-align:center;">Back to Home</a></div></div></div></div>
-<script>function toggleMenu(){document.getElementById("mobile-menu").classList.toggle("open")}let selectedPkg="",selectedPay="",phoneCount=1,photoData={cover:"",avatar:"",logo:"",screenshot:""};function goStep(n){if(n===2&&!selectedPkg){alert("Please select a package first.");return}if(n===3){var b=document.getElementById("o-biz").value.trim(),t=document.getElementById("o-type").value,p=document.getElementById("o-phone").value.trim();if(!b||!t||!p){alert("Please fill in Business Name, Type, and Phone Number.");return}}if(n===4){var prices={"Starter - 800 ETB":"800 ETB","Business - 4,000 ETB":"4,000 ETB","Premium - 12,000 ETB":"12,000 ETB"};document.getElementById("ps-pkg-name").textContent=selectedPkg.split(" -")[0];document.getElementById("ps-pkg-price").textContent=prices[selectedPkg]||""}document.querySelectorAll(".step-panel").forEach(function(p){p.classList.remove("active")});document.getElementById("step"+n).classList.add("active");updateProgress(n);window.scrollTo({top:0,behavior:"smooth"})}function updateProgress(current){for(var i=1;i<=5;i++){var c=document.getElementById("pc"+i),l=document.getElementById("pl"+i),ln=document.getElementById("line"+i);c.classList.remove("active","done");l.classList.remove("active");if(i<current){c.classList.add("done");c.innerHTML="&#10003;"}else if(i===current){c.classList.add("active");c.innerHTML=i;l.classList.add("active")}else{c.innerHTML=i}if(ln&&i<current)ln.classList.add("done");else if(ln)ln.classList.remove("done")}}function selectPkg(el,val){document.querySelectorAll(".pkg-card").forEach(function(c){c.classList.remove("selected")});el.classList.add("selected");selectedPkg=val;document.getElementById("btn-next1").disabled=false}function selectPay(el,method){document.querySelectorAll(".pay-card").forEach(function(c){c.classList.remove("selected")});el.classList.add("selected");selectedPay=method;document.getElementById("pay-details-telebirr").classList.remove("show");document.getElementById("pay-details-cbe").classList.remove("show");if(method==="Telebirr")document.getElementById("pay-details-telebirr").classList.add("show");if(method==="CBE Birr")document.getElementById("pay-details-cbe").classList.add("show")}function addPhone(){if(phoneCount>=3){alert("Maximum 3 phone numbers.");return}phoneCount++;var d=document.createElement("div");d.className="phone-row";d.innerHTML="<input class=\"o-input\" type=\"tel\" placeholder=\"+251... (Phone "+phoneCount+")\"><button type=\"button\" class=\"remove-btn\" onclick=\"this.parentElement.remove();phoneCount--;\">X</button>";document.getElementById("extra-phones").appendChild(d)}function previewPhoto(input,previewId,isCircle){if(input.files&&input.files[0]){var reader=new FileReader();reader.onload=function(e){var img=document.getElementById(previewId);img.src=e.target.result;img.style.display="block";var key=input.id==="up-cover"?"cover":input.id==="up-avatar"?"avatar":"logo";photoData[key]=e.target.result};reader.readAsDataURL(input.files[0])}}function previewScreenshot(input){if(input.files&&input.files[0]){var reader=new FileReader();reader.onload=function(e){var img=document.getElementById("screenshot-preview");img.src=e.target.result;img.style.display="block";photoData.screenshot=e.target.result};reader.readAsDataURL(input.files[0])}}function submitOrder(){if(!selectedPay){alert("Please select a payment method.");return}if(!photoData.screenshot){alert("Please upload your payment screenshot.");return}var biz=document.getElementById("o-biz").value.trim(),type=document.getElementById("o-type").value,tagline=document.getElementById("o-tagline").value.trim(),hours=document.getElementById("o-hours").value.trim(),phone=document.getElementById("o-phone").value.trim(),notes=document.getElementById("o-notes").value.trim(),extraInputs=document.querySelectorAll("#extra-phones input"),phone2=extraInputs[0]?extraInputs[0].value.trim():"",phone3=extraInputs[1]?extraInputs[1].value.trim():"";var order={id:"ORD-"+Date.now(),date:new Date().toLocaleString(),biz:biz,type:type,pkg:selectedPkg,pay:selectedPay,phone:phone,phone2:phone2,phone3:phone3,tagline:tagline,hours:hours,notes:notes,address:"",platforms:{whatsapp:document.getElementById("o-whatsapp").value.trim(),telegram:document.getElementById("o-telegram").value.trim(),facebook:document.getElementById("o-facebook").value.trim(),instagram:document.getElementById("o-instagram").value.trim(),tiktok:document.getElementById("o-tiktok").value.trim(),youtube:document.getElementById("o-youtube").value.trim(),twitter:document.getElementById("o-twitter").value.trim(),snapchat:document.getElementById("o-snapchat").value.trim(),linkedin:document.getElementById("o-linkedin").value.trim(),maps:document.getElementById("o-maps").value.trim(),website:document.getElementById("o-website").value.trim(),tripadvisor:document.getElementById("o-tripadvisor").value.trim()},coverPhoto:photoData.cover,avatarPhoto:photoData.avatar,logoPhoto:photoData.logo,screenshotPhoto:photoData.screenshot,status:"Pending",paid:false,profileLink:""};var orders=JSON.parse(localStorage.getItem("tioflos_orders")||"[]");orders.unshift(order);localStorage.setItem("tioflos_orders",JSON.stringify(orders));document.getElementById("summary-box").innerHTML="<div class=\"summary-row\"><span class=\"sr-label\">Package</span><span class=\"sr-val\">"+selectedPkg+"</span></div><div class=\"summary-row\"><span class=\"sr-label\">Business</span><span class=\"sr-val\">"+biz+"</span></div><div class=\"summary-row\"><span class=\"sr-label\">Payment</span><span class=\"sr-val\">"+selectedPay+"</span></div><div class=\"summary-row\"><span class=\"sr-label\">Order ID</span><span class=\"sr-val\">"+order.id+"</span></div>";goStep(5)}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order — Tioflos NFC</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.order-page{background:var(--navy);min-height:100vh;padding-top:68px}
+.order-container{max-width:720px;margin:0 auto;padding:3rem 5%}
+.progress-bar{display:flex;align-items:center;justify-content:center;margin-bottom:3rem}
+.progress-step{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.progress-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;font-size:.9rem;border:2px solid rgba(201,146,42,.3);color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);transition:all .3s}
+.progress-circle.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.progress-circle.done{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.progress-label{font-size:.62rem;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.progress-label.active{color:var(--gold-light)}
+.progress-line{width:60px;height:2px;background:rgba(201,146,42,.2);margin-bottom:1.2rem}
+.progress-line.done{background:var(--gold)}
+.step-panel{display:none}
+.step-panel.active{display:block}
+.step-title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:var(--white);margin-bottom:.5rem}
+.step-sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
+/* Packages */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.pkg-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem 1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative;background:rgba(255,255,255,.03)}
+.pkg-card:hover{border-color:rgba(201,146,42,.5)}
+.pkg-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}
+.pkg-popular{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.6rem;font-weight:700;padding:.2rem .7rem;border-radius:100px;text-transform:uppercase;white-space:nowrap}
+.pkg-icon{font-size:2rem;margin-bottom:.5rem}
+.pkg-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}
+.pkg-price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}
+.pkg-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.5}
+.pkg-tag{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.4rem}
+/* Form */
+.form-sec{font-family:Syne,sans-serif;font-weight:700;font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:2px;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,146,42,.2)}
+.o-label{display:block;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+.o-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(201,146,42,.25);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.9rem;background:rgba(255,255,255,.06);color:var(--white);outline:none;transition:border-color .2s;margin-bottom:1.25rem}
+.o-input::placeholder{color:rgba(255,255,255,.25)}
+.o-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,146,42,.15)}
+.o-input option{background:var(--navy)}
+.o-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.phone-row{display:flex;gap:.5rem;align-items:center;margin-bottom:1.25rem}
+.phone-row .o-input{margin-bottom:0;flex:1}
+.remove-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#EF4444;font-size:.8rem;padding:.5rem .75rem;cursor:pointer;font-weight:700;white-space:nowrap}
+.add-phone-btn{background:none;border:1px dashed rgba(201,146,42,.4);border-radius:8px;color:var(--gold-light);font-size:.78rem;font-weight:700;padding:.4rem .85rem;cursor:pointer;font-family:Syne,sans-serif;margin-bottom:1.25rem}
+/* Photos */
+.photo-uploads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.photo-upload{border:2px dashed rgba(201,146,42,.3);border-radius:12px;padding:1rem .5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);position:relative}
+.photo-upload:hover{border-color:var(--gold)}
+.photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.pu-icon{font-size:1.5rem;margin-bottom:.3rem}
+.pu-label{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.6)}
+.pu-sub{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.2rem}
+.photo-preview{width:100%;height:60px;object-fit:cover;border-radius:8px;display:none;margin-top:.5rem}
+.photo-preview.circle{border-radius:50%;width:50px;height:50px;margin:.5rem auto 0}
+/* Platforms */
+.plat-group-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.platform-row{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,146,42,.2);border-radius:8px;padding:.55rem .75rem;transition:border-color .2s}
+.platform-row:focus-within{border-color:var(--gold)}
+.platform-row .p-icon{font-size:1.1rem;flex-shrink:0}
+.platform-row input{border:none;background:none;padding:0;margin:0;font-size:.82rem;color:var(--white);width:100%;outline:none}
+.platform-row input::placeholder{color:rgba(255,255,255,.25)}
+/* Payment */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.pay-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s;text-align:center;background:rgba(255,255,255,.03)}
+.pay-card:hover{border-color:rgba(201,146,42,.5)}
+.pay-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}
+.pay-icon{font-size:2rem;margin-bottom:.5rem}
+.pay-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}
+.pay-num{font-size:.82rem;color:var(--gold);font-weight:600}
+.pay-details{display:none;background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.3);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
+.pay-details.show{display:block}
+.pay-details h4{font-size:.9rem;font-weight:700;color:var(--gold-light);margin-bottom:.75rem}
+.pay-details p{font-size:.875rem;color:rgba(255,255,255,.7);line-height:1.75}
+.acct{font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:1px}
+.screenshot-upload{border:2px dashed rgba(201,146,42,.35);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;position:relative}
+.screenshot-upload:hover{border-color:var(--gold)}
+.screenshot-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.su-icon{font-size:2rem;margin-bottom:.5rem}
+.su-text{font-size:.875rem;color:rgba(255,255,255,.6)}
+.su-text strong{color:var(--gold-light)}
+#screenshot-preview{max-width:200px;border-radius:8px;border:1px solid rgba(201,146,42,.3);display:none;margin:1rem auto 0}
+.price-summary{background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.25);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.ps-label{font-size:.85rem;color:rgba(255,255,255,.6)}
+.ps-pkg{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white)}
+.ps-price{font-family:Syne,sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold)}
+/* Buttons */
+.btn-row{display:flex;gap:1rem;margin-top:1.5rem}
+.btn-next{flex:1;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:Syne,sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--gold-light)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed}
+.btn-back{padding:1rem 1.5rem;background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;font-family:Syne,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
+.btn-back:hover{border-color:rgba(255,255,255,.5);color:var(--white)}
+/* Success */
+.success-screen{text-align:center;padding:2rem 0}
+.success-icon{font-size:4rem;margin-bottom:1rem}
+.success-screen h2{font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:1rem}
+.success-screen p{color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:2rem;font-size:1rem}
+.summary-box{background:rgba(255,255,255,.05);border:1px solid rgba(201,146,42,.2);border-radius:14px;padding:1.5rem;margin-bottom:2rem;text-align:left}
+.summary-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.875rem}
+.summary-row:last-child{border-bottom:none}
+.sr-label{color:rgba(255,255,255,.45)}
+.sr-val{color:var(--white);font-weight:600}
+@media(max-width:600px){
+  .pkg-grid{grid-template-columns:1fr}
+  .pay-grid{grid-template-columns:1fr}
+  .photo-uploads{grid-template-columns:1fr}
+  .platform-grid{grid-template-columns:1fr}
+  .o-row{grid-template-columns:1fr}
+  .progress-line{width:30px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Tioflos NFC" onerror="this.style.display='none'">
+    <span>Tioflos NFC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="order.html">Order Now</a>
+  <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a class="mob-cta" href="order.html">Order Now</a>
+</div>
+
+<div class="order-page">
+  <div class="order-container">
+
+    <!-- PROGRESS BAR (4 steps) -->
+    <div class="progress-bar">
+      <div class="progress-step">
+        <div class="progress-circle active" id="pc1">1</div>
+        <div class="progress-label active" id="pl1">Package</div>
+      </div>
+      <div class="progress-line" id="line1"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc2">2</div>
+        <div class="progress-label" id="pl2">Profile</div>
+      </div>
+      <div class="progress-line" id="line2"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc3">3</div>
+        <div class="progress-label" id="pl3">Payment</div>
+      </div>
+      <div class="progress-line" id="line3"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc4">4</div>
+        <div class="progress-label" id="pl4">Done</div>
+      </div>
+    </div>
+
+    <!-- STEP 1: PACKAGE -->
+    <div class="step-panel active" id="step1">
+      <h1 class="step-title">Choose Your Package</h1>
+      <p class="step-sub">Select the package that fits your business needs.</p>
+      <div class="pkg-grid">
+        <div class="pkg-card" onclick="selectPkg(this,'Starter - 800 ETB')">
+          <div class="pkg-icon">⬜</div>
+          <div class="pkg-name">Starter</div>
+          <div class="pkg-price">800 ETB</div>
+          <div class="pkg-desc">1 NFC Card (blank) + Digital profile setup</div>
+          <div class="pkg-tag">Blank card</div>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this,'Business - 4,000 ETB')">
+          <div class="pkg-popular">Most Popular</div>
+          <div class="pkg-icon">🎨</div>
+          <div class="pkg-name">Business</div>
+          <div class="pkg-price">4,000 ETB</div>
+          <div class="pkg-desc">5 NFC Cards (custom printed) + Full profile + branding</div>
+          <div class="pkg-tag">Custom print</div>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this,'Premium - 12,000 ETB')">
+          <div class="pkg-icon">⭐</div>
+          <div class="pkg-name">Premium</div>
+          <div class="pkg-price">12,000 ETB</div>
+          <div class="pkg-desc">10+ NFC Cards (custom printed) + Full branding + 6 months support</div>
+          <div class="pkg-tag">Custom print</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-next" id="btn-next1" onclick="goStep(2)" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: PROFILE + LINKS (merged) -->
+    <div class="step-panel" id="step2">
+      <h1 class="step-title">Build Your Profile</h1>
+      <p class="step-sub">Fill in your business details and add your links. This is exactly what customers will see when they tap your NFC card.</p>
+
+      <!-- Business Info -->
+      <div class="form-sec">Business Information</div>
+      <div class="o-row">
+        <div>
+          <label class="o-label">Business / Your Name *</label>
+          <input class="o-input" type="text" id="o-biz" placeholder="e.g. Lante Hotel">
+        </div>
+        <div>
+          <label class="o-label">Business Type *</label>
+          <select class="o-input" id="o-type">
+            <option value="">Select type...</option>
+            <option>Hotel / Resort</option>
+            <option>Restaurant / Cafe</option>
+            <option>Shop / Supermarket</option>
+            <option>Clinic / Pharmacy</option>
+            <option>Salon / Spa</option>
+            <option>School / College</option>
+            <option>Freelancer</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="o-row">
+        <div>
+          <label class="o-label">Tagline / Short Description</label>
+          <input class="o-input" type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch">
+        </div>
+        <div>
+          <label class="o-label">Opening Hours</label>
+          <input class="o-input" type="text" id="o-hours" placeholder="e.g. Mon–Sat 8am–9pm">
+        </div>
+      </div>
+      <label class="o-label">Phone Number *</label>
+      <div class="phone-row">
+        <input class="o-input" type="tel" id="o-phone" placeholder="+251...">
+      </div>
+      <div id="extra-phones"></div>
+      <button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button>
+
+      <!-- Photos -->
+      <div class="form-sec">Photos</div>
+      <div class="photo-uploads">
+        <div class="photo-upload" onclick="document.getElementById('up-cover').click()">
+          <input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)">
+          <div class="pu-icon">🖼</div>
+          <div class="pu-label">Cover Photo</div>
+          <div class="pu-sub">Banner image</div>
+          <img class="photo-preview" id="prev-cover">
+        </div>
+        <div class="photo-upload" onclick="document.getElementById('up-avatar').click()">
+          <input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)">
+          <div class="pu-icon">👤</div>
+          <div class="pu-label">Profile Photo</div>
+          <div class="pu-sub">Circular avatar</div>
+          <img class="photo-preview circle" id="prev-avatar">
+        </div>
+        <div class="photo-upload" onclick="document.getElementById('up-logo').click()">
+          <input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)">
+          <div class="pu-icon">🏢</div>
+          <div class="pu-label">Logo</div>
+          <div class="pu-sub">Company logo</div>
+          <img class="photo-preview" id="prev-logo">
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="form-sec">Your Links & Social Media</div>
+      <div class="plat-group-label">Messaging</div>
+      <div class="platform-grid">
+        <div class="platform-row"><span class="p-icon">💬</span><input type="text" id="o-whatsapp" placeholder="WhatsApp (+251...)"></div>
+        <div class="platform-row"><span class="p-icon">✈️</span><input type="text" id="o-telegram" placeholder="Telegram (@username)"></div>
+      </div>
+      <div class="plat-group-label">Social Media</div>
+      <div class="platform-grid">
+        <div class="platform-row"><span class="p-icon">📘</span><input type="text" id="o-facebook" placeholder="Facebook URL"></div>
+        <div class="platform-row"><span class="p-icon">📸</span><input type="text" id="o-instagram" placeholder="Instagram (@username)"></div>
+        <div class="platform-row"><span class="p-icon">🎵</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)"></div>
+        <div class="platform-row"><span class="p-icon">▶️</span><input type="text" id="o-youtube" placeholder="YouTube URL"></div>
+        <div class="platform-row"><span class="p-icon">🐦</span><input type="text" id="o-twitter" placeholder="Twitter/X (@username)"></div>
+        <div class="platform-row"><span class="p-icon">👻</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)"></div>
+        <div class="platform-row"><span class="p-icon">💼</span><input type="text" id="o-linkedin" placeholder="LinkedIn URL"></div>
+      </div>
+      <div class="plat-group-label">Business & Discovery</div>
+      <div class="platform-grid">
+        <div class="platform-row"><span class="p-icon">📍</span><input type="text" id="o-maps" placeholder="Google Maps link"></div>
+        <div class="platform-row"><span class="p-icon">🌐</span><input type="text" id="o-website" placeholder="Website URL"></div>
+        <div class="platform-row"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link"></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-sec">Additional Notes</div>
+      <textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items, card design preferences..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(1)">Back</button>
+        <button class="btn-next" onclick="goStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT -->
+    <div class="step-panel" id="step3">
+      <h1 class="step-title">Complete Payment</h1>
+      <p class="step-sub">Pay for your order to confirm it. Upload your payment screenshot as proof.</p>
+
+      <div class="price-summary">
+        <div>
+          <div class="ps-label">Selected Package</div>
+          <div class="ps-pkg" id="ps-pkg-name">-</div>
+        </div>
+        <div class="ps-price" id="ps-pkg-price">-</div>
+      </div>
+
+      <label class="o-label">Choose Payment Method</label>
+      <div class="pay-grid">
+        <div class="pay-card" onclick="selectPay(this,'Telebirr')">
+          <div class="pay-icon">📱</div>
+          <div class="pay-name">Telebirr</div>
+          <div class="pay-num">+251 906 368 383</div>
+        </div>
+        <div class="pay-card" onclick="selectPay(this,'CBE Birr')">
+          <div class="pay-icon">🏦</div>
+          <div class="pay-name">CBE Birr</div>
+          <div class="pay-num">1000365753931</div>
+        </div>
+      </div>
+
+      <div class="pay-details" id="pay-details-telebirr">
+        <h4>Pay via Telebirr</h4>
+        <p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: Tioflos NFC<br><br>After paying, upload your screenshot below.</p>
+      </div>
+      <div class="pay-details" id="pay-details-cbe">
+        <h4>Pay via CBE Birr</h4>
+        <p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: Tioflos NFC<br><br>After paying, upload your screenshot below.</p>
+      </div>
+
+      <label class="o-label" style="margin-top:1rem;">Payment Screenshot</label>
+      <div class="screenshot-upload">
+        <input type="file" id="up-screenshot" accept="image/*" onchange="previewScreenshot(this)">
+        <div class="su-icon">📷</div>
+        <div class="su-text"><strong>Click to upload</strong> your payment screenshot</div>
+        <img id="screenshot-preview">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)">Back</button>
+        <button class="btn-next" onclick="submitOrder()">Submit Order ✓</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: DONE -->
+    <div class="step-panel" id="step4">
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2>Order Submitted!</h2>
+        <p>Your order has been received. We will review your payment and contact you within 1–2 hours to confirm delivery.</p>
+        <div class="summary-box" id="summary-box"></div>
+        <a href="index.html" class="btn-next" style="display:block;text-decoration:none;text-align:center;">Back to Home</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
+let selectedPkg = '', selectedPay = '', phoneCount = 1;
+let photoData = { cover:'', avatar:'', logo:'', screenshot:'' };
+
+function goStep(n) {
+  // Validate step 2
+  if (n === 3) {
+    var b = document.getElementById('o-biz').value.trim();
+    var t = document.getElementById('o-type').value;
+    var p = document.getElementById('o-phone').value.trim();
+    if (!b || !t || !p) {
+      alert('Please fill in Business Name, Type, and Phone Number.');
+      return;
+    }
+  }
+  // Populate payment summary
+  if (n === 3) {
+    var prices = {'Starter - 800 ETB':'800 ETB','Business - 4,000 ETB':'4,000 ETB','Premium - 12,000 ETB':'12,000 ETB'};
+    document.getElementById('ps-pkg-name').textContent = selectedPkg.split(' -')[0];
+    document.getElementById('ps-pkg-price').textContent = prices[selectedPkg] || '';
+  }
+  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('step' + n).classList.add('active');
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(current) {
+  for (var i = 1; i <= 4; i++) {
+    var c = document.getElementById('pc' + i);
+    var l = document.getElementById('pl' + i);
+    var ln = document.getElementById('line' + i);
+    c.classList.remove('active','done');
+    l.classList.remove('active');
+    if (i < current) {
+      c.classList.add('done');
+      c.innerHTML = '✓';
+    } else if (i === current) {
+      c.classList.add('active');
+      c.innerHTML = i;
+      l.classList.add('active');
+    } else {
+      c.innerHTML = i;
+    }
+    if (ln && i < current) ln.classList.add('done');
+    else if (ln) ln.classList.remove('done');
+  }
+}
+
+function selectPkg(el, val) {
+  document.querySelectorAll('.pkg-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPkg = val;
+  document.getElementById('btn-next1').disabled = false;
+}
+
+function selectPay(el, method) {
+  document.querySelectorAll('.pay-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPay = method;
+  document.getElementById('pay-details-telebirr').classList.remove('show');
+  document.getElementById('pay-details-cbe').classList.remove('show');
+  if (method === 'Telebirr') document.getElementById('pay-details-telebirr').classList.add('show');
+  if (method === 'CBE Birr') document.getElementById('pay-details-cbe').classList.add('show');
+}
+
+function addPhone() {
+  if (phoneCount >= 3) { alert('Maximum 3 phone numbers.'); return; }
+  phoneCount++;
+  var d = document.createElement('div');
+  d.className = 'phone-row';
+  d.innerHTML = '<input class="o-input" type="tel" placeholder="+251... (Phone ' + phoneCount + ')"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;">✕</button>';
+  document.getElementById('extra-phones').appendChild(d);
+}
+
+function previewPhoto(input, previewId, isCircle) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = document.getElementById(previewId);
+      img.src = e.target.result;
+      img.style.display = 'block';
+      var key = input.id === 'up-cover' ? 'cover' : input.id === 'up-avatar' ? 'avatar' : 'logo';
+      photoData[key] = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function previewScreenshot(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = document.getElementById('screenshot-preview');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      photoData.screenshot = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function submitOrder() {
+  if (!selectedPay) { alert('Please select a payment method.'); return; }
+  if (!photoData.screenshot) { alert('Please upload your payment screenshot.'); return; }
+
+  var biz     = document.getElementById('o-biz').value.trim();
+  var type    = document.getElementById('o-type').value;
+  var tagline = document.getElementById('o-tagline').value.trim();
+  var hours   = document.getElementById('o-hours').value.trim();
+  var phone   = document.getElementById('o-phone').value.trim();
+  var notes   = document.getElementById('o-notes').value.trim();
+  var extras  = document.querySelectorAll('#extra-phones input');
+  var phone2  = extras[0] ? extras[0].value.trim() : '';
+  var phone3  = extras[1] ? extras[1].value.trim() : '';
+
+  var order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString(),
+    biz: biz,
+    type: type,
+    pkg: selectedPkg,
+    pay: selectedPay,
+    phone: phone,
+    phone2: phone2,
+    phone3: phone3,
+    tagline: tagline,
+    hours: hours,
+    notes: notes,
+    address: '',
+    platforms: {
+      whatsapp:    document.getElementById('o-whatsapp').value.trim(),
+      telegram:    document.getElementById('o-telegram').value.trim(),
+      facebook:    document.getElementById('o-facebook').value.trim(),
+      instagram:   document.getElementById('o-instagram').value.trim(),
+      tiktok:      document.getElementById('o-tiktok').value.trim(),
+      youtube:     document.getElementById('o-youtube').value.trim(),
+      twitter:     document.getElementById('o-twitter').value.trim(),
+      snapchat:    document.getElementById('o-snapchat').value.trim(),
+      linkedin:    document.getElementById('o-linkedin').value.trim(),
+      maps:        document.getElementById('o-maps').value.trim(),
+      website:     document.getElementById('o-website').value.trim(),
+      tripadvisor: document.getElementById('o-tripadvisor').value.trim()
+    },
+    coverPhoto:      photoData.cover,
+    avatarPhoto:     photoData.avatar,
+    logoPhoto:       photoData.logo,
+    screenshotPhoto: photoData.screenshot,
+    status: 'Pending',
+    paid: false,
+    profileLink: ''
+  };
+
+  var orders = JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
+  orders.unshift(order);
+  localStorage.setItem('tioflos_orders', JSON.stringify(orders));
+
+  document.getElementById('summary-box').innerHTML =
+    '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">' + order.id + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Business</span><span class="sr-val">' + biz + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Package</span><span class="sr-val">' + selectedPkg + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Payment</span><span class="sr-val">' + selectedPay + '</span></div>';
+
+  goStep(4);
+}
+</script>
+</body>
+</html>
