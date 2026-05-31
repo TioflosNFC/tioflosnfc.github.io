@@ -355,9 +355,9 @@ function getRevenue(orders) {
         total += num;
       } else {
         const pkg = o.pkg || '';
-        if (pkg.includes('800') || pkg.toLowerCase().includes('starter')) total += 500;
-        else if (pkg.includes('4,000') || pkg.includes('4000') || pkg.toLowerCase().includes('business')) total += 2000;
-        else if (pkg.includes('12,000') || pkg.includes('12000') || pkg.toLowerCase().includes('premium')) total += 4000;
+        if (pkg.includes('800') || pkg.toLowerCase().includes('starter')) total += 800;
+        else if (pkg.includes('7,500') || pkg.includes('7500') || pkg.toLowerCase().includes('business')) total += 7500;
+        else if (pkg.includes('20,000') || pkg.includes('20000') || pkg.toLowerCase().includes('premium')) total += 20000;
       }
     }
   });
@@ -510,9 +510,9 @@ function deleteOrder(id) {
 
 function addDemoOrder() {
   const demos = [
-    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
+    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
     { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 800 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
-    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
+    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
   ];
   const d = demos[Math.floor(Math.random() * demos.length)];
   const order = {
@@ -528,9 +528,9 @@ function addDemoOrder() {
   // Set prices and cardQty based on package
   let baseP = 800, extraP = 500, baseQ = 1;
   if (d.pkg.toLowerCase().includes('business')) {
-    baseP = 4000; extraP = 2000; baseQ = 5;
+    baseP = 7500; extraP = 2000; baseQ = 5;
   } else if (d.pkg.toLowerCase().includes('premium')) {
-    baseP = 12000; extraP = 4000; baseQ = 10;
+    baseP = 20000; extraP = 4000; baseQ = 10;
   }
   
   const cardQty = baseQ;
@@ -651,9 +651,9 @@ function saveEditOrder() {
   // Re-calculate pricing if changed
   let baseP = 800, extraP = 500, baseQ = 1;
   if (o.pkg.toLowerCase().includes('business')) {
-    baseP = 4000; extraP = 2000; baseQ = 5;
+    baseP = 7500; extraP = 2000; baseQ = 5;
   } else if (o.pkg.toLowerCase().includes('premium')) {
-    baseP = 12000; extraP = 4000; baseQ = 10;
+    baseP = 20000; extraP = 4000; baseQ = 10;
   }
   
   let total = baseP;
