@@ -290,26 +290,26 @@
       <h1 class="step-title">Choose Your Package</h1>
       <p class="step-sub">Select the package that fits your business needs.</p>
       <div class="pkg-grid">
-        <div class="pkg-card" onclick="selectPkg(this,'Starter - 800 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Starter - 500 ETB')">
           <div class="pkg-icon">⬜</div>
           <div class="pkg-name">Starter</div>
-          <div class="pkg-price">800 ETB</div>
+          <div class="pkg-price">500 ETB</div>
           <div class="pkg-desc">1 NFC Card (blank) + Digital profile setup</div>
           <div class="pkg-tag">Blank card</div>
         </div>
-        <div class="pkg-card" onclick="selectPkg(this,'Business - 4,000 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Business - 2,000 ETB')">
           <div class="pkg-popular">Most Popular</div>
           <div class="pkg-icon">🎨</div>
           <div class="pkg-name">Business</div>
-          <div class="pkg-price">4,000 ETB</div>
+          <div class="pkg-price">2,000 ETB</div>
           <div class="pkg-desc">5 NFC Cards (custom printed) + Full profile + branding</div>
           <div class="pkg-tag">Custom print</div>
         </div>
-        <div class="pkg-card" onclick="selectPkg(this,'Premium - 12,000 ETB')">
+        <div class="pkg-card" onclick="selectPkg(this,'Premium - 4,000 ETB')">
           <div class="pkg-icon">⭐</div>
           <div class="pkg-name">Premium</div>
-          <div class="pkg-price">12,000 ETB</div>
-          <div class="pkg-desc">10+ NFC Cards (custom printed) + Full branding + 6 months support</div>
+          <div class="pkg-price">4,000 ETB</div>
+          <div class="pkg-desc">10 NFC Cards (custom printed) + Full branding + 6 months support</div>
           <div class="pkg-tag">Custom print</div>
         </div>
       </div>
@@ -499,24 +499,54 @@
           </div>
 
           <!-- Physical Card Preview -->
-          <div class="preview-card-wrap" id="preview-panel-card" style="display:none; padding:2rem 0;">
-            <div class="preview-card" id="card-mockup">
-              <div class="card-shine"></div>
-              <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
-                <div class="card-nfc-chip"></div>
-                <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
-              </div>
-              
-              <div class="card-logo-area">
-                <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
-                <img class="card-logo-img" id="card-mockup-logo-img">
-                <div style="display:flex; flex-direction:column; min-width:0;">
-                  <div class="card-name-text" id="card-mockup-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business</div>
-                  <div class="card-tap-hint" id="card-mockup-hint">Tioflos NFC</div>
+          <div class="preview-card-wrap" id="preview-panel-card" style="display:none; padding:1.5rem 0;">
+            <div class="card-container-3d">
+              <div class="preview-card-inner" id="card-inner-mockup">
+                
+                <!-- Front Side -->
+                <div class="preview-card-front">
+                  <div class="preview-card" id="card-mockup" style="margin:0;">
+                    <div class="card-shine"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+                      <div class="card-nfc-chip"></div>
+                      <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
+                    </div>
+                    
+                    <div class="card-logo-area">
+                      <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
+                      <img class="card-logo-img" id="card-mockup-logo-img">
+                      <div style="display:flex; flex-direction:column; min-width:0;">
+                        <div class="card-name-text" id="card-mockup-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business</div>
+                        <div class="card-tap-hint" id="card-mockup-hint">Tioflos NFC</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                <!-- Back Side -->
+                <div class="preview-card-back" id="card-back-mockup">
+                  <div class="card-back-header">
+                    <span class="card-back-brand">Tioflos NFC</span>
+                    <span class="card-back-logo">📡</span>
+                  </div>
+                  <div class="card-back-content">
+                    <div class="card-back-qr-box">
+                      <img id="card-back-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tioflosnfc.github.io" alt="QR Profile">
+                    </div>
+                  </div>
+                  <div class="card-back-footer">
+                    <div class="card-back-instruction">Tap Card or Scan QR to Connect</div>
+                    <div class="card-back-powered">Arba Minch, Ethiopia</div>
+                  </div>
+                </div>
+                
               </div>
             </div>
-            <p style="text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:1.5rem;">Front side design. Rounded corner card with premium matte coating.</p>
+            
+            <div style="text-align:center; margin-top:1.5rem;">
+              <button type="button" class="add-phone-btn" style="margin-bottom:0;" onclick="flipCard()">🔄 Flip Card</button>
+            </div>
+            <p style="text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:0.75rem;" id="card-preview-side-text">Front side design. Rounded corner card with premium matte coating.</p>
           </div>
 
         </div>
@@ -528,12 +558,31 @@
       <h1 class="step-title">Complete Payment</h1>
       <p class="step-sub">Pay for your order to confirm it. Upload your payment screenshot as proof.</p>
 
-      <div class="price-summary">
+      <div class="price-summary" style="margin-bottom: 1.5rem;">
         <div>
           <div class="ps-label">Selected Package</div>
           <div class="ps-pkg" id="ps-pkg-name">-</div>
         </div>
         <div class="ps-price" id="ps-pkg-price">-</div>
+      </div>
+
+      <!-- CARD QUANTITY SELECTOR -->
+      <div style="margin-bottom: 2rem;">
+        <label class="o-label">Card Quantity & Pricing Calculator</label>
+        <div style="display:flex; align-items:center; gap:1.5rem; background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px; border:1px solid rgba(201,146,42,0.2);">
+          <div style="flex:1;">
+            <span style="font-size:0.72rem; color:rgba(255,255,255,0.5); display:block; text-transform:uppercase; letter-spacing:0.5px;">Number of Cards Needed</span>
+            <span id="qty-desc-text" style="font-size:0.8rem; color:var(--gold-light); font-weight:600;">Includes 5 custom cards</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <button type="button" class="remove-btn" style="padding:0.4rem 0.8rem; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff; font-size:1rem;" onclick="adjustQty(-1)">-</button>
+            <span id="qty-display" style="font-family:Syne,sans-serif; font-weight:800; font-size:1.4rem; width:40px; text-align:center;">5</span>
+            <button type="button" class="remove-btn" style="padding:0.4rem 0.8rem; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff; font-size:1rem;" onclick="adjustQty(1)">+</button>
+          </div>
+        </div>
+        <div id="extra-cards-notice" style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; line-height:1.4;">
+          Business package includes 5 cards. Extra custom-printed cards cost 400 ETB each.
+        </div>
       </div>
 
       <label class="o-label">Choose Payment Method</label>
@@ -588,6 +637,13 @@
 </div>
 
 <script>
+// ── TELEGRAM BOT CONFIGURATION ──
+const TG_BOT_TOKEN = '7611894228:AAH1JvUqM73jGqH_2h2K32K8dJp0H0G8H0'; // Configurable TG token
+const TG_CHAT_ID = '906368383'; // Configurable chat/channel ID
+
+// ── IMGBB AUTO-UPLOAD CONFIGURATION ──
+const IMGBB_API_KEY = '5a66698b671a5c68bbcd86668ce02f43'; // Automated free upload API key
+
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
 }
@@ -595,6 +651,13 @@ function toggleMenu() {
 let selectedPkg = '', selectedPay = '', phoneCount = 1;
 let photoData = { cover:'', avatar:'', logo:'', screenshot:'' };
 let selectedCardColor = '#0A1628';
+let isFlipped = false;
+
+// Card quantity variables
+let cardQty = 1;
+let baseQty = 1;
+let basePrice = 800;
+let extraPrice = 500;
 
 function goStep(n) {
   // Validate step 2 inputs
@@ -607,12 +670,32 @@ function goStep(n) {
       return;
     }
   }
-  // Populate payment summary
+  
+  // Set up package parameters for Step 3 calculator
   if (n === 3) {
-    var prices = {'Starter - 800 ETB':'800 ETB','Business - 4,000 ETB':'4,000 ETB','Premium - 12,000 ETB':'12,000 ETB'};
-    document.getElementById('ps-pkg-name').textContent = selectedPkg.split(' -')[0];
-    document.getElementById('ps-pkg-price').textContent = prices[selectedPkg] || '';
+    if (selectedPkg.startsWith('Starter')) {
+      baseQty = 1;
+      basePrice = 500;
+      extraPrice = 500;
+      document.getElementById('qty-desc-text').textContent = 'Includes 1 blank card';
+      document.getElementById('extra-cards-notice').textContent = 'Starter package includes 1 card. Extra blank cards cost 500 ETB each.';
+    } else if (selectedPkg.startsWith('Business')) {
+      baseQty = 5;
+      basePrice = 2000;
+      extraPrice = 400;
+      document.getElementById('qty-desc-text').textContent = 'Includes 5 custom cards';
+      document.getElementById('extra-cards-notice').textContent = 'Business package includes 5 cards. Extra custom-printed cards cost 400 ETB each.';
+    } else if (selectedPkg.startsWith('Premium')) {
+      baseQty = 10;
+      basePrice = 4000;
+      extraPrice = 400;
+      document.getElementById('qty-desc-text').textContent = 'Includes 10 custom cards';
+      document.getElementById('extra-cards-notice').textContent = 'Premium package includes 10 cards. Extra custom-printed cards cost 400 ETB each.';
+    }
+    cardQty = baseQty;
+    calculatePrice();
   }
+
   document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
   document.getElementById('step' + n).classList.add('active');
   updateProgress(n);
@@ -672,46 +755,81 @@ function addPhone() {
   document.getElementById('extra-phones').appendChild(d);
 }
 
+// ── AUTOMATED IMGBB UPLOAD ──
+function uploadToImgBB(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+  
+  return fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('ImgBB Upload Error');
+    return res.json();
+  })
+  .then(data => {
+    if (data && data.data && data.data.url) {
+      return data.data.url;
+    }
+    throw new Error('Invalid ImgBB Response');
+  });
+}
+
 function previewPhoto(input, previewId, isCircle) {
   if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      // 1. Set the preview image in the upload form
+    // Show visual loading spinner in upload box
+    const parent = input.closest('.photo-upload');
+    const icon = parent.querySelector('.pu-icon');
+    const prevText = icon.textContent;
+    icon.textContent = '⏳';
+    
+    uploadToImgBB(input.files[0])
+    .then(url => {
+      icon.textContent = prevText;
+      
+      // Update form preview
       var img = document.getElementById(previewId);
-      img.src = e.target.result;
+      img.src = url;
       img.style.display = 'block';
       
       var key = input.id === 'up-cover' ? 'cover' : input.id === 'up-avatar' ? 'avatar' : 'logo';
-      photoData[key] = e.target.result;
+      photoData[key] = url;
 
-      // 2. Set the preview image in the Live Mockups
+      // Update interactive Mockups
       if (key === 'cover') {
         const coverImg = document.getElementById('phone-preview-cover');
-        coverImg.src = e.target.result;
+        coverImg.src = url;
         coverImg.style.display = 'block';
       } else if (key === 'avatar') {
         const avatarImg = document.getElementById('phone-preview-avatar-img');
-        avatarImg.src = e.target.result;
+        avatarImg.src = url;
         avatarImg.style.display = 'block';
         document.getElementById('phone-preview-avatar-letter').style.display = 'none';
       } else if (key === 'logo') {
-        // Update Phone logo preview
+        // Phone preview
         const logoImg = document.getElementById('phone-preview-logo-img');
-        logoImg.src = e.target.result;
+        logoImg.src = url;
         logoImg.style.display = 'block';
         document.getElementById('phone-preview-logo-text').style.display = 'none';
 
-        // Update Card logo preview
+        // Card front mockup preview
         const cardLogoImg = document.getElementById('card-mockup-logo-img');
-        cardLogoImg.src = e.target.result;
+        cardLogoImg.src = url;
         cardLogoImg.style.display = 'block';
         document.getElementById('card-mockup-logo-placeholder').style.display = 'none';
       }
-    };
-    reader.readAsDataURL(input.files[0]);
+      updateDesignerPreview();
+    })
+    .catch(err => {
+      console.error('ImgBB Upload Error:', err);
+      icon.textContent = '❌';
+      alert('Failed to host image. Please verify your internet connection and try again.');
+    });
   }
 }
 
+// Payment screenshot stays 100% private in local base64
 function previewScreenshot(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
@@ -725,36 +843,64 @@ function previewScreenshot(input) {
   }
 }
 
-/* Card color selection logic */
+// ── CARD FLIPPING LOGIC ──
+function flipCard() {
+  isFlipped = !isFlipped;
+  const inner = document.getElementById('card-inner-mockup');
+  const text = document.getElementById('card-preview-side-text');
+  if (isFlipped) {
+    inner.classList.add('flipped');
+    text.textContent = 'Back side design. Dynamic profile QR code embedded.';
+  } else {
+    inner.classList.remove('flipped');
+    text.textContent = 'Front side design. Rounded corner card with premium matte coating.';
+  }
+}
+
 function setCardColor(color, el) {
   selectedCardColor = color;
   document.querySelectorAll('.color-opt').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   
-  // Update Physical Card Mockup background color
+  // Front background
   document.getElementById('card-mockup').style.backgroundColor = color;
+  // Back background
+  document.getElementById('card-back-mockup').style.backgroundColor = color;
   
-  // If the color is very light, adjust card details text color to navy/black, otherwise keep white
   const isLight = isColorLight(color);
   const cardNameText = document.getElementById('card-mockup-name');
+  const backMockup = document.getElementById('card-back-mockup');
+  
   if (isLight) {
     cardNameText.style.color = '#0A1628';
     document.getElementById('card-mockup-wave').style.color = 'rgba(10,22,40,0.3)';
     document.getElementById('card-mockup-hint').style.color = 'rgba(10,22,40,0.4)';
+    
+    // Back mockup styling
+    backMockup.style.color = '#0A1628';
+    backMockup.querySelector('.card-back-brand').style.color = '#0A1628';
+    backMockup.querySelector('.card-back-logo').style.color = 'rgba(10,22,40,0.4)';
+    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(10,22,40,0.6)';
+    backMockup.querySelector('.card-back-powered').style.color = 'rgba(10,22,40,0.3)';
   } else {
     cardNameText.style.color = '#FFFFFF';
     document.getElementById('card-mockup-wave').style.color = 'rgba(255,255,255,0.3)';
     document.getElementById('card-mockup-hint').style.color = 'rgba(255,255,255,0.4)';
+    
+    // Back mockup styling
+    backMockup.style.color = '#FFFFFF';
+    backMockup.querySelector('.card-back-brand').style.color = 'var(--gold-light)';
+    backMockup.querySelector('.card-back-logo').style.color = 'rgba(255,255,255,0.4)';
+    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(255,255,255,0.45)';
+    backMockup.querySelector('.card-back-powered').style.color = 'rgba(255,255,255,0.25)';
   }
 
-  // Update Phone Screen Mockup Header background color for visual symmetry
   const phoneHeader = document.getElementById('phone-preview-header');
   if (phoneHeader) {
     phoneHeader.style.backgroundColor = color;
   }
 }
 
-// Simple color brightness checker
 function isColorLight(hex) {
   if (hex.startsWith('#')) hex = hex.substring(1);
   if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
@@ -765,7 +911,6 @@ function isColorLight(hex) {
   return brightness > 180;
 }
 
-/* Switches preview tabs on the right preview block */
 function switchPreviewTab(tab) {
   document.querySelectorAll('.preview-tab-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById('preview-panel-profile').style.display = 'none';
@@ -780,7 +925,38 @@ function switchPreviewTab(tab) {
   }
 }
 
-/* Dynamic Live rendering of inputs */
+// ── PRICE CALCULATOR ENGINE ──
+function adjustQty(diff) {
+  const newQty = cardQty + diff;
+  if (newQty < baseQty) {
+    alert(`Minimum card count for this package is ${baseQty} card(s).`);
+    return;
+  }
+  cardQty = newQty;
+  calculatePrice();
+}
+
+function calculatePrice() {
+  let total = basePrice;
+  if (cardQty > baseQty) {
+    total += (cardQty - baseQty) * extraPrice;
+  }
+  document.getElementById('qty-display').textContent = cardQty;
+  
+  const formattedTotal = total.toLocaleString() + ' ETB';
+  document.getElementById('ps-pkg-price').textContent = formattedTotal;
+  
+  // Re-render payment helper details with calculated pricing
+  document.getElementById('pay-details-telebirr').innerHTML = `
+    <h4>Pay via Telebirr</h4>
+    <p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via Telebirr, then upload your screenshot below.</p>
+  `;
+  document.getElementById('pay-details-cbe').innerHTML = `
+    <h4>Pay via CBE Birr</h4>
+    <p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via CBE Birr, then upload your screenshot below.</p>
+  `;
+}
+
 function updateDesignerPreview() {
   const bizName = document.getElementById('o-biz').value.trim() || 'Your Business Name';
   const bizType = document.getElementById('o-type').value || 'Business Type';
@@ -790,13 +966,11 @@ function updateDesignerPreview() {
   const cardText = customCardText || bizName;
   const logoOpt = document.getElementById('o-card-logo-opt').value;
 
-  // Update Phone preview text
   document.getElementById('phone-preview-name').textContent = bizName;
   document.getElementById('phone-preview-type').textContent = bizType;
   document.getElementById('phone-preview-tagline').textContent = tagline;
   document.getElementById('phone-preview-info-hours').textContent = '🕐 Open: ' + hours;
 
-  // Avatar text letter backup
   if (!photoData.avatar) {
     document.getElementById('phone-preview-avatar-letter').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
     document.getElementById('phone-preview-avatar-letter').style.display = 'block';
@@ -806,7 +980,6 @@ function updateDesignerPreview() {
     document.getElementById('phone-preview-avatar-img').style.display = 'block';
   }
 
-  // Logo box text logo backup on phone preview
   if (!photoData.logo) {
     document.getElementById('phone-preview-logo-text').style.display = 'block';
     document.getElementById('phone-preview-logo-img').style.display = 'none';
@@ -815,11 +988,9 @@ function updateDesignerPreview() {
     document.getElementById('phone-preview-logo-img').style.display = 'block';
   }
 
-  // Card preview text
   document.getElementById('card-mockup-name').textContent = cardText;
   document.getElementById('card-mockup-logo-placeholder').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
 
-  // Card logo display logic
   const cardLogoPlaceholder = document.getElementById('card-mockup-logo-placeholder');
   const cardLogoImg = document.getElementById('card-mockup-logo-img');
   
@@ -831,13 +1002,17 @@ function updateDesignerPreview() {
     cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
     cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
     document.getElementById('card-mockup-name').style.display = 'none';
-  } else { // both
+  } else {
     cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
     cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
     document.getElementById('card-mockup-name').style.display = 'block';
   }
 
-  // Update Active Social Links on Phone Preview
+  // Update dynamic QR preview source on the back card mockup
+  const baseProfileUrl = window.location.origin + window.location.pathname.replace('order.html', '');
+  const testParams = new URLSearchParams({ name: bizName, type: bizType, tagline: tagline });
+  document.getElementById('card-back-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(baseProfileUrl + 'profile.html?' + testParams.toString())}`;
+
   const linksContainer = document.getElementById('phone-preview-links');
   linksContainer.innerHTML = '';
 
@@ -869,6 +1044,216 @@ function updateDesignerPreview() {
   if (linksContainer.children.length === 0) {
     linksContainer.innerHTML = '<div style="grid-column: span 4; font-size: 0.55rem; color: #9CA3AF; text-align: center; padding: 0.5rem 0;">(Your social links will appear here)</div>';
   }
+}
+
+// ── 300 DPI HIGH-RES CR80 RENDERER ──
+function drawCardToCanvas(side, order, logoImgElement, qrImgElement) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1013;
+  canvas.height = 638;
+  const ctx = canvas.getContext('2d');
+  
+  ctx.fillStyle = order.cardColor || '#0A1628';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const radialShine = ctx.createRadialGradient(
+    canvas.width * 0.8, canvas.height * 0.2, 0,
+    canvas.width * 0.8, canvas.height * 0.2, canvas.width
+  );
+  radialShine.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+  radialShine.addColorStop(0.5, 'transparent');
+  ctx.fillStyle = radialShine;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const isLight = isColorLight(order.cardColor || '#0A1628');
+  const textColor = isLight ? '#0A1628' : '#FFFFFF';
+  const subColor = isLight ? 'rgba(10,22,40,0.5)' : 'rgba(255,255,255,0.4)';
+  const goldColor = '#C9922A';
+
+  if (side === 'front') {
+    // 1. Draw Gold Chip
+    const chipGrad = ctx.createLinearGradient(80, 80, 210, 175);
+    chipGrad.addColorStop(0, '#F0C060');
+    chipGrad.addColorStop(1, '#C9922A');
+    ctx.fillStyle = chipGrad;
+    
+    // Draw round rectangle chip
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(80, 80, 130, 95, 12) : drawRoundRectPoly(ctx, 80, 80, 130, 95, 12);
+    ctx.fill();
+    
+    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(92, 92, 106, 71);
+    ctx.beginPath();
+    ctx.moveTo(145, 80); ctx.lineTo(145, 175);
+    ctx.moveTo(80, 127); ctx.lineTo(210, 127);
+    ctx.stroke();
+
+    // 2. Draw Antenna Signal Waves
+    ctx.fillStyle = textColor;
+    ctx.font = '80px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'top';
+    ctx.fillText('📡', canvas.width - 80, 80);
+
+    // 3. Draw Logo & Name text
+    const showLogo = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'logo';
+    const showName = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'name';
+
+    if (showLogo) {
+      if (logoImgElement && logoImgElement.complete && logoImgElement.naturalWidth > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(logoImgElement, 90, canvas.height - 220, 140, 140);
+        ctx.restore();
+      } else {
+        ctx.beginPath();
+        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+        const logoGrad = ctx.createLinearGradient(90, canvas.height - 220, 230, canvas.height - 80);
+        logoGrad.addColorStop(0, '#C9922A');
+        logoGrad.addColorStop(1, '#F0C060');
+        ctx.fillStyle = logoGrad;
+        ctx.fill();
+        
+        ctx.fillStyle = '#0A1628';
+        ctx.font = '800 65px Syne, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText((order.cardText || order.biz || 'T')[0].toUpperCase(), 160, canvas.height - 150);
+      }
+    }
+
+    if (showName) {
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.font = '800 44px Syne, sans-serif';
+      
+      const textX = showLogo ? 260 : 80;
+      ctx.fillText(order.cardText || order.biz, textX, canvas.height - 170);
+      
+      ctx.fillStyle = subColor;
+      ctx.font = '600 22px Syne, sans-serif';
+      ctx.fillText('TAP TO CONNECT', textX, canvas.height - 120);
+    }
+
+  } else if (side === 'back') {
+    // 1. Draw header brand name
+    ctx.fillStyle = goldColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.font = '800 32px Syne, sans-serif';
+    ctx.fillText('TIOFLOS NFC', canvas.width / 2, 70);
+
+    ctx.fillStyle = textColor;
+    ctx.font = '36px sans-serif';
+    ctx.fillText('📡', canvas.width / 2, 115);
+
+    // 2. Draw Dynamic QR Box
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16) : drawRoundRectPoly(ctx, canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
+    ctx.fill();
+
+    // Draw the QR code image
+    if (qrImgElement && qrImgElement.complete && qrImgElement.naturalWidth > 0) {
+      ctx.drawImage(qrImgElement, canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
+    }
+
+    // 3. Draw instructions footer
+    ctx.fillStyle = textColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.font = '800 24px Syne, sans-serif';
+    ctx.fillText('TAP CARD OR SCAN QR TO CONNECT', canvas.width / 2, canvas.height - 100);
+
+    ctx.fillStyle = subColor;
+    ctx.font = '600 20px Syne, sans-serif';
+    ctx.fillText('Arba Minch, Ethiopia', canvas.width / 2, canvas.height - 65);
+  }
+
+  return canvas.toDataURL('image/png');
+}
+
+function drawRoundRectPoly(ctx, x, y, width, height, radius) {
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+}
+
+// ── SECURE TELEGRAM SENDER ──
+function sendOrderToTelegram(order) {
+  const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendPhoto`;
+  
+  // Convert screenshot local Base64 string to Blob for TG photo upload
+  const blob = base64ToBlob(order.screenshotPhoto);
+  
+  // Build safe URL import payload containing full order data
+  const payload = btoa(unescape(encodeURIComponent(JSON.stringify(order))));
+  const importLink = `${window.location.origin}${window.location.pathname.replace('order.html', 'admin.html')}?import=${payload}`;
+
+  const caption = `
+🎉 New Tioflos NFC Order!
+
+🆔 Order ID: ${order.id}
+📅 Date: ${order.date}
+🏢 Business: ${order.biz} (${order.type})
+📦 Package: ${order.pkg}
+💳 Quantity: ${order.cardQty} card(s)
+💰 Total Price: ${order.totalPrice}
+💵 Payment: ${order.pay}
+📞 Phone: ${order.phone}
+🎨 Card Color: ${order.cardColor}
+🏷️ Card Label: "${order.cardText}"
+
+📝 Notes: ${order.notes || 'None'}
+
+📥 Click link below to import this order into your Admin Dashboard:
+${importLink}
+  `;
+
+  const formData = new FormData();
+  formData.append('chat_id', TG_CHAT_ID);
+  formData.append('photo', blob, 'screenshot.jpg');
+  formData.append('caption', caption);
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Telegram Bot send success:', data);
+  })
+  .catch(err => {
+    console.error('Telegram Bot send error:', err);
+  });
+}
+
+function base64ToBlob(base64Data) {
+  const sliceSize = 512;
+  const byteCharacters = atob(base64Data.split(',')[1]);
+  const byteArrays = [];
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  return new Blob(byteArrays, { type: 'image/jpeg' });
 }
 
 function submitOrder() {
@@ -903,6 +1288,8 @@ function submitOrder() {
     hours: hours,
     notes: notes,
     address: '',
+    cardQty: cardQty,
+    totalPrice: document.getElementById('ps-pkg-price').textContent,
     platforms: {
       whatsapp:    document.getElementById('o-whatsapp').value.trim(),
       telegram:    document.getElementById('o-telegram').value.trim(),
@@ -926,10 +1313,12 @@ function submitOrder() {
     cardLogoOpt:     cardLogoOpt,
     status: 'Pending',
     paid: false,
-    profileLink: ''
+    profileLink: '',
+    printFrontFile: '',
+    printBackFile: ''
   };
 
-  // Auto-generate profile link from order data
+  // Generate Profile link URL parameter string
   var profileParams = new URLSearchParams();
   profileParams.set('name', biz);
   if (type)    profileParams.set('type', type);
@@ -939,7 +1328,11 @@ function submitOrder() {
   if (phone3)  profileParams.set('phone3', phone3);
   if (hours)   profileParams.set('hours', hours);
   profileParams.set('color', selectedCardColor || '#0A1628');
-  // Add platform links
+  
+  if (photoData.cover) profileParams.set('cover', photoData.cover);
+  if (photoData.avatar) profileParams.set('avatar', photoData.avatar);
+  if (photoData.logo) profileParams.set('logo', photoData.logo);
+
   var plats = order.platforms;
   if (plats.whatsapp)    profileParams.set('whatsapp', plats.whatsapp);
   if (plats.telegram)    profileParams.set('telegram', plats.telegram);
@@ -961,6 +1354,13 @@ function submitOrder() {
   orders.unshift(order);
   localStorage.setItem('tioflos_orders', JSON.stringify(orders));
 
+  // Send the order details & screenshot privately to Telegram Bot!
+  try {
+    sendOrderToTelegram(order);
+  } catch (tgErr) {
+    console.error('Failed to send Telegram notification:', tgErr);
+  }
+
   document.getElementById('summary-box').innerHTML =
     '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">' + order.id + '</span></div>' +
     '<div class="summary-row"><span class="sr-label">Business</span><span class="sr-val">' + biz + '</span></div>' +
@@ -979,13 +1379,13 @@ window.onload = function() {
     let pkgNameVal = '';
     if (pkg === 'starter') {
       pkgCard = document.querySelector('.pkg-card:nth-child(1)');
-      pkgNameVal = 'Starter - 800 ETB';
+      pkgNameVal = 'Starter - 500 ETB';
     } else if (pkg === 'business') {
       pkgCard = document.querySelector('.pkg-card:nth-child(2)');
-      pkgNameVal = 'Business - 4,000 ETB';
+      pkgNameVal = 'Business - 2,000 ETB';
     } else if (pkg === 'premium') {
       pkgCard = document.querySelector('.pkg-card:nth-child(3)');
-      pkgNameVal = 'Premium - 12,000 ETB';
+      pkgNameVal = 'Premium - 4,000 ETB';
     }
     if (pkgCard) {
       selectPkg(pkgCard, pkgNameVal);

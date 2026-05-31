@@ -110,6 +110,38 @@
       border-top:1px solid var(--border); margin-top:1rem;
     }
     .powered-by a { color:var(--gold); font-weight:700; text-decoration:none; }
+    
+    /* ── VCARD BUTTON ── */
+    .vcard-btn-container {
+      padding: 0.25rem 1.25rem;
+    }
+    .vcard-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 14px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-align: center;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 24px rgba(10,22,40,0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vcard-btn:hover {
+      background: #1A2744;
+      transform: translateY(-1px);
+    }
+    .vcard-btn:active {
+      transform: scale(0.98);
+    }
   </style>
 </head>
 <body>
@@ -155,9 +187,10 @@ function buildProfile() {
   const phone2   = p(params,'phone2');
   const phone3   = p(params,'phone3');
   const hours    = p(params,'hours');
-  const cover    = p(params,'cover');
-  const avatar   = p(params,'avatar');
-  const logo     = p(params,'logo');
+  
+  let cover    = p(params,'cover');
+  let avatar   = p(params,'avatar');
+  let logo     = p(params,'logo');
 
   if (!name) {
     document.getElementById('profile-page').innerHTML = `
@@ -167,6 +200,21 @@ function buildProfile() {
         <p style="color:var(--mid);">This NFC card profile doesn't exist or the link is broken.</p>
       </div>`;
     return;
+  }
+
+  // Local testing fallback: check localStorage for missing cover/avatar/logo
+  try {
+    if (!cover || !avatar || !logo) {
+      const localOrders = JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
+      const matchingOrder = localOrders.find(o => (o.biz || '').trim() === name.trim());
+      if (matchingOrder) {
+        if (!cover && matchingOrder.coverPhoto) cover = matchingOrder.coverPhoto;
+        if (!avatar && matchingOrder.avatarPhoto) avatar = matchingOrder.avatarPhoto;
+        if (!logo && matchingOrder.logoPhoto) logo = matchingOrder.logoPhoto;
+      }
+    }
+  } catch (e) {
+    console.warn('Could not read localStorage fallback:', e);
   }
 
   document.title = name + ' — NFC Profile';
@@ -233,6 +281,13 @@ function buildProfile() {
     ? `<a class="cta-btn" href="tel:${phone}">📞 Call Now</a>`
     : '';
 
+  // vCard save contact button HTML
+  const vcardBtnHtml = `
+    <div class="vcard-btn-container" style="margin-top: 0.5rem;">
+      <button class="vcard-btn" onclick="downloadVCard()">👤 Save Contact</button>
+    </div>
+  `;
+
   document.getElementById('profile-page').innerHTML = `
     <!-- COVER + OVERLAP -->
     <div class="cover-area">
@@ -267,12 +322,64 @@ function buildProfile() {
     <!-- CTA -->
     ${ctaBtn ? `<div class="cta-section">${ctaBtn}</div>` : ''}
 
+    <!-- SAVE CONTACT VCARD -->
+    ${vcardBtnHtml}
+
     <!-- POWERED BY -->
     <div class="powered-by">
       Powered by <a href="https://tioflosnfc.github.io" target="_blank">Tioflos NFC</a> · Arba Minch, Ethiopia
     </div>
   `;
 }
+
+window.downloadVCard = function() {
+  const params = new URLSearchParams(window.location.search);
+  const name     = p(params,'name');
+  const type     = p(params,'type');
+  const tagline  = p(params,'tagline');
+  const phone    = p(params,'phone');
+  const phone2   = p(params,'phone2');
+  const phone3   = p(params,'phone3');
+  
+  if (!name) return;
+  
+  const cleanName = name.replace(/[^\w\s-]/g, '').trim();
+  const cleanPhone = phone ? phone.replace(/[^\d+]/g, '') : '';
+  const cleanPhone2 = phone2 ? phone2.replace(/[^\d+]/g, '') : '';
+  const cleanPhone3 = phone3 ? phone3.replace(/[^\d+]/g, '') : '';
+
+  let vcard = 'BEGIN:VCARD\n';
+  vcard += 'VERSION:3.0\n';
+  vcard += `N:;${name};;;\n`;
+  vcard += `FN:${name}\n`;
+  if (type) vcard += `ORG:${type}\n`;
+  if (tagline) vcard += `NOTE:${tagline}\n`;
+  
+  if (cleanPhone) vcard += `TEL;TYPE=CELL,VOICE;VALUE=uri:tel:${cleanPhone}\n`;
+  if (cleanPhone2) vcard += `TEL;TYPE=CELL,VOICE;VALUE=uri:tel:${cleanPhone2}\n`;
+  if (cleanPhone3) vcard += `TEL;TYPE=CELL,VOICE;VALUE=uri:tel:${cleanPhone3}\n`;
+  
+  const websiteVal = p(params, 'website');
+  if (websiteVal) {
+    vcard += `URL;type=pref:${websiteVal.startsWith('http') ? websiteVal : 'http://' + websiteVal}\n`;
+  }
+  
+  const mapsVal = p(params, 'maps');
+  if (mapsVal) {
+    vcard += `URL;type=work:${mapsVal.startsWith('http') ? mapsVal : 'http://' + mapsVal}\n`;
+  }
+
+  vcard += 'END:VCARD';
+
+  const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${cleanName || 'Contact'}.vcf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 
 buildProfile();
 </script>

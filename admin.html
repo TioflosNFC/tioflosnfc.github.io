@@ -309,6 +309,28 @@ if (sessionStorage.getItem('tioflos_admin') === '1') {
 function initDashboard() {
   updateClock();
   setInterval(updateClock, 1000);
+  
+  // 1-Click Telegram Import decoding logic
+  const params = new URLSearchParams(window.location.search);
+  const importData = params.get('import');
+  if (importData) {
+    try {
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(importData))));
+      const orders = getOrders();
+      if (!orders.some(o => o.id === decoded.id)) {
+        orders.unshift(decoded);
+        saveOrders(orders);
+        alert(`🎉 Successfully imported order for "${decoded.biz}"!`);
+      } else {
+        alert(`ℹ️ Order "${decoded.id}" is already in your dashboard.`);
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (e) {
+      console.error('Failed to decode import data:', e);
+      alert('❌ Failed to import order. The link might be invalid or corrupted.');
+    }
+  }
+  
   renderOrders();
 }
 
@@ -328,10 +350,15 @@ function getRevenue(orders) {
   let total = 0;
   orders.forEach(o => {
     if (o.paid) {
-      const pkg = o.pkg || '';
-      if (pkg.includes('800')) total += 800;
-      else if (pkg.includes('4,000') || pkg.includes('4000')) total += 4000;
-      else if (pkg.includes('12,000') || pkg.includes('12000')) total += 12000;
+      if (o.totalPrice) {
+        const num = parseFloat(o.totalPrice.replace(/[^\d]/g, '')) || 0;
+        total += num;
+      } else {
+        const pkg = o.pkg || '';
+        if (pkg.includes('800') || pkg.toLowerCase().includes('starter')) total += 500;
+        else if (pkg.includes('4,000') || pkg.includes('4000') || pkg.toLowerCase().includes('business')) total += 2000;
+        else if (pkg.includes('12,000') || pkg.includes('12000') || pkg.toLowerCase().includes('premium')) total += 4000;
+      }
     }
   });
   return total.toLocaleString();
@@ -420,6 +447,9 @@ function renderOrders() {
           <div class="action-btns">
             <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
             <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
+            <button class="act-btn act-link" onclick="openEditModal('${o.id}')">✏️ Edit Details</button>
+            <button class="act-btn act-link" onclick="downloadCardPNG('${o.id}', 'front')">📥 Front (PNG)</button>
+            <button class="act-btn act-link" onclick="downloadCardPNG('${o.id}', 'back')">📥 Back (PNG)</button>
             <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
           </div>
           ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
@@ -480,9 +510,9 @@ function deleteOrder(id) {
 
 function addDemoOrder() {
   const demos = [
-    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
-    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 800 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
-    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 4,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
+    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 2,000 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
+    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 500 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
+    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 2,000 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
   ];
   const d = demos[Math.floor(Math.random() * demos.length)];
   const order = {
@@ -494,10 +524,525 @@ function addDemoOrder() {
     profileLink: ''
   };
   const orders = getOrders();
+  
+  // Set prices and cardQty based on package
+  let baseP = 500, extraP = 500, baseQ = 1;
+  if (d.pkg.toLowerCase().includes('business')) {
+    baseP = 2000; extraP = 400; baseQ = 5;
+  } else if (d.pkg.toLowerCase().includes('premium')) {
+    baseP = 4000; extraP = 400; baseQ = 10;
+  }
+  
+  const cardQty = baseQ;
+  const totalPrice = baseP.toLocaleString() + ' ETB';
+
+  const order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString(),
+    cardQty: cardQty,
+    totalPrice: totalPrice,
+    cardColor: '#0A1628',
+    cardText: d.biz,
+    cardLogoOpt: 'both',
+    ...d,
+    status: 'Pending',
+    paid: false,
+    profileLink: ''
+  };
   orders.unshift(order);
   saveOrders(orders);
   renderOrders();
 }
+
+// ── EDIT MODAL CONTROL FUNCTIONS ──
+function openEditModal(id) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+
+  document.getElementById('edit-order-id').value = o.id;
+  document.getElementById('edit-biz').value = o.biz || '';
+  document.getElementById('edit-type').value = o.type || '';
+  document.getElementById('edit-tagline').value = o.tagline || '';
+  document.getElementById('edit-hours').value = o.hours || '';
+  document.getElementById('edit-phone').value = o.phone || '';
+  document.getElementById('edit-phone2').value = o.phone2 || '';
+  document.getElementById('edit-phone3').value = o.phone3 || '';
+  document.getElementById('edit-address').value = o.address || '';
+  
+  document.getElementById('edit-card-color').value = o.cardColor || '#0A1628';
+  document.getElementById('edit-card-color-picker').value = o.cardColor || '#0A1628';
+  document.getElementById('edit-card-text').value = o.cardText || '';
+  document.getElementById('edit-card-logo-opt').value = o.cardLogoOpt || 'both';
+  document.getElementById('edit-card-qty').value = o.cardQty || 1;
+  
+  document.getElementById('edit-cover-photo').value = o.coverPhoto || '';
+  document.getElementById('edit-avatar-photo').value = o.avatarPhoto || '';
+  document.getElementById('edit-logo-photo').value = o.logoPhoto || '';
+  
+  const plats = o.platforms || {};
+  document.getElementById('edit-whatsapp').value = plats.whatsapp || '';
+  document.getElementById('edit-telegram').value = plats.telegram || '';
+  document.getElementById('edit-facebook').value = plats.facebook || '';
+  document.getElementById('edit-instagram').value = plats.instagram || '';
+  document.getElementById('edit-tiktok').value = plats.tiktok || '';
+  document.getElementById('edit-youtube').value = plats.youtube || '';
+  document.getElementById('edit-twitter').value = plats.twitter || '';
+  document.getElementById('edit-snapchat').value = plats.snapchat || '';
+  document.getElementById('edit-linkedin').value = plats.linkedin || '';
+  document.getElementById('edit-maps').value = plats.maps || '';
+  document.getElementById('edit-website').value = plats.website || '';
+  document.getElementById('edit-tripadvisor').value = plats.tripadvisor || '';
+  
+  document.getElementById('edit-notes').value = o.notes || '';
+
+  document.getElementById('edit-modal').classList.add('active');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('active');
+}
+
+function saveEditOrder() {
+  const id = document.getElementById('edit-order-id').value;
+  const orders = getOrders();
+  const idx = orders.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  
+  const o = orders[idx];
+  
+  o.biz = document.getElementById('edit-biz').value.trim();
+  o.type = document.getElementById('edit-type').value;
+  o.tagline = document.getElementById('edit-tagline').value.trim();
+  o.hours = document.getElementById('edit-hours').value.trim();
+  o.phone = document.getElementById('edit-phone').value.trim();
+  o.phone2 = document.getElementById('edit-phone2').value.trim();
+  o.phone3 = document.getElementById('edit-phone3').value.trim();
+  o.address = document.getElementById('edit-address').value.trim();
+  
+  o.cardColor = document.getElementById('edit-card-color').value.trim();
+  o.cardText = document.getElementById('edit-card-text').value.trim();
+  o.cardLogoOpt = document.getElementById('edit-card-logo-opt').value;
+  
+  const newQty = parseInt(document.getElementById('edit-card-qty').value) || 1;
+  o.cardQty = newQty;
+  
+  o.coverPhoto = document.getElementById('edit-cover-photo').value.trim();
+  o.avatarPhoto = document.getElementById('edit-avatar-photo').value.trim();
+  o.logoPhoto = document.getElementById('edit-logo-photo').value.trim();
+  
+  o.platforms = {
+    whatsapp: document.getElementById('edit-whatsapp').value.trim(),
+    telegram: document.getElementById('edit-telegram').value.trim(),
+    facebook: document.getElementById('edit-facebook').value.trim(),
+    instagram: document.getElementById('edit-instagram').value.trim(),
+    tiktok: document.getElementById('edit-tiktok').value.trim(),
+    youtube: document.getElementById('edit-youtube').value.trim(),
+    twitter: document.getElementById('edit-twitter').value.trim(),
+    snapchat: document.getElementById('edit-snapchat').value.trim(),
+    linkedin: document.getElementById('edit-linkedin').value.trim(),
+    maps: document.getElementById('edit-maps').value.trim(),
+    website: document.getElementById('edit-website').value.trim(),
+    tripadvisor: document.getElementById('edit-tripadvisor').value.trim()
+  };
+  
+  o.notes = document.getElementById('edit-notes').value.trim();
+
+  // Re-calculate pricing if changed
+  let baseP = 500, extraP = 500, baseQ = 1;
+  if (o.pkg.toLowerCase().includes('business')) {
+    baseP = 2000; extraP = 400; baseQ = 5;
+  } else if (o.pkg.toLowerCase().includes('premium')) {
+    baseP = 4000; extraP = 400; baseQ = 10;
+  }
+  
+  let total = baseP;
+  if (o.cardQty > baseQ) {
+    total += (o.cardQty - baseQ) * extraP;
+  }
+  o.totalPrice = total.toLocaleString() + ' ETB';
+  
+  // Re-generate profile link with updated parameters
+  const profileParams = new URLSearchParams();
+  profileParams.set('name', o.biz);
+  if (o.type) profileParams.set('type', o.type);
+  if (o.tagline) profileParams.set('tagline', o.tagline);
+  if (o.phone) profileParams.set('phone', o.phone);
+  if (o.phone2) profileParams.set('phone2', o.phone2);
+  if (o.phone3) profileParams.set('phone3', o.phone3);
+  if (o.hours) profileParams.set('hours', o.hours);
+  profileParams.set('color', o.cardColor);
+  
+  if (o.coverPhoto) profileParams.set('cover', o.coverPhoto);
+  if (o.avatarPhoto) profileParams.set('avatar', o.avatarPhoto);
+  if (o.logoPhoto) profileParams.set('logo', o.logoPhoto);
+  
+  Object.entries(o.platforms).forEach(([k,v]) => {
+    if (v) profileParams.set(k, v);
+  });
+  
+  const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', '');
+  o.profileLink = baseUrl + 'profile.html?' + profileParams.toString();
+  
+  orders[idx] = o;
+  saveOrders(orders);
+  
+  closeEditModal();
+  renderOrders();
+}
+
+// ── HIGH-RES DUAL PRINT RENDERING ──
+function downloadCardPNG(id, side) {
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  
+  const logoImg = new Image();
+  const qrImg = new Image();
+  
+  logoImg.crossOrigin = 'anonymous';
+  qrImg.crossOrigin = 'anonymous';
+  
+  let logoLoaded = false;
+  let qrLoaded = false;
+  
+  const triggerDownload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1013;
+    canvas.height = 638;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = o.cardColor || '#0A1628';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const radialShine = ctx.createRadialGradient(
+      canvas.width * 0.8, canvas.height * 0.2, 0,
+      canvas.width * 0.8, canvas.height * 0.2, canvas.width
+    );
+    radialShine.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+    radialShine.addColorStop(0.5, 'transparent');
+    ctx.fillStyle = radialShine;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const isLight = isColorLight(o.cardColor || '#0A1628');
+    const textColor = isLight ? '#0A1628' : '#FFFFFF';
+    const subColor = isLight ? 'rgba(10,22,40,0.5)' : 'rgba(255,255,255,0.4)';
+    const goldColor = '#C9922A';
+
+    if (side === 'front') {
+      // Draw Chip
+      const chipGrad = ctx.createLinearGradient(80, 80, 210, 175);
+      chipGrad.addColorStop(0, '#F0C060');
+      chipGrad.addColorStop(1, '#C9922A');
+      ctx.fillStyle = chipGrad;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(80, 80, 130, 95, 12);
+      else drawRoundRectPoly(ctx, 80, 80, 130, 95, 12);
+      ctx.fill();
+      
+      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(92, 92, 106, 71);
+      ctx.beginPath();
+      ctx.moveTo(145, 80); ctx.lineTo(145, 175);
+      ctx.moveTo(80, 127); ctx.lineTo(210, 127);
+      ctx.stroke();
+
+      // Antenna
+      ctx.fillStyle = textColor;
+      ctx.font = '80px sans-serif';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'top';
+      ctx.fillText('📡', canvas.width - 80, 80);
+
+      // Logo & Text
+      const showLogo = o.cardLogoOpt === 'both' || o.cardLogoOpt === 'logo';
+      const showName = o.cardLogoOpt === 'both' || o.cardLogoOpt === 'name';
+
+      if (showLogo) {
+        if (logoLoaded) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(logoImg, 90, canvas.height - 220, 140, 140);
+          ctx.restore();
+        } else {
+          ctx.beginPath();
+          ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+          const logoGrad = ctx.createLinearGradient(90, canvas.height - 220, 230, canvas.height - 80);
+          logoGrad.addColorStop(0, '#C9922A');
+          logoGrad.addColorStop(1, '#F0C060');
+          ctx.fillStyle = logoGrad;
+          ctx.fill();
+          
+          ctx.fillStyle = '#0A1628';
+          ctx.font = '800 65px Syne, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText((o.cardText || o.biz || 'T')[0].toUpperCase(), 160, canvas.height - 150);
+        }
+      }
+
+      if (showName) {
+        ctx.fillStyle = textColor;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.font = '800 44px Syne, sans-serif';
+        const textX = showLogo ? 260 : 80;
+        ctx.fillText(o.cardText || o.biz, textX, canvas.height - 170);
+        
+        ctx.fillStyle = subColor;
+        ctx.font = '600 22px Syne, sans-serif';
+        ctx.fillText('TAP TO CONNECT', textX, canvas.height - 120);
+      }
+    } else {
+      // Back
+      ctx.fillStyle = goldColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.font = '800 32px Syne, sans-serif';
+      ctx.fillText('TIOFLOS NFC', canvas.width / 2, 70);
+
+      ctx.fillStyle = textColor;
+      ctx.font = '36px sans-serif';
+      ctx.fillText('📡', canvas.width / 2, 115);
+
+      // QR Box
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
+      else drawRoundRectPoly(ctx, canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
+      ctx.fill();
+
+      if (qrLoaded) {
+        ctx.drawImage(qrImg, canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
+      }
+
+      // Footer
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.font = '800 24px Syne, sans-serif';
+      ctx.fillText('TAP CARD OR SCAN QR TO CONNECT', canvas.width / 2, canvas.height - 100);
+
+      ctx.fillStyle = subColor;
+      ctx.font = '600 20px Syne, sans-serif';
+      ctx.fillText('Arba Minch, Ethiopia', canvas.width / 2, canvas.height - 65);
+    }
+    
+    const link = document.createElement('a');
+    link.download = `${o.biz.replace(/\s+/g, '_')}_card_${side}.png`;
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+  if (o.logoPhoto) {
+    logoImg.onload = () => {
+      logoLoaded = true;
+      checkAllLoaded();
+    };
+    logoImg.onerror = () => {
+      logoLoaded = false;
+      checkAllLoaded();
+    };
+    logoImg.src = o.logoPhoto;
+  } else {
+    logoLoaded = false;
+    checkAllLoaded();
+  }
+  
+  const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(o.profileLink || 'https://tioflosnfc.github.io')}`;
+  qrImg.onload = () => {
+    qrLoaded = true;
+    checkAllLoaded();
+  };
+  qrImg.onerror = () => {
+    qrLoaded = false;
+    checkAllLoaded();
+  };
+  qrImg.src = qrDataUrl;
+  
+  let calls = 0;
+  function checkAllLoaded() {
+    calls++;
+    if (calls === 2) {
+      triggerDownload();
+    }
+  }
+  
+  setTimeout(() => {
+    if (calls < 2) {
+      calls = 2;
+      triggerDownload();
+    }
+  }, 2000);
+}
+
+function isColorLight(hex) {
+  if (!hex || !hex.startsWith('#')) return false;
+  hex = hex.substring(1);
+  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness > 180;
+}
+
+function drawRoundRectPoly(ctx, x, y, width, height, radius) {
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+}
 </script>
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="modal-title">✏️ Edit Order Details</h2>
+      <button class="modal-close-btn" onclick="closeEditModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="edit-form" class="form-dark">
+        <input type="hidden" id="edit-order-id">
+        
+        <div class="form-section-title">🏢 Business Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Business / Customer Name</label>
+            <input type="text" id="edit-biz">
+          </div>
+          <div class="form-group">
+            <label>Business Type</label>
+            <select id="edit-type">
+              <option>Hotel / Resort</option>
+              <option>Restaurant / Cafe</option>
+              <option>Shop / Supermarket</option>
+              <option>Clinic / Pharmacy</option>
+              <option>Salon / Spa</option>
+              <option>School / College</option>
+              <option>Freelancer</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tagline</label>
+            <input type="text" id="edit-tagline">
+          </div>
+          <div class="form-group">
+            <label>Opening Hours</label>
+            <input type="text" id="edit-hours">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Primary Phone</label>
+            <input type="text" id="edit-phone">
+          </div>
+          <div class="form-group">
+            <label>Phone 2</label>
+            <input type="text" id="edit-phone2">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone 3</label>
+            <input type="text" id="edit-phone3">
+          </div>
+          <div class="form-group">
+            <label>Delivery Address</label>
+            <input type="text" id="edit-address">
+          </div>
+        </div>
+
+        <div class="form-section-title">🎨 Card Design Settings</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Card Color (Hex)</label>
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <input type="color" id="edit-card-color-picker" style="width:40px;height:38px;padding:0;cursor:pointer;border:none;" onchange="document.getElementById('edit-card-color').value = this.value">
+              <input type="text" id="edit-card-color" style="flex:1;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Printed Label Text</label>
+            <input type="text" id="edit-card-text">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Logo Display</label>
+            <select id="edit-card-logo-opt">
+              <option value="both">Show Logo & Name</option>
+              <option value="logo">Show Logo Only</option>
+              <option value="name">Show Name Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Card Quantity</label>
+            <input type="number" id="edit-card-qty" min="1">
+          </div>
+        </div>
+
+        <div class="form-section-title">🖼️ Hosted Image URLs</div>
+        <div class="form-group">
+          <label>Cover Photo URL</label>
+          <input type="text" id="edit-cover-photo">
+        </div>
+        <div class="form-group">
+          <label>Avatar Photo URL</label>
+          <input type="text" id="edit-avatar-photo">
+        </div>
+        <div class="form-group">
+          <label>Logo Photo URL</label>
+          <input type="text" id="edit-logo-photo">
+        </div>
+
+        <div class="form-section-title">🔗 Social Platforms & Links</div>
+        <div class="platform-grid">
+          <div class="platform-input"><span class="p-icon">💬</span><input type="text" id="edit-whatsapp" placeholder="WhatsApp"></div>
+          <div class="platform-input"><span class="p-icon">✈️</span><input type="text" id="edit-telegram" placeholder="Telegram"></div>
+          <div class="platform-input"><span class="p-icon">📘</span><input type="text" id="edit-facebook" placeholder="Facebook"></div>
+          <div class="platform-input"><span class="p-icon">📸</span><input type="text" id="edit-instagram" placeholder="Instagram"></div>
+          <div class="platform-input"><span class="p-icon">🎵</span><input type="text" id="edit-tiktok" placeholder="TikTok"></div>
+          <div class="platform-input"><span class="p-icon">▶️</span><input type="text" id="edit-youtube" placeholder="YouTube"></div>
+          <div class="platform-input"><span class="p-icon">🐦</span><input type="text" id="edit-twitter" placeholder="Twitter/X"></div>
+          <div class="platform-input"><span class="p-icon">👻</span><input type="text" id="edit-snapchat" placeholder="Snapchat"></div>
+          <div class="platform-input"><span class="p-icon">💼</span><input type="text" id="edit-linkedin" placeholder="LinkedIn"></div>
+          <div class="platform-input"><span class="p-icon">📍</span><input type="text" id="edit-maps" placeholder="Google Maps"></div>
+          <div class="platform-input"><span class="p-icon">🌐</span><input type="text" id="edit-website" placeholder="Website"></div>
+          <div class="platform-input"><span class="p-icon">⭐</span><input type="text" id="edit-tripadvisor" placeholder="TripAdvisor"></div>
+        </div>
+
+        <div class="form-group" style="margin-top:1rem;">
+          <label>Admin Notes</label>
+          <textarea id="edit-notes" rows="2"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel-btn" onclick="closeEditModal()">Cancel</button>
+      <button class="modal-save-btn" onclick="saveEditOrder()">Save Changes ✓</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

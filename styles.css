@@ -331,3 +331,238 @@ footer {
   section { padding: 3.5rem 5%; }
   .page-header { padding: 6rem 5% 3rem; }
 }
+
+/* ============================================
+   NEW: TIOFLOS NFC UPGRADES
+   ============================================ */
+
+/* ── 3D FLIPPING CARD PREVIEW ── */
+.card-container-3d {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 290px;
+  margin: 0 auto;
+}
+.preview-card-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.586;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.preview-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+.preview-card-front, .preview-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.preview-card-back {
+  transform: rotateY(180deg);
+  background: #0A1628; /* Default background */
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+
+/* Back Side Card elements */
+.card-back-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.card-back-brand {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.62rem;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.card-back-logo {
+  font-size: 0.8rem;
+}
+.card-back-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 0.4rem 0;
+}
+.card-back-qr-box {
+  width: 80px;
+  height: 80px;
+  background: var(--white);
+  border-radius: 6px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.card-back-qr-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.card-back-footer {
+  text-align: center;
+  width: 100%;
+}
+.card-back-instruction {
+  font-size: 0.48rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 600;
+}
+.card-back-powered {
+  font-size: 0.38rem;
+  color: rgba(255,255,255,0.25);
+  margin-top: 2px;
+}
+
+/* ── VCARD BUTTON ── */
+.vcard-btn-container {
+  padding: 0.25rem 1.25rem;
+}
+.vcard-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 14px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-align: center;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.1);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.vcard-btn:hover {
+  background: var(--navy-mid);
+  transform: translateY(-1px);
+}
+.vcard-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── ADMIN EDITOR MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-container {
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-container {
+  transform: translateY(0);
+}
+.modal-header {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: var(--navy-mid);
+  z-index: 10;
+}
+.modal-header h2 {
+  font-size: 1.25rem;
+  color: var(--gold-light);
+  font-weight: 800;
+}
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-close-btn:hover {
+  color: var(--white);
+}
+.modal-body {
+  padding: 2rem;
+}
+.modal-footer {
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  position: sticky;
+  bottom: 0;
+  background: var(--navy-mid);
+  z-index: 10;
+}
+.modal-save-btn {
+  padding: 0.75rem 2rem;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal-save-btn:hover {
+  background: var(--gold-light);
+}
+.modal-cancel-btn {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal-cancel-btn:hover {
+  border-color: rgba(255,255,255,0.5);
+  color: var(--white);
+}
+
