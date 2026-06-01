@@ -1,272 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Tioflos NFC</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --navy: #0A1628;
-      --navy-mid: #1A2744;
-      --gold: #C9922A;
-      --gold-light: #F0C060;
-      --white: #FFFFFF;
-      --off-white: #F9F7F3;
-      --mid: #6B7280;
-      --border: rgba(201,146,42,0.15);
-      --green: #10B981;
-      --red: #EF4444;
-      --yellow: #F59E0B;
-      --blue: #3B82F6;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--white); min-height:100vh; }
-    h1,h2,h3,h4 { font-family:'Syne',sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order — Tioflos NFC</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.order-page{background:var(--navy);min-height:100vh;padding-top:68px}
+.order-container{max-width:1120px;margin:0 auto;padding:3rem 5%}
+.progress-bar{display:flex;align-items:center;justify-content:center;margin-bottom:3rem;max-width:720px;margin-left:auto;margin-right:auto}
+.progress-step{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.progress-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;font-size:.9rem;border:2px solid rgba(201,146,42,.3);color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);transition:all .3s}
+.progress-circle.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.progress-circle.done{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.progress-label{font-size:.62rem;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.progress-label.active{color:var(--gold-light)}
+.progress-line{width:60px;height:2px;background:rgba(201,146,42,.2);margin-bottom:1.2rem}
+.progress-line.done{background:var(--gold)}
+.step-panel{display:none}
+.step-panel.active{display:block}
+.step-title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:var(--white);margin-bottom:.5rem}
+.step-sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
 
-    /* LOGIN */
-    .login-screen {
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      background:var(--navy);
-    }
-    .login-box {
-      background:var(--navy-mid); border-radius:20px; padding:2.5rem;
-      border:1px solid var(--border); width:100%; max-width:380px; text-align:center;
-    }
-    .login-logo { font-size:2.5rem; margin-bottom:1rem; }
-    .login-box h2 { font-size:1.4rem; font-weight:800; color:var(--white); margin-bottom:0.4rem; }
-    .login-box p { font-size:0.85rem; color:rgba(255,255,255,0.45); margin-bottom:2rem; }
-    .login-box input {
-      width:100%; padding:0.85rem 1rem; border:1.5px solid var(--border);
-      border-radius:10px; background:rgba(255,255,255,0.06); color:var(--white);
-      font-family:'DM Sans',sans-serif; font-size:0.95rem; outline:none;
-      margin-bottom:1rem; transition:border-color 0.2s;
-    }
-    .login-box input:focus { border-color:var(--gold); }
-    .login-box input::placeholder { color:rgba(255,255,255,0.25); }
-    .login-btn {
-      width:100%; padding:0.9rem; background:var(--gold); color:var(--navy);
-      border:none; border-radius:10px; font-family:'Syne',sans-serif;
-      font-weight:800; font-size:1rem; cursor:pointer; transition:background 0.2s;
-    }
-    .login-btn:hover { background:var(--gold-light); }
-    .login-error { color:var(--red); font-size:0.82rem; margin-top:0.75rem; display:none; }
+/* Step-specific width control */
+#step1, #step3, #step4 { max-width:720px; margin:0 auto; }
 
-    /* DASHBOARD */
-    .dashboard { display:none; }
-    .dash-header {
-      background:var(--navy-mid); padding:1rem 2rem;
-      display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100;
-    }
-    .dash-header h1 { font-size:1.1rem; font-weight:800; color:var(--gold-light); }
-    .dash-header-right { display:flex; align-items:center; gap:1rem; }
-    .dash-header-right span { font-size:0.8rem; color:rgba(255,255,255,0.5); }
-    .logout-btn {
-      padding:0.4rem 1rem; background:rgba(239,68,68,0.15); color:#EF4444;
-      border:1px solid rgba(239,68,68,0.3); border-radius:6px;
-      font-size:0.8rem; font-weight:700; cursor:pointer; transition:all 0.2s;
-      font-family:'Syne',sans-serif;
-    }
-    .logout-btn:hover { background:rgba(239,68,68,0.25); }
+/* Packages */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.pkg-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem 1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative;background:rgba(255,255,255,.03)}
+.pkg-card:hover{border-color:rgba(201,146,42,.5)}
+.pkg-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}
+.pkg-popular{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.6rem;font-weight:700;padding:.2rem .7rem;border-radius:100px;text-transform:uppercase;white-space:nowrap}
+.pkg-icon{font-size:2rem;margin-bottom:.5rem}
+.pkg-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}
+.pkg-price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}
+.pkg-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.5}
+.pkg-tag{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.4rem}
 
-    .dash-body { padding:2rem; }
+/* Form Section Styling */
+.form-sec{font-family:Syne,sans-serif;font-weight:700;font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:2px;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,146,42,.2)}
+.o-label{display:block;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+.o-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(201,146,42,.25);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.9rem;background:rgba(255,255,255,.06);color:var(--white);outline:none;transition:border-color .2s;margin-bottom:1.25rem}
+.o-input::placeholder{color:rgba(255,255,255,0.25)}
+.o-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,146,42,.15)}
+.o-input option{background:var(--navy)}
+.o-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.phone-row{display:flex;gap:.5rem;align-items:center;margin-bottom:1.25rem}
+.phone-row .o-input{margin-bottom:0;flex:1}
+.remove-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#EF4444;font-size:.8rem;padding:.5rem .75rem;cursor:pointer;font-weight:700;white-space:nowrap}
+.add-phone-btn{background:none;border:1px dashed rgba(201,146,42,.4);border-radius:8px;color:var(--gold-light);font-size:.78rem;font-weight:700;padding:.4rem .85rem;cursor:pointer;font-family:Syne,sans-serif;margin-bottom:1.25rem}
 
-    /* STATS */
-    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
-    .stat-card {
-      background:var(--navy-mid); border-radius:14px; padding:1.25rem 1.5rem;
-      border:1px solid var(--border);
-    }
-    .stat-label { font-size:0.72rem; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem; }
-    .stat-value { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; }
-    .stat-value.gold { color:var(--gold); }
-    .stat-value.green { color:var(--green); }
-    .stat-value.yellow { color:var(--yellow); }
-    .stat-value.blue { color:var(--blue); }
+/* Photos Upload UI */
+.photo-uploads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.photo-upload{border:2px dashed rgba(201,146,42,.3);border-radius:12px;padding:1rem .5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);position:relative}
+.photo-upload:hover{border-color:var(--gold)}
+.photo-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.pu-icon{font-size:1.5rem;margin-bottom:.3rem}
+.pu-label{font-size:.68rem;font-weight:600;color:rgba(255,255,255,.6)}
+.pu-sub{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.2rem}
+.photo-preview{width:100%;height:60px;object-fit:cover;border-radius:8px;display:none;margin-top:.5rem}
+.photo-preview.circle{border-radius:50%;width:50px;height:50px;margin:.5rem auto 0}
 
-    /* CONTROLS */
-    .controls { display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap; }
-    .search-input {
-      flex:1; min-width:200px; padding:0.7rem 1rem;
-      background:var(--navy-mid); border:1.5px solid var(--border);
-      border-radius:8px; color:var(--white); font-family:'DM Sans',sans-serif;
-      font-size:0.875rem; outline:none; transition:border-color 0.2s;
-    }
-    .search-input:focus { border-color:var(--gold); }
-    .search-input::placeholder { color:rgba(255,255,255,0.25); }
-    .filter-select {
-      padding:0.7rem 1rem; background:var(--navy-mid);
-      border:1.5px solid var(--border); border-radius:8px;
-      color:var(--white); font-family:'DM Sans',sans-serif;
-      font-size:0.875rem; outline:none; cursor:pointer;
-    }
-    .filter-select option { background:var(--navy); }
-    .add-demo-btn {
-      padding:0.7rem 1.25rem; background:rgba(201,146,42,0.15);
-      border:1px solid var(--border); border-radius:8px;
-      color:var(--gold-light); font-size:0.8rem; font-weight:700;
-      cursor:pointer; font-family:'Syne',sans-serif; transition:all 0.2s;
-    }
-    .add-demo-btn:hover { background:rgba(201,146,42,0.25); }
+/* Platforms Grid */
+.plat-group-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.platform-row{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,146,42,.2);border-radius:8px;padding:.55rem .75rem;transition:border-color .2s}
+.platform-row:focus-within{border-color:var(--gold)}
+.platform-row .p-icon{font-size:1.1rem;flex-shrink:0}
+.platform-row input{border:none;background:none;padding:0;margin:0;font-size:.82rem;color:var(--white);width:100%;outline:none}
+.platform-row input::placeholder{color:rgba(255,255,255,.25)}
 
-    /* ORDERS TABLE */
-    .orders-wrap { overflow-x:auto; border-radius:14px; border:1px solid var(--border); }
-    table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-    thead th {
-      background:rgba(201,146,42,0.1); padding:0.85rem 1rem;
-      text-align:left; font-family:'Syne',sans-serif; font-weight:700;
-      font-size:0.72rem; color:var(--gold-light); text-transform:uppercase;
-      letter-spacing:1px; white-space:nowrap; border-bottom:1px solid var(--border);
-    }
-    tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
-    tbody tr:last-child { border-bottom:none; }
-    tbody tr:hover { background:rgba(255,255,255,0.03); }
-    tbody td { padding:0.85rem 1rem; color:rgba(255,255,255,0.8); vertical-align:middle; }
-    .td-id { font-family:'Syne',sans-serif; font-weight:700; font-size:0.75rem; color:var(--gold); }
-    .td-date { font-size:0.75rem; color:rgba(255,255,255,0.45); white-space:nowrap; }
-    .td-biz { font-weight:700; color:var(--white); }
-    .td-type { font-size:0.75rem; color:rgba(255,255,255,0.5); }
+/* Designer Layout Grid */
+.designer-grid { display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; align-items: start; }
+.designer-inputs { min-width: 0; }
+.designer-preview-wrap {
+  position: sticky; top: 90px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(201, 146, 42, 0.15);
+  border-radius: 20px; padding: 1.5rem;
+  min-height: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.preview-tabs { display: flex; background: rgba(255, 255, 255, 0.05); padding: 4px; border-radius: 10px; margin-bottom: 1.5rem; }
+.preview-tab-btn {
+  flex: 1; background: transparent; border: none;
+  color: rgba(255, 255, 255, 0.6); padding: 0.6rem;
+  border-radius: 8px; font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.preview-tab-btn.active { background: var(--gold); color: var(--navy); }
 
-    /* Status badges */
-    .badge {
-      display:inline-block; padding:0.25rem 0.65rem; border-radius:100px;
-      font-size:0.7rem; font-weight:700; white-space:nowrap;
-    }
-    .badge-pending { background:rgba(245,158,11,0.15); color:var(--yellow); border:1px solid rgba(245,158,11,0.3); }
-    .badge-confirmed { background:rgba(59,130,246,0.15); color:var(--blue); border:1px solid rgba(59,130,246,0.3); }
-    .badge-inprogress { background:rgba(201,146,42,0.15); color:var(--gold-light); border:1px solid rgba(201,146,42,0.3); }
-    .badge-delivered { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
-    .badge-paid { background:rgba(16,185,129,0.15); color:var(--green); border:1px solid rgba(16,185,129,0.3); }
-    .badge-unpaid { background:rgba(239,68,68,0.15); color:var(--red); border:1px solid rgba(239,68,68,0.3); }
+/* Color Picker */
+.color-options { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
+.color-opt {
+  width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative;
+}
+.color-opt:hover { transform: scale(1.1); }
+.color-opt.active { border-color: var(--white); box-shadow: 0 0 0 2px var(--gold); }
+.custom-picker-btn { overflow: hidden; }
 
-    /* Action buttons */
-    .action-btns { display:flex; gap:0.4rem; flex-wrap:wrap; }
-    .act-btn {
-      padding:0.3rem 0.6rem; border-radius:6px; font-size:0.7rem;
-      font-weight:700; cursor:pointer; border:1px solid; transition:all 0.15s;
-      font-family:'Syne',sans-serif; white-space:nowrap;
-    }
-    .act-status { background:rgba(59,130,246,0.1); color:var(--blue); border-color:rgba(59,130,246,0.3); }
-    .act-status:hover { background:rgba(59,130,246,0.25); }
-    .act-paid { background:rgba(16,185,129,0.1); color:var(--green); border-color:rgba(16,185,129,0.3); }
-    .act-paid:hover { background:rgba(16,185,129,0.25); }
-    .act-link { background:rgba(201,146,42,0.1); color:var(--gold-light); border-color:rgba(201,146,42,0.3); }
-    .act-link:hover { background:rgba(201,146,42,0.25); }
-    .act-delete { background:rgba(239,68,68,0.1); color:var(--red); border-color:rgba(239,68,68,0.3); }
-    .act-delete:hover { background:rgba(239,68,68,0.25); }
+/* CSS NFC Card Mockup */
+.preview-card {
+  width: 100%; max-width: 290px; aspect-ratio: 1.586;
+  border-radius: 16px; background: var(--navy-mid); padding: 1.25rem;
+  position: relative; overflow: hidden; display: flex;
+  flex-direction: column; justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s ease; margin: 0 auto;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.15);
+}
+.preview-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+}
+.card-shine {
+  position: absolute; top: -150%; left: -150%; width: 300%; height: 300%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 50%);
+  transform: rotate(30deg); pointer-events: none;
+}
+.card-nfc-chip {
+  width: 38px; height: 28px;
+  background: linear-gradient(135deg, #F0C060, #C9922A);
+  border-radius: 5px; position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.2);
+}
+.card-nfc-chip::after {
+  content: ''; position: absolute; inset: 3px;
+  border: 1.2px solid rgba(0,0,0,0.12); border-radius: 2.5px;
+}
+.card-nfc-wave { font-size: 1.1rem; color: rgba(255,255,255,0.4); }
+.card-logo-area { display: flex; align-items: center; gap: 12px; }
+.card-logo-img {
+  width: 44px; height: 44px; object-fit: contain;
+  border-radius: 6px; background: rgba(255,255,255,0.15);
+  padding: 3px; display: none;
+}
+.card-logo-placeholder {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, #C9922A, #F0C060);
+  color: var(--navy); font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.card-name-text {
+  font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4); line-height: 1.2;
+}
+.card-tap-hint {
+  font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4); font-weight: 600; margin-top: 2px;
+}
 
-    /* Profile link input */
-    .link-input {
-      background:rgba(255,255,255,0.06); border:1px solid var(--border);
-      border-radius:6px; padding:0.3rem 0.5rem; color:var(--white);
-      font-size:0.72rem; width:160px; outline:none;
-      font-family:'DM Sans',sans-serif;
-    }
+/* Phone Screen Mockup */
+.preview-phone {
+  width: 230px; margin: 0 auto; background: #1A2744;
+  border-radius: 28px; padding: 8px; border: 2px solid rgba(201,146,42,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.preview-screen { background: #F8F9FA; border-radius: 20px; overflow: hidden; min-height: 380px; color: var(--navy); }
+.preview-phone-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 0.4rem 0.2rem; background: var(--white); border-radius: 8px; border: 1px solid #E5E7EB;
+}
+.preview-phone-icon { font-size: 0.9rem; }
+.preview-phone-label { font-size: 0.45rem; color: #6B7280; font-weight: 600; }
 
-    /* Empty state */
-    .empty-state { text-align:center; padding:4rem 2rem; color:rgba(255,255,255,0.3); }
-    .empty-state .es-icon { font-size:3rem; margin-bottom:1rem; }
+/* Payment & Done details */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.pay-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s;text-align:center;background:rgba(255,255,255,.03)}
+.pay-card:hover{border-color:rgba(201,146,42,.5)}
+.pay-card.selected{border-color:var(--gold);background:rgba(201,146,42,.1)}
+.pay-icon{font-size:2rem;margin-bottom:.5rem}
+.pay-name{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white);margin-bottom:.25rem}
+.pay-num{font-size:.82rem;color:var(--gold);font-weight:600}
+.pay-details{display:none;background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.3);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem}
+.pay-details.show{display:block}
+.pay-details h4{font-size:.9rem;font-weight:700;color:var(--gold-light);margin-bottom:.75rem}
+.pay-details p{font-size:.875rem;color:rgba(255,255,255,.7);line-height:1.75}
+.acct{font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:1px}
+.screenshot-upload{border:2px dashed rgba(201,146,42,.35);border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;position:relative}
+.screenshot-upload:hover{border-color:var(--gold)}
+.screenshot-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.su-icon{font-size:2rem;margin-bottom:.5rem}
+.su-text{font-size:.875rem;color:rgba(255,255,255,.6)}
+.su-text strong{color:var(--gold-light)}
+#screenshot-preview{max-width:200px;border-radius:8px;border:1px solid rgba(201,146,42,.3);display:none;margin:1rem auto 0}
+.price-summary{background:rgba(201,146,42,.08);border:1px solid rgba(201,146,42,.25);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.ps-label{font-size:.85rem;color:rgba(255,255,255,.6)}
+.ps-pkg{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white)}
+.ps-price{font-family:Syne,sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold)}
 
-    @media (max-width:900px) {
-      .stats-grid { grid-template-columns:1fr 1fr; }
-      .dash-body { padding:1rem; }
-    }
-    @media (max-width:600px) {
-      .stats-grid { grid-template-columns:1fr 1fr; }
-      .dash-header { padding:1rem; }
-      .dash-header h1 { font-size:0.9rem; }
-    }
-  </style>
+/* Button layouts */
+.btn-row{display:flex;gap:1rem;margin-top:1.5rem}
+.btn-next{flex:1;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:Syne,sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--gold-light)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed}
+.btn-back{padding:1rem 1.5rem;background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;font-family:Syne,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
+.btn-back:hover{border-color:rgba(255,255,255,.5);color:var(--white)}
+
+/* Success */
+.success-screen{text-align:center;padding:2rem 0}
+.success-icon{font-size:4rem;margin-bottom:1rem}
+.success-screen h2{font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:1rem}
+.success-screen p{color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:2rem;font-size:1rem}
+.summary-box{background:rgba(255,255,255,.05);border:1px solid rgba(201,146,42,.2);border-radius:14px;padding:1.5rem;margin-bottom:2rem;text-align:left}
+.summary-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.875rem}
+.summary-row:last-child{border-bottom:none}
+.sr-label{color:rgba(255,255,255,.45)}
+.sr-val{color:var(--white);font-weight:600}
+
+@media(max-width:900px){
+  .designer-grid{grid-template-columns:1fr}
+  .designer-preview-wrap{position:static;min-height:auto}
+}
+@media(max-width:600px){
+  .pkg-grid{grid-template-columns:1fr}
+  .pay-grid{grid-template-columns:1fr}
+  .photo-uploads{grid-template-columns:1fr}
+  .platform-grid{grid-template-columns:1fr}
+  .o-row{grid-template-columns:1fr}
+  .progress-line{width:30px}
+}
+</style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen" id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">🔐</div>
-    <h2>Admin Dashboard</h2>
-    <p>Tioflos NFC — Manager Access Only</p>
-    <input type="password" id="pwd-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()">
-    <button class="login-btn" onclick="login()">Login →</button>
-    <div class="login-error" id="login-error">❌ Wrong password. Try again.</div>
-  </div>
+<nav>
+  <a class="nav-logo" href="index.html">
+    <img src="logo.png" alt="Tioflos NFC" onerror="this.style.display='none'">
+    <span>Tioflos NFC</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#demo">Demo</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="order.html" class="active">Order</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="order.html">Order Now</a>
+  <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="index.html#how" onclick="toggleMenu()">How It Works</a></li>
+    <li><a href="index.html#demo" onclick="toggleMenu()">Demo</a></li>
+    <li><a href="index.html#pricing" onclick="toggleMenu()">Pricing</a></li>
+    <li><a href="index.html#gallery" onclick="toggleMenu()">Gallery</a></li>
+    <li><a href="order.html">Order</a></li>
+    <li><a href="index.html#contact" onclick="toggleMenu()">Contact</a></li>
+  </ul>
+  <a class="mob-cta" href="order.html">Order Now</a>
 </div>
 
-<!-- DASHBOARD -->
-<div class="dashboard" id="dashboard">
+<div class="order-page">
+  <div class="order-container">
 
-  <!-- HEADER -->
-  <div class="dash-header">
-    <h1>🏢 Tioflos NFC — Admin Dashboard</h1>
-    <div class="dash-header-right">
-      <span id="dash-time"></span>
-      <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <div class="dash-body">
-
-    <!-- STATS -->
-    <div class="stats-grid" id="stats-grid">
-      <div class="stat-card">
-        <div class="stat-label">Total Orders</div>
-        <div class="stat-value gold" id="stat-total">0</div>
+    <!-- PROGRESS BAR (4 steps) -->
+    <div class="progress-bar">
+      <div class="progress-step">
+        <div class="progress-circle active" id="pc1">1</div>
+        <div class="progress-label active" id="pl1">Package</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Pending</div>
-        <div class="stat-value yellow" id="stat-pending">0</div>
+      <div class="progress-line" id="line1"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc2">2</div>
+        <div class="progress-label" id="pl2">Profile & Card</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Delivered</div>
-        <div class="stat-value green" id="stat-delivered">0</div>
+      <div class="progress-line" id="line2"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc3">3</div>
+        <div class="progress-label" id="pl3">Payment</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">Est. Revenue</div>
-        <div class="stat-value blue" id="stat-revenue">0 ETB</div>
+      <div class="progress-line" id="line3"></div>
+      <div class="progress-step">
+        <div class="progress-circle" id="pc4">4</div>
+        <div class="progress-label" id="pl4">Done</div>
       </div>
     </div>
 
-    <!-- CONTROLS -->
-    <div class="controls">
-      <input class="search-input" type="text" id="search-input" placeholder="🔍 Search by business name, package..." oninput="renderOrders()">
-      <select class="filter-select" id="filter-status" onchange="renderOrders()">
-        <option value="">All Statuses</option>
-        <option value="Pending">Pending</option>
-        <option value="Confirmed">Confirmed</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Delivered">Delivered</option>
-      </select>
-      <select class="filter-select" id="filter-paid" onchange="renderOrders()">
-        <option value="">All Payments</option>
-        <option value="paid">Paid</option>
-        <option value="unpaid">Unpaid</option>
-      </select>
-      <button class="add-demo-btn" onclick="addDemoOrder()">+ Add Demo Order</button>
+    <!-- STEP 1: PACKAGE -->
+    <div class="step-panel active" id="step1">
+      <h1 class="step-title">Choose Your Package</h1>
+      <p class="step-sub">Select the package that fits your business needs.</p>
+      <div class="pkg-grid">
+        <div class="pkg-card" onclick="selectPkg(this,'Starter - 800 ETB')">
+          <div class="pkg-icon">⬜</div>
+          <div class="pkg-name">Starter</div>
+          <div class="pkg-price">800 ETB</div>
+          <div class="pkg-desc">1 NFC Card (blank) + Digital profile setup</div>
+          <div class="pkg-tag">Blank card</div>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this,'Business - 7,500 ETB')">
+          <div class="pkg-popular">Most Popular</div>
+          <div class="pkg-icon">🎨</div>
+          <div class="pkg-name">Business</div>
+          <div class="pkg-price">7,500 ETB</div>
+          <div class="pkg-desc">5 NFC Cards (custom printed) + Full profile + branding</div>
+          <div class="pkg-tag">Custom print</div>
+        </div>
+        <div class="pkg-card" onclick="selectPkg(this,'Premium - 20,000 ETB')">
+          <div class="pkg-icon">⭐</div>
+          <div class="pkg-name">Premium</div>
+          <div class="pkg-price">20,000 ETB</div>
+          <div class="pkg-desc">10+ NFC Cards (custom printed) + Full branding + 6 months support</div>
+          <div class="pkg-tag">Custom print</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-next" id="btn-next1" onclick="goStep(2)" disabled>Continue →</button>
+      </div>
     </div>
 
-    <!-- ORDERS TABLE -->
-    <div class="orders-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Date</th>
-            <th>Business</th>
-            <th>Package</th>
-            <th>Payment</th>
-            <th>Screenshot</th>
-            <th>Status</th>
-            <th>Paid</th>
-            <th>Profile Link</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="orders-tbody"></tbody>
-      </table>
-      <div class="empty-state" id="empty-state" style="display:none;">
-        <div class="es-icon">📭</div>
-        <div>No orders yet. Orders submitted on the website will appear here.</div>
+    <!-- STEP 2: PROFILE + CARD DESIGNER -->
+    <div class="step-panel" id="step2">
+      <h1 class="step-title">Design Your Card & Profile</h1>
+      <p class="step-sub">Fill in your business details and customize your NFC card design. Watch it build in real-time on the preview panel!</p>
+
+      <div class="designer-grid">
+        <!-- LEFT: INPUTS -->
+        <div class="designer-inputs">
+          
+          <!-- Business Info -->
+          <div class="form-sec">Business Information</div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Business / Your Name *</label>
+              <input class="o-input" type="text" id="o-biz" placeholder="e.g. Lante Hotel" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Business Type *</label>
+              <select class="o-input" id="o-type" onchange="updateDesignerPreview()">
+                <option value="">Select type...</option>
+                <option>Hotel / Resort</option>
+                <option>Restaurant / Cafe</option>
+                <option>Shop / Supermarket</option>
+                <option>Clinic / Pharmacy</option>
+                <option>Salon / Spa</option>
+                <option>School / College</option>
+                <option>Freelancer</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Tagline / Short Description</label>
+              <input class="o-input" type="text" id="o-tagline" placeholder="e.g. Best views in Arba Minch" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Opening Hours</label>
+              <input class="o-input" type="text" id="o-hours" placeholder="e.g. Mon–Sat 8am–9pm" oninput="updateDesignerPreview()">
+            </div>
+          </div>
+          <label class="o-label">Phone Number *</label>
+          <div class="phone-row">
+            <input class="o-input" type="tel" id="o-phone" placeholder="+251..." oninput="updateDesignerPreview()">
+          </div>
+          <div id="extra-phones"></div>
+          <button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button>
+
+          <!-- Design Physical Card -->
+          <div class="form-sec">Design Your NFC Card</div>
+          <div class="o-form-group">
+            <label class="o-label">Select Card Background Color</label>
+            <div class="color-options">
+              <div class="color-opt active" style="background:#0A1628" onclick="setCardColor('#0A1628', this)" title="Deep Navy"></div>
+              <div class="color-opt" style="background:#111827" onclick="setCardColor('#111827', this)" title="Matte Black"></div>
+              <div class="color-opt" style="background:#1E3F20" onclick="setCardColor('#1E3F20', this)" title="Forest Green"></div>
+              <div class="color-opt" style="background:#7F1D1D" onclick="setCardColor('#7F1D1D', this)" title="Crimson Red"></div>
+              <div class="color-opt" style="background:#4C1D95" onclick="setCardColor('#4C1D95', this)" title="Royal Purple"></div>
+              <div class="color-opt" style="background:#C9922A" onclick="setCardColor('#C9922A', this)" title="Classic Gold"></div>
+              <div class="color-opt custom-picker-btn" style="background:linear-gradient(45deg, red, blue)" title="Custom Color">
+                <input type="color" id="card-color-picker" style="opacity:0;position:absolute;width:100%;height:100%;cursor:pointer;" onchange="setCardColor(this.value, this.parentElement)">
+              </div>
+            </div>
+          </div>
+          <div class="o-row">
+            <div>
+              <label class="o-label">Name Printed on Card</label>
+              <input class="o-input" type="text" id="o-card-text" placeholder="Defaults to Business Name" oninput="updateDesignerPreview()">
+            </div>
+            <div>
+              <label class="o-label">Logo Display</label>
+              <select class="o-input" id="o-card-logo-opt" onchange="updateDesignerPreview()">
+                <option value="both">Show Logo & Name</option>
+                <option value="logo">Show Logo Only</option>
+                <option value="name">Show Name Only</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Photos -->
+          <div class="form-sec">Photos & Assets</div>
+          <div class="photo-uploads">
+            <div class="photo-upload" onclick="document.getElementById('up-cover').click()">
+              <input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)">
+              <div class="pu-icon">🖼</div>
+              <div class="pu-label">Cover Photo</div>
+              <div class="pu-sub">Banner image</div>
+              <img class="photo-preview" id="prev-cover">
+            </div>
+            <div class="photo-upload" onclick="document.getElementById('up-avatar').click()">
+              <input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)">
+              <div class="pu-icon">👤</div>
+              <div class="pu-label">Profile Photo</div>
+              <div class="pu-sub">Circular avatar</div>
+              <img class="photo-preview circle" id="prev-avatar">
+            </div>
+            <div class="photo-upload" onclick="document.getElementById('up-logo').click()">
+              <input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)">
+              <div class="pu-icon">🏢</div>
+              <div class="pu-label">Logo</div>
+              <div class="pu-sub">Company logo</div>
+              <img class="photo-preview" id="prev-logo">
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div class="form-sec">Your Links & Social Media</div>
+          <div class="plat-group-label">Messaging</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">💬</span><input type="text" id="o-whatsapp" placeholder="WhatsApp (+251...)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">✈️</span><input type="text" id="o-telegram" placeholder="Telegram (@username)" oninput="updateDesignerPreview()"></div>
+          </div>
+          <div class="plat-group-label">Social Media</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">📘</span><input type="text" id="o-facebook" placeholder="Facebook URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">📸</span><input type="text" id="o-instagram" placeholder="Instagram (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🎵</span><input type="text" id="o-tiktok" placeholder="TikTok (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">▶️</span><input type="text" id="o-youtube" placeholder="YouTube URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🐦</span><input type="text" id="o-twitter" placeholder="Twitter/X (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">👻</span><input type="text" id="o-snapchat" placeholder="Snapchat (@username)" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">💼</span><input type="text" id="o-linkedin" placeholder="LinkedIn URL" oninput="updateDesignerPreview()"></div>
+          </div>
+          <div class="plat-group-label">Business & Discovery</div>
+          <div class="platform-grid">
+            <div class="platform-row"><span class="p-icon">📍</span><input type="text" id="o-maps" placeholder="Google Maps link" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">🌐</span><input type="text" id="o-website" placeholder="Website URL" oninput="updateDesignerPreview()"></div>
+            <div class="platform-row"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link" oninput="updateDesignerPreview()"></div>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-sec">Additional Notes</div>
+          <textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items, card design preferences..."></textarea>
+
+          <div class="btn-row">
+            <button class="btn-back" onclick="goStep(1)">Back</button>
+            <button class="btn-next" onclick="goStep(3)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- RIGHT: PREVIEW -->
+        <div class="designer-preview-wrap">
+          <div class="preview-tabs">
+            <button type="button" class="preview-tab-btn active" id="tab-btn-profile" onclick="switchPreviewTab('profile')">📱 Live Profile</button>
+            <button type="button" class="preview-tab-btn" id="tab-btn-card" onclick="switchPreviewTab('card')">💳 Physical Card</button>
+          </div>
+
+          <!-- Digital Profile Preview (Phone) -->
+          <div class="preview-phone-wrap" id="preview-panel-profile">
+            <div class="preview-phone">
+              <div class="preview-screen">
+                <div class="preview-header-img-wrap" id="phone-preview-cover-wrap" style="height:90px; background:#e2e8f0; position:relative; overflow:hidden;">
+                  <img id="phone-preview-cover" style="width:100%; height:100%; object-fit:cover; display:none;">
+                </div>
+                <div class="preview-header" id="phone-preview-header" style="background:#0A1628; padding: 1rem 0.75rem 0.5rem; text-align:center; position:relative; margin-top:-35px; transition: background-color 0.3s;">
+                  <div class="preview-avatar-wrap" style="display:flex; justify-content:space-between; align-items:flex-end; padding:0 0.5rem; margin-bottom:0.5rem;">
+                    <div class="preview-avatar" id="phone-preview-avatar" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--white); background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--white); overflow:hidden;">
+                      <span id="phone-preview-avatar-letter">T</span>
+                      <img id="phone-preview-avatar-img" style="width:100%; height:100%; object-fit:cover; display:none;">
+                    </div>
+                    <div class="preview-logo-box" style="width:60px; height:40px; border-radius:6px; border:2px solid var(--white); background:var(--white); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                      <span id="phone-preview-logo-text" style="font-size:0.5rem; color:var(--mid); font-weight:700;">LOGO</span>
+                      <img id="phone-preview-logo-img" style="width:100%; height:100%; object-fit:contain; padding:2px; display:none;">
+                    </div>
+                  </div>
+                  <div class="preview-name" id="phone-preview-name" style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business Name</div>
+                  <div style="font-size:0.6rem; color:var(--gold-light); margin-top:2px;" id="phone-preview-type">Business Type</div>
+                  <div class="preview-tagline" id="phone-preview-tagline" style="font-size:0.65rem; color:rgba(255,255,255,0.6); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Your tagline here</div>
+                </div>
+                <div style="padding:0.75rem">
+                  <div class="preview-btns" id="phone-preview-links" style="display:grid; grid-template-columns: repeat(4,1fr); gap:6px;">
+                    <!-- Links populated dynamically by JS -->
+                  </div>
+                  <div style="margin-top:0.75rem;padding:0.4rem;background:#F3F4F6;border-radius:6px;font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;letter-spacing:1px">Business Info</div>
+                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280; border-bottom: 1px solid #f3f4f6;" id="phone-preview-info-hours">🕐 Open: Mon–Sat 8am–9pm</div>
+                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280;" id="phone-preview-info-location">📍 Arba Minch, Ethiopia</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Physical Card Preview -->
+          <div class="preview-card-wrap" id="preview-panel-card" style="display:none; padding:1.5rem 0;">
+            <div class="card-container-3d">
+              <div class="preview-card-inner" id="card-inner-mockup">
+                
+                <!-- Front Side -->
+                <div class="preview-card-front">
+                  <div class="preview-card" id="card-mockup" style="margin:0;">
+                    <div class="card-shine"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+                      <div class="card-nfc-chip"></div>
+                      <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
+                    </div>
+                    
+                    <div class="card-logo-area">
+                      <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
+                      <img class="card-logo-img" id="card-mockup-logo-img">
+                      <div style="display:flex; flex-direction:column; min-width:0;">
+                        <div class="card-name-text" id="card-mockup-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business</div>
+                        <div class="card-tap-hint" id="card-mockup-hint">Tioflos NFC</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Back Side -->
+                <div class="preview-card-back" id="card-back-mockup">
+                  <div class="card-back-header">
+                    <span class="card-back-brand">Tioflos NFC</span>
+                    <span class="card-back-logo">📡</span>
+                  </div>
+                  <div class="card-back-content">
+                    <div class="card-back-qr-box">
+                      <img id="card-back-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tioflosnfc.github.io" alt="QR Profile">
+                    </div>
+                  </div>
+                  <div class="card-back-footer">
+                    <div class="card-back-instruction">Tap Card or Scan QR to Connect</div>
+                    <div class="card-back-powered">Arba Minch, Ethiopia</div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+            <div style="text-align:center; margin-top:1.5rem;">
+              <button type="button" class="add-phone-btn" style="margin-bottom:0;" onclick="flipCard()">🔄 Flip Card</button>
+            </div>
+            <p style="text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:0.75rem;" id="card-preview-side-text">Front side design. Rounded corner card with premium matte coating.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT -->
+    <div class="step-panel" id="step3">
+      <h1 class="step-title">Complete Payment</h1>
+      <p class="step-sub">Pay for your order to confirm it. Upload your payment screenshot as proof.</p>
+
+      <div class="price-summary" style="margin-bottom: 1.5rem;">
+        <div>
+          <div class="ps-label">Selected Package</div>
+          <div class="ps-pkg" id="ps-pkg-name">-</div>
+        </div>
+        <div class="ps-price" id="ps-pkg-price">-</div>
+      </div>
+
+      <!-- CARD QUANTITY SELECTOR -->
+      <div style="margin-bottom: 2rem;">
+        <label class="o-label">Card Quantity & Pricing Calculator</label>
+        <div style="display:flex; align-items:center; gap:1.5rem; background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px; border:1px solid rgba(201,146,42,0.2);">
+          <div style="flex:1;">
+            <span style="font-size:0.72rem; color:rgba(255,255,255,0.5); display:block; text-transform:uppercase; letter-spacing:0.5px;">Number of Cards Needed</span>
+            <span id="qty-desc-text" style="font-size:0.8rem; color:var(--gold-light); font-weight:600;">Includes 5 custom cards</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <button type="button" class="remove-btn" style="padding:0.4rem 0.8rem; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff; font-size:1rem;" onclick="adjustQty(-1)">-</button>
+            <span id="qty-display" style="font-family:Syne,sans-serif; font-weight:800; font-size:1.4rem; width:40px; text-align:center;">5</span>
+            <button type="button" class="remove-btn" style="padding:0.4rem 0.8rem; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff; font-size:1rem;" onclick="adjustQty(1)">+</button>
+          </div>
+        </div>
+        <div id="extra-cards-notice" style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; line-height:1.4;">
+          Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.
+        </div>
+      </div>
+
+      <label class="o-label">Choose Payment Method</label>
+      <div class="pay-grid">
+        <div class="pay-card" onclick="selectPay(this,'Telebirr')">
+          <div class="pay-icon">📱</div>
+          <div class="pay-name">Telebirr</div>
+          <div class="pay-num">+251 906 368 383</div>
+        </div>
+        <div class="pay-card" onclick="selectPay(this,'CBE Birr')">
+          <div class="pay-icon">🏦</div>
+          <div class="pay-name">CBE Birr</div>
+          <div class="pay-num">1000365753931</div>
+        </div>
+      </div>
+
+      <div class="pay-details" id="pay-details-telebirr">
+        <h4>Pay via Telebirr</h4>
+        <p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>After paying, upload your screenshot below.</p>
+      </div>
+      <div class="pay-details" id="pay-details-cbe">
+        <h4>Pay via CBE Birr</h4>
+        <p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>After paying, upload your screenshot below.</p>
+      </div>
+
+      <label class="o-label" style="margin-top:1rem;">Payment Screenshot</label>
+      <div class="screenshot-upload">
+        <input type="file" id="up-screenshot" accept="image/*" onchange="previewScreenshot(this)">
+        <div class="su-icon">📷</div>
+        <div class="su-text"><strong>Click to upload</strong> your payment screenshot</div>
+        <img id="screenshot-preview">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)">Back</button>
+        <button class="btn-next" onclick="submitOrder()">Submit Order ✓</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: DONE -->
+    <div class="step-panel" id="step4">
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2>Order Submitted!</h2>
+        <p>Your order has been received. We will review your payment and contact you within 1–2 hours to confirm delivery.</p>
+        <div class="summary-box" id="summary-box"></div>
+        <a href="index.html" class="btn-next" style="display:block;text-decoration:none;text-align:center;">Back to Home</a>
       </div>
     </div>
 
@@ -274,631 +637,546 @@
 </div>
 
 <script>
-const ADMIN_PASSWORD = 'Tedy@1234';
-const STATUS_CYCLE = ['Pending','Confirmed','In Progress','Delivered'];
+// ── TELEGRAM BOT CONFIGURATION ──
+const TG_BOT_TOKEN = '8878906698:AAFWZnRoZFG4otQnJT_RSGU0b8LJO8MRtEY'; // Configurable TG token
+const TG_CHAT_ID = '8681520921'; // Configurable chat/channel ID
 
-// ── AUTH ──
-function login() {
-  const pwd = document.getElementById('pwd-input').value;
-  if (pwd === ADMIN_PASSWORD) {
-    sessionStorage.setItem('tioflos_admin', '1');
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    initDashboard();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-    document.getElementById('pwd-input').value = '';
-  }
+// ── IMGBB AUTO-UPLOAD CONFIGURATION ──
+const IMGBB_API_KEY = '6ab89973131ab4d72e6471ff8a38fe05'; // Automated free upload API key
+
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
 }
 
-function logout() {
-  sessionStorage.removeItem('tioflos_admin');
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('pwd-input').value = '';
-}
+let selectedPkg = '', selectedPay = '', phoneCount = 1;
+let photoData = { cover:'', avatar:'', logo:'', screenshot:'' };
+let selectedCardColor = '#0A1628';
+let isFlipped = false;
 
-// Auto-login if session exists
-if (sessionStorage.getItem('tioflos_admin') === '1') {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  window.addEventListener('DOMContentLoaded', function() {
-    initDashboard();
-  });
-}
+// Card quantity variables
+let cardQty = 1;
+let baseQty = 1;
+let basePrice = 800;
+let extraPrice = 500;
 
-// ── DASHBOARD ──
-function initDashboard() {
-  updateClock();
-  setInterval(updateClock, 1000);
-  
-  // 1-Click Telegram Import decoding logic
-  const params = new URLSearchParams(window.location.search);
-  const importData = params.get('import');
-  if (importData) {
-    try {
-      const decoded = JSON.parse(decodeURIComponent(escape(atob(importData))));
-      const orders = getOrders();
-      if (!orders.some(o => o.id === decoded.id)) {
-        orders.unshift(decoded);
-        saveOrders(orders);
-        alert(`🎉 Successfully imported order for "${decoded.biz}"!`);
-      } else {
-        alert(`ℹ️ Order "${decoded.id}" is already in your dashboard.`);
-      }
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } catch (e) {
-      console.error('Failed to decode import data:', e);
-      alert('❌ Failed to import order. The link might be invalid or corrupted.');
+function goStep(n) {
+  // Validate step 2 inputs
+  if (n === 3) {
+    var b = document.getElementById('o-biz').value.trim();
+    var t = document.getElementById('o-type').value;
+    var p = document.getElementById('o-phone').value.trim();
+    if (!b || !t || !p) {
+      alert('Please fill in Business Name, Type, and Phone Number.');
+      return;
     }
   }
   
-  renderOrders();
-}
-
-function updateClock() {
-  document.getElementById('dash-time').textContent = new Date().toLocaleString();
-}
-
-function getOrders() {
-  return JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
-}
-
-function saveOrders(orders) {
-  localStorage.setItem('tioflos_orders', JSON.stringify(orders));
-}
-
-function getRevenue(orders) {
-  let total = 0;
-  orders.forEach(o => {
-    if (o.paid) {
-      if (o.totalPrice) {
-        const num = parseFloat(o.totalPrice.replace(/[^\d]/g, '')) || 0;
-        total += num;
-      } else {
-        const pkg = o.pkg || '';
-        if (pkg.includes('800') || pkg.toLowerCase().includes('starter')) total += 800;
-        else if (pkg.includes('7,500') || pkg.includes('7500') || pkg.toLowerCase().includes('business')) total += 7500;
-        else if (pkg.includes('20,000') || pkg.includes('20000') || pkg.toLowerCase().includes('premium')) total += 20000;
-      }
+  // Set up package parameters for Step 3 calculator
+  if (n === 3) {
+    if (selectedPkg.startsWith('Starter')) {
+      baseQty = 1;
+      basePrice = 800;
+      extraPrice = 500;
+      document.getElementById('qty-desc-text').textContent = 'Includes 1 blank card';
+      document.getElementById('extra-cards-notice').textContent = 'Starter package includes 1 card. Extra blank cards cost 500 ETB each.';
+    } else if (selectedPkg.startsWith('Business')) {
+      baseQty = 5;
+      basePrice = 7500;
+      extraPrice = 2000;
+      document.getElementById('qty-desc-text').textContent = 'Includes 5 custom cards';
+      document.getElementById('extra-cards-notice').textContent = 'Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.';
+    } else if (selectedPkg.startsWith('Premium')) {
+      baseQty = 10;
+      basePrice = 20000;
+      extraPrice = 4000;
+      document.getElementById('qty-desc-text').textContent = 'Includes 10 custom cards';
+      document.getElementById('extra-cards-notice').textContent = 'Premium package includes 10 cards. Extra custom-printed cards cost 4,000 ETB each.';
     }
-  });
-  return total.toLocaleString();
-}
-
-function updateStats(orders) {
-  document.getElementById('stat-total').textContent = orders.length;
-  document.getElementById('stat-pending').textContent = orders.filter(o => o.status === 'Pending').length;
-  document.getElementById('stat-delivered').textContent = orders.filter(o => o.status === 'Delivered').length;
-  document.getElementById('stat-revenue').textContent = getRevenue(orders) + ' ETB';
-}
-
-function renderOrders() {
-  let orders = getOrders();
-  const search = document.getElementById('search-input').value.toLowerCase();
-  const filterStatus = document.getElementById('filter-status').value;
-  const filterPaid = document.getElementById('filter-paid').value;
-
-  updateStats(orders);
-
-  // Filter
-  if (search) orders = orders.filter(o =>
-    (o.biz||'').toLowerCase().includes(search) ||
-    (o.pkg||'').toLowerCase().includes(search) ||
-    (o.type||'').toLowerCase().includes(search)
-  );
-  if (filterStatus) orders = orders.filter(o => o.status === filterStatus);
-  if (filterPaid === 'paid') orders = orders.filter(o => o.paid);
-  if (filterPaid === 'unpaid') orders = orders.filter(o => !o.paid);
-
-  const tbody = document.getElementById('orders-tbody');
-  const empty = document.getElementById('empty-state');
-
-  if (orders.length === 0) {
-    tbody.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  tbody.innerHTML = orders.map(o => {
-    const statusClass = {
-      'Pending':'badge-pending','Confirmed':'badge-confirmed',
-      'In Progress':'badge-inprogress','Delivered':'badge-delivered'
-    }[o.status] || 'badge-pending';
-
-    const platforms = o.platforms ? Object.entries(o.platforms)
-      .filter(([k,v]) => v)
-      .map(([k,v]) => {
-        const icons = {whatsapp:'💬',telegram:'✈️',facebook:'📘',instagram:'📸',
-          tiktok:'🎵',youtube:'▶️',twitter:'🐦',snapchat:'👻',
-          linkedin:'💼',maps:'📍',website:'🌐',tripadvisor:'⭐'};
-        return icons[k] || '';
-      }).join(' ') : '';
-
-    return `
-      <tr>
-        <td><div class="td-id">${o.id}</div></td>
-        <td><div class="td-date">${o.date}</div></td>
-        <td>
-          <div class="td-biz">${o.biz || '—'}</div>
-          <div class="td-type">${o.type || ''}</div>
-          ${o.phone ? `<div class="td-type">📞 ${o.phone}</div>` : ''}
-          ${platforms ? `<div class="td-type" style="margin-top:2px;">${platforms}</div>` : ''}
-        </td>
-        <td>${o.pkg || '—'}</td>
-        <td>${o.pay || '—'}</td>
-        <td>
-          ${o.screenshotPhoto
-            ? `<a href="${o.screenshotPhoto}" target="_blank">
-                <img src="${o.screenshotPhoto}" style="width:60px;height:44px;object-fit:cover;border-radius:6px;border:1px solid rgba(201,146,42,0.4);cursor:pointer;" title="Click to view full screenshot">
-               </a>`
-            : `<span style="font-size:0.7rem;color:rgba(255,255,255,0.3);">No screenshot</span>`
-          }
-        </td>
-        <td><span class="badge ${statusClass}">${o.status}</span></td>
-        <td><span class="badge ${o.paid ? 'badge-paid' : 'badge-unpaid'}">${o.paid ? '✓ Paid' : 'Unpaid'}</span></td>
-        <td>
-          <input class="link-input" type="text" placeholder="Paste profile link..."
-            value="${o.profileLink || ''}"
-            onchange="updateLink('${o.id}', this.value)"
-            title="${o.profileLink || ''}">
-          ${o.profileLink ? `<a href="${o.profileLink}" target="_blank" style="font-size:0.7rem;color:var(--gold-light);display:block;margin-top:3px;">🔗 Open</a>` : ''}
-        </td>
-        <td>
-          <div class="action-btns">
-            <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
-            <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
-            ${o.profileLink ? `<button class="act-btn act-link" onclick="sendToClient('${o.id}')">📤 Send to Client</button>` : ''}
-            ${o.cardColor ? `<button class="act-btn act-link" onclick="downloadCardPNG('${o.id}','front')">📥 Card Front</button>` : ''}
-            ${o.cardColor ? `<button class="act-btn act-link" onclick="downloadCardPNG('${o.id}','back')">📥 Card Back</button>` : ''}
-            <button class="act-btn act-link" onclick="openEditModal('${o.id}')">✏️ Edit</button>
-            <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
-          </div>
-          ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
-          ${o.notes ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:2px;">📝 ${o.notes.substring(0,40)}${o.notes.length>40?'...':''}</div>` : ''}
-          ${o.cardColor ? `<div style="font-size:0.7rem;color:var(--gold-light);margin-top:2px;">💳 Card: <span style="display:inline-block;width:10px;height:10px;background:${o.cardColor};border-radius:50%;margin-right:4px;vertical-align:middle;border:1px solid #fff;"></span> ${o.cardColor} | Label: "${o.cardText || ''}" | Logo: ${o.cardLogoOpt || 'both'}</div>` : ''}
-          ${o.cardColor ? `
-          <div style="margin-top:6px;width:120px;height:75px;border-radius:8px;background:${o.cardColor};position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.4);padding:8px;display:flex;flex-direction:column;justify-content:space-between;">
-            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,0.12) 0%,transparent 60%);"></div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;">
-              ${o.cardLogoPhoto ? `<img src="${o.cardLogoPhoto}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,0.4);">` : `<div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:800;color:#fff;">${(o.cardText||o.biz||'T')[0].toUpperCase()}</div>`}
-              <span style="font-size:0.6rem;opacity:0.5;color:#fff;">📶</span>
-            </div>
-            <div style="position:relative;">
-              <div style="font-family:Syne,sans-serif;font-weight:800;font-size:0.55rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${o.cardText || o.biz || ''}</div>
-              <div style="font-size:0.45rem;color:rgba(255,255,255,0.55);">${o.type || ''}</div>
-            </div>
-          </div>` : ''}
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-function cycleStatus(id) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  const idx = STATUS_CYCLE.indexOf(o.status);
-  o.status = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-  saveOrders(orders);
-  renderOrders();
-}
-
-function togglePaid(id) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  o.paid = !o.paid;
-  saveOrders(orders);
-  renderOrders();
-}
-
-function updateLink(id, val) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  o.profileLink = val;
-  saveOrders(orders);
-  renderOrders();
-}
-
-function deleteOrder(id) {
-  if (!confirm('Delete this order?')) return;
-  const orders = getOrders().filter(x => x.id !== id);
-  saveOrders(orders);
-  renderOrders();
-}
-
-function sendToClient(id) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o || !o.profileLink) { alert('No profile link available for this order.'); return; }
-  const phone = (o.platforms && o.platforms.whatsapp) ? o.platforms.whatsapp.replace(/\D/g,'') : '';
-  const msg = encodeURIComponent(
-    'Hello ' + (o.biz || '') + '! Your NFC profile is ready.\n\n' +
-    'Tap this link to view your profile:\n' + o.profileLink + '\n\n' +
-    'Program this link into your NFC card. - Tioflos NFC'
-  );
-  if (phone) {
-    window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
-  } else {
-    prompt('Copy this profile link to send to client:', o.profileLink);
-  }
-}
-
-function addDemoOrder() {
-  const demos = [
-    { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
-    { biz:'Arba Minch Cafe', type:'Restaurant / Cafe', pkg:'Starter — 800 ETB', pay:'CBE Birr', phone:'+251922345678', address:'Near university', notes:'', platforms:{whatsapp:'+251922345678',facebook:'fb.com/amcafe',tiktok:'@amcafe'} },
-    { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
-  ];
-  const d = demos[Math.floor(Math.random() * demos.length)];
-
-  let baseP = 800, extraP = 500, baseQ = 1;
-  if (d.pkg.toLowerCase().includes('business')) {
-    baseP = 7500; extraP = 2000; baseQ = 5;
-  } else if (d.pkg.toLowerCase().includes('premium')) {
-    baseP = 20000; extraP = 4000; baseQ = 10;
+    cardQty = baseQty;
+    calculatePrice();
   }
 
-  const order = {
-    id: 'ORD-' + Date.now(),
-    date: new Date().toLocaleString(),
-    cardQty: baseQ,
-    totalPrice: baseP.toLocaleString() + ' ETB',
-    cardColor: '#0A1628',
-    cardText: d.biz,
-    cardLogoOpt: 'both',
-    ...d,
-    status: 'Pending',
-    paid: false,
-    profileLink: ''
-  };
-  const orders = getOrders();
-  orders.unshift(order);
-  saveOrders(orders);
-  renderOrders();
-}
-
-// ── EDIT MODAL CONTROL FUNCTIONS ──
-function openEditModal(id) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-
-  document.getElementById('edit-order-id').value = o.id;
-  document.getElementById('edit-biz').value = o.biz || '';
-  document.getElementById('edit-type').value = o.type || '';
-  document.getElementById('edit-tagline').value = o.tagline || '';
-  document.getElementById('edit-hours').value = o.hours || '';
-  document.getElementById('edit-phone').value = o.phone || '';
-  document.getElementById('edit-phone2').value = o.phone2 || '';
-  document.getElementById('edit-phone3').value = o.phone3 || '';
-  document.getElementById('edit-address').value = o.address || '';
+  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('step' + n).classList.add('active');
+  updateProgress(n);
   
-  document.getElementById('edit-card-color').value = o.cardColor || '#0A1628';
-  document.getElementById('edit-card-color-picker').value = o.cardColor || '#0A1628';
-  document.getElementById('edit-card-text').value = o.cardText || '';
-  document.getElementById('edit-card-logo-opt').value = o.cardLogoOpt || 'both';
-  document.getElementById('edit-card-qty').value = o.cardQty || 1;
-  
-  document.getElementById('edit-cover-photo').value = o.coverPhoto || '';
-  document.getElementById('edit-avatar-photo').value = o.avatarPhoto || '';
-  document.getElementById('edit-logo-photo').value = o.logoPhoto || '';
-  
-  const plats = o.platforms || {};
-  document.getElementById('edit-whatsapp').value = plats.whatsapp || '';
-  document.getElementById('edit-telegram').value = plats.telegram || '';
-  document.getElementById('edit-facebook').value = plats.facebook || '';
-  document.getElementById('edit-instagram').value = plats.instagram || '';
-  document.getElementById('edit-tiktok').value = plats.tiktok || '';
-  document.getElementById('edit-youtube').value = plats.youtube || '';
-  document.getElementById('edit-twitter').value = plats.twitter || '';
-  document.getElementById('edit-snapchat').value = plats.snapchat || '';
-  document.getElementById('edit-linkedin').value = plats.linkedin || '';
-  document.getElementById('edit-maps').value = plats.maps || '';
-  document.getElementById('edit-website').value = plats.website || '';
-  document.getElementById('edit-tripadvisor').value = plats.tripadvisor || '';
-  
-  document.getElementById('edit-notes').value = o.notes || '';
-
-  document.getElementById('edit-modal').classList.add('active');
-}
-
-function closeEditModal() {
-  document.getElementById('edit-modal').classList.remove('active');
-}
-
-function saveEditOrder() {
-  const id = document.getElementById('edit-order-id').value;
-  const orders = getOrders();
-  const idx = orders.findIndex(x => x.id === id);
-  if (idx === -1) return;
-  
-  const o = orders[idx];
-  
-  o.biz = document.getElementById('edit-biz').value.trim();
-  o.type = document.getElementById('edit-type').value;
-  o.tagline = document.getElementById('edit-tagline').value.trim();
-  o.hours = document.getElementById('edit-hours').value.trim();
-  o.phone = document.getElementById('edit-phone').value.trim();
-  o.phone2 = document.getElementById('edit-phone2').value.trim();
-  o.phone3 = document.getElementById('edit-phone3').value.trim();
-  o.address = document.getElementById('edit-address').value.trim();
-  
-  o.cardColor = document.getElementById('edit-card-color').value.trim();
-  o.cardText = document.getElementById('edit-card-text').value.trim();
-  o.cardLogoOpt = document.getElementById('edit-card-logo-opt').value;
-  
-  const newQty = parseInt(document.getElementById('edit-card-qty').value) || 1;
-  o.cardQty = newQty;
-  
-  o.coverPhoto = document.getElementById('edit-cover-photo').value.trim();
-  o.avatarPhoto = document.getElementById('edit-avatar-photo').value.trim();
-  o.logoPhoto = document.getElementById('edit-logo-photo').value.trim();
-  
-  o.platforms = {
-    whatsapp: document.getElementById('edit-whatsapp').value.trim(),
-    telegram: document.getElementById('edit-telegram').value.trim(),
-    facebook: document.getElementById('edit-facebook').value.trim(),
-    instagram: document.getElementById('edit-instagram').value.trim(),
-    tiktok: document.getElementById('edit-tiktok').value.trim(),
-    youtube: document.getElementById('edit-youtube').value.trim(),
-    twitter: document.getElementById('edit-twitter').value.trim(),
-    snapchat: document.getElementById('edit-snapchat').value.trim(),
-    linkedin: document.getElementById('edit-linkedin').value.trim(),
-    maps: document.getElementById('edit-maps').value.trim(),
-    website: document.getElementById('edit-website').value.trim(),
-    tripadvisor: document.getElementById('edit-tripadvisor').value.trim()
-  };
-  
-  o.notes = document.getElementById('edit-notes').value.trim();
-
-  // Re-calculate pricing if changed
-  let baseP = 800, extraP = 500, baseQ = 1;
-  if (o.pkg.toLowerCase().includes('business')) {
-    baseP = 7500; extraP = 2000; baseQ = 5;
-  } else if (o.pkg.toLowerCase().includes('premium')) {
-    baseP = 20000; extraP = 4000; baseQ = 10;
+  if (n === 2) {
+    updateDesignerPreview();
   }
   
-  let total = baseP;
-  if (o.cardQty > baseQ) {
-    total += (o.cardQty - baseQ) * extraP;
-  }
-  o.totalPrice = total.toLocaleString() + ' ETB';
-  
-  // Re-generate profile link with updated parameters
-  const profileParams = new URLSearchParams();
-  profileParams.set('name', o.biz);
-  if (o.type) profileParams.set('type', o.type);
-  if (o.tagline) profileParams.set('tagline', o.tagline);
-  if (o.phone) profileParams.set('phone', o.phone);
-  if (o.phone2) profileParams.set('phone2', o.phone2);
-  if (o.phone3) profileParams.set('phone3', o.phone3);
-  if (o.hours) profileParams.set('hours', o.hours);
-  profileParams.set('color', o.cardColor);
-  
-  if (o.coverPhoto) profileParams.set('cover', o.coverPhoto);
-  if (o.avatarPhoto) profileParams.set('avatar', o.avatarPhoto);
-  if (o.logoPhoto) profileParams.set('logo', o.logoPhoto);
-  
-  Object.entries(o.platforms).forEach(([k,v]) => {
-    if (v) profileParams.set(k, v);
-  });
-  
-  const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', '');
-  o.profileLink = baseUrl + 'profile.html?' + profileParams.toString();
-  
-  orders[idx] = o;
-  saveOrders(orders);
-  
-  closeEditModal();
-  renderOrders();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── HIGH-RES DUAL PRINT RENDERING ──
-function downloadCardPNG(id, side) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  
-  const logoImg = new Image();
-  const qrImg = new Image();
-  
-  logoImg.crossOrigin = 'anonymous';
-  qrImg.crossOrigin = 'anonymous';
-  
-  let logoLoaded = false;
-  let qrLoaded = false;
-  
-  const triggerDownload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1013;
-    canvas.height = 638;
-    const ctx = canvas.getContext('2d');
-    
-    ctx.fillStyle = o.cardColor || '#0A1628';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    const radialShine = ctx.createRadialGradient(
-      canvas.width * 0.8, canvas.height * 0.2, 0,
-      canvas.width * 0.8, canvas.height * 0.2, canvas.width
-    );
-    radialShine.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-    radialShine.addColorStop(0.5, 'transparent');
-    ctx.fillStyle = radialShine;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const isLight = isColorLight(o.cardColor || '#0A1628');
-    const textColor = isLight ? '#0A1628' : '#FFFFFF';
-    const subColor = isLight ? 'rgba(10,22,40,0.5)' : 'rgba(255,255,255,0.4)';
-    const goldColor = '#C9922A';
-
-    if (side === 'front') {
-      // Draw Chip
-      const chipGrad = ctx.createLinearGradient(80, 80, 210, 175);
-      chipGrad.addColorStop(0, '#F0C060');
-      chipGrad.addColorStop(1, '#C9922A');
-      ctx.fillStyle = chipGrad;
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(80, 80, 130, 95, 12);
-      else drawRoundRectPoly(ctx, 80, 80, 130, 95, 12);
-      ctx.fill();
-      
-      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(92, 92, 106, 71);
-      ctx.beginPath();
-      ctx.moveTo(145, 80); ctx.lineTo(145, 175);
-      ctx.moveTo(80, 127); ctx.lineTo(210, 127);
-      ctx.stroke();
-
-      // Antenna
-      ctx.fillStyle = textColor;
-      ctx.font = '80px sans-serif';
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'top';
-      ctx.fillText('📡', canvas.width - 80, 80);
-
-      // Logo & Text
-      const showLogo = o.cardLogoOpt === 'both' || o.cardLogoOpt === 'logo';
-      const showName = o.cardLogoOpt === 'both' || o.cardLogoOpt === 'name';
-
-      if (showLogo) {
-        if (logoLoaded) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
-          ctx.closePath();
-          ctx.clip();
-          ctx.drawImage(logoImg, 90, canvas.height - 220, 140, 140);
-          ctx.restore();
-        } else {
-          ctx.beginPath();
-          ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
-          const logoGrad = ctx.createLinearGradient(90, canvas.height - 220, 230, canvas.height - 80);
-          logoGrad.addColorStop(0, '#C9922A');
-          logoGrad.addColorStop(1, '#F0C060');
-          ctx.fillStyle = logoGrad;
-          ctx.fill();
-          
-          ctx.fillStyle = '#0A1628';
-          ctx.font = '800 65px Syne, sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText((o.cardText || o.biz || 'T')[0].toUpperCase(), 160, canvas.height - 150);
-        }
-      }
-
-      if (showName) {
-        ctx.fillStyle = textColor;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.font = '800 44px Syne, sans-serif';
-        const textX = showLogo ? 260 : 80;
-        ctx.fillText(o.cardText || o.biz, textX, canvas.height - 170);
-        
-        ctx.fillStyle = subColor;
-        ctx.font = '600 22px Syne, sans-serif';
-        ctx.fillText('TAP TO CONNECT', textX, canvas.height - 120);
-      }
+function updateProgress(current) {
+  for (var i = 1; i <= 4; i++) {
+    var c = document.getElementById('pc' + i);
+    var l = document.getElementById('pl' + i);
+    var ln = document.getElementById('line' + i);
+    c.classList.remove('active','done');
+    l.classList.remove('active');
+    if (i < current) {
+      c.classList.add('done');
+      c.innerHTML = '✓';
+    } else if (i === current) {
+      c.classList.add('active');
+      c.innerHTML = i;
+      l.classList.add('active');
     } else {
-      // Back
-      ctx.fillStyle = goldColor;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.font = '800 32px Syne, sans-serif';
-      ctx.fillText('TIOFLOS NFC', canvas.width / 2, 70);
-
-      ctx.fillStyle = textColor;
-      ctx.font = '36px sans-serif';
-      ctx.fillText('📡', canvas.width / 2, 115);
-
-      // QR Box
-      ctx.fillStyle = '#FFFFFF';
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
-      else drawRoundRectPoly(ctx, canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
-      ctx.fill();
-
-      if (qrLoaded) {
-        ctx.drawImage(qrImg, canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
-      }
-
-      // Footer
-      ctx.fillStyle = textColor;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'bottom';
-      ctx.font = '800 24px Syne, sans-serif';
-      ctx.fillText('TAP CARD OR SCAN QR TO CONNECT', canvas.width / 2, canvas.height - 100);
-
-      ctx.fillStyle = subColor;
-      ctx.font = '600 20px Syne, sans-serif';
-      ctx.fillText('Arba Minch, Ethiopia', canvas.width / 2, canvas.height - 65);
+      c.innerHTML = i;
     }
+    if (ln && i < current) ln.classList.add('done');
+    else if (ln) ln.classList.remove('done');
+  }
+}
+
+function selectPkg(el, val) {
+  document.querySelectorAll('.pkg-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPkg = val;
+  document.getElementById('btn-next1').disabled = false;
+}
+
+function selectPay(el, method) {
+  document.querySelectorAll('.pay-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPay = method;
+  document.getElementById('pay-details-telebirr').classList.remove('show');
+  document.getElementById('pay-details-cbe').classList.remove('show');
+  if (method === 'Telebirr') document.getElementById('pay-details-telebirr').classList.add('show');
+  if (method === 'CBE Birr') document.getElementById('pay-details-cbe').classList.add('show');
+}
+
+function addPhone() {
+  if (phoneCount >= 3) { alert('Maximum 3 phone numbers.'); return; }
+  phoneCount++;
+  var d = document.createElement('div');
+  d.className = 'phone-row';
+  d.innerHTML = '<input class="o-input" type="tel" placeholder="+251... (Phone ' + phoneCount + ')" oninput="updateDesignerPreview()"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;updateDesignerPreview();">✕</button>';
+  document.getElementById('extra-phones').appendChild(d);
+}
+
+// ── AUTOMATED IMGBB UPLOAD ──
+function uploadToImgBB(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+  
+  return fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('ImgBB Upload Error');
+    return res.json();
+  })
+  .then(data => {
+    if (data && data.data && data.data.url) {
+      return data.data.url;
+    }
+    throw new Error('Invalid ImgBB Response');
+  });
+}
+
+function previewPhoto(input, previewId, isCircle) {
+  if (input.files && input.files[0]) {
+    // Show visual loading spinner in upload box
+    const parent = input.closest('.photo-upload');
+    const icon = parent.querySelector('.pu-icon');
+    const prevText = icon.textContent;
+    icon.textContent = '⏳';
     
-    const link = document.createElement('a');
-    link.download = `${o.biz.replace(/\s+/g, '_')}_card_${side}.png`;
-    link.href = canvas.toDataURL('image/png');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  
-  if (o.logoPhoto) {
-    logoImg.onload = () => {
-      logoLoaded = true;
-      checkAllLoaded();
+    uploadToImgBB(input.files[0])
+    .then(url => {
+      icon.textContent = prevText;
+      
+      // Update form preview
+      var img = document.getElementById(previewId);
+      img.src = url;
+      img.style.display = 'block';
+      
+      var key = input.id === 'up-cover' ? 'cover' : input.id === 'up-avatar' ? 'avatar' : 'logo';
+      photoData[key] = url;
+
+      // Update interactive Mockups
+      if (key === 'cover') {
+        const coverImg = document.getElementById('phone-preview-cover');
+        coverImg.src = url;
+        coverImg.style.display = 'block';
+      } else if (key === 'avatar') {
+        const avatarImg = document.getElementById('phone-preview-avatar-img');
+        avatarImg.src = url;
+        avatarImg.style.display = 'block';
+        document.getElementById('phone-preview-avatar-letter').style.display = 'none';
+      } else if (key === 'logo') {
+        // Phone preview
+        const logoImg = document.getElementById('phone-preview-logo-img');
+        logoImg.src = url;
+        logoImg.style.display = 'block';
+        document.getElementById('phone-preview-logo-text').style.display = 'none';
+
+        // Card front mockup preview
+        const cardLogoImg = document.getElementById('card-mockup-logo-img');
+        cardLogoImg.src = url;
+        cardLogoImg.style.display = 'block';
+        document.getElementById('card-mockup-logo-placeholder').style.display = 'none';
+      }
+      updateDesignerPreview();
+    })
+    .catch(err => {
+      console.error('ImgBB Upload Error:', err);
+      icon.textContent = '❌';
+      alert('Failed to host image. Please verify your internet connection and try again.');
+    });
+  }
+}
+
+// Payment screenshot stays 100% private in local base64
+function previewScreenshot(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = document.getElementById('screenshot-preview');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      photoData.screenshot = e.target.result;
     };
-    logoImg.onerror = () => {
-      logoLoaded = false;
-      checkAllLoaded();
-    };
-    logoImg.src = o.logoPhoto;
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// ── CARD FLIPPING LOGIC ──
+function flipCard() {
+  isFlipped = !isFlipped;
+  const inner = document.getElementById('card-inner-mockup');
+  const text = document.getElementById('card-preview-side-text');
+  if (isFlipped) {
+    inner.classList.add('flipped');
+    text.textContent = 'Back side design. Dynamic profile QR code embedded.';
   } else {
-    logoLoaded = false;
-    checkAllLoaded();
+    inner.classList.remove('flipped');
+    text.textContent = 'Front side design. Rounded corner card with premium matte coating.';
   }
+}
+
+function setCardColor(color, el) {
+  selectedCardColor = color;
+  document.querySelectorAll('.color-opt').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
   
-  const qrDataUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(o.profileLink || 'https://tioflosnfc.github.io')}`;
-  qrImg.onload = () => {
-    qrLoaded = true;
-    checkAllLoaded();
-  };
-  qrImg.onerror = () => {
-    qrLoaded = false;
-    checkAllLoaded();
-  };
-  qrImg.src = qrDataUrl;
+  // Front background
+  document.getElementById('card-mockup').style.backgroundColor = color;
+  // Back background
+  document.getElementById('card-back-mockup').style.backgroundColor = color;
   
-  let calls = 0;
-  function checkAllLoaded() {
-    calls++;
-    if (calls === 2) {
-      triggerDownload();
-    }
+  const isLight = isColorLight(color);
+  const cardNameText = document.getElementById('card-mockup-name');
+  const backMockup = document.getElementById('card-back-mockup');
+  
+  if (isLight) {
+    cardNameText.style.color = '#0A1628';
+    document.getElementById('card-mockup-wave').style.color = 'rgba(10,22,40,0.3)';
+    document.getElementById('card-mockup-hint').style.color = 'rgba(10,22,40,0.4)';
+    
+    // Back mockup styling
+    backMockup.style.color = '#0A1628';
+    backMockup.querySelector('.card-back-brand').style.color = '#0A1628';
+    backMockup.querySelector('.card-back-logo').style.color = 'rgba(10,22,40,0.4)';
+    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(10,22,40,0.6)';
+    backMockup.querySelector('.card-back-powered').style.color = 'rgba(10,22,40,0.3)';
+  } else {
+    cardNameText.style.color = '#FFFFFF';
+    document.getElementById('card-mockup-wave').style.color = 'rgba(255,255,255,0.3)';
+    document.getElementById('card-mockup-hint').style.color = 'rgba(255,255,255,0.4)';
+    
+    // Back mockup styling
+    backMockup.style.color = '#FFFFFF';
+    backMockup.querySelector('.card-back-brand').style.color = 'var(--gold-light)';
+    backMockup.querySelector('.card-back-logo').style.color = 'rgba(255,255,255,0.4)';
+    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(255,255,255,0.45)';
+    backMockup.querySelector('.card-back-powered').style.color = 'rgba(255,255,255,0.25)';
   }
-  
-  setTimeout(() => {
-    if (calls < 2) {
-      calls = 2;
-      triggerDownload();
-    }
-  }, 2000);
+
+  const phoneHeader = document.getElementById('phone-preview-header');
+  if (phoneHeader) {
+    phoneHeader.style.backgroundColor = color;
+  }
 }
 
 function isColorLight(hex) {
-  if (!hex || !hex.startsWith('#')) return false;
-  hex = hex.substring(1);
+  if (hex.startsWith('#')) hex = hex.substring(1);
   if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
   return brightness > 180;
+}
+
+function switchPreviewTab(tab) {
+  document.querySelectorAll('.preview-tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('preview-panel-profile').style.display = 'none';
+  document.getElementById('preview-panel-card').style.display = 'none';
+  
+  if (tab === 'profile') {
+    document.getElementById('tab-btn-profile').classList.add('active');
+    document.getElementById('preview-panel-profile').style.display = 'block';
+  } else if (tab === 'card') {
+    document.getElementById('tab-btn-card').classList.add('active');
+    document.getElementById('preview-panel-card').style.display = 'block';
+  }
+}
+
+// ── PRICE CALCULATOR ENGINE ──
+function adjustQty(diff) {
+  const newQty = cardQty + diff;
+  if (newQty < baseQty) {
+    alert(`Minimum card count for this package is ${baseQty} card(s).`);
+    return;
+  }
+  cardQty = newQty;
+  calculatePrice();
+}
+
+function calculatePrice() {
+  let total = basePrice;
+  if (cardQty > baseQty) {
+    total += (cardQty - baseQty) * extraPrice;
+  }
+  document.getElementById('qty-display').textContent = cardQty;
+  
+  const formattedTotal = total.toLocaleString() + ' ETB';
+  document.getElementById('ps-pkg-price').textContent = formattedTotal;
+  
+  // Re-render payment helper details with calculated pricing
+  document.getElementById('pay-details-telebirr').innerHTML = `
+    <h4>Pay via Telebirr</h4>
+    <p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via Telebirr, then upload your screenshot below.</p>
+  `;
+  document.getElementById('pay-details-cbe').innerHTML = `
+    <h4>Pay via CBE Birr</h4>
+    <p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via CBE Birr, then upload your screenshot below.</p>
+  `;
+}
+
+function updateDesignerPreview() {
+  const bizName = document.getElementById('o-biz').value.trim() || 'Your Business Name';
+  const bizType = document.getElementById('o-type').value || 'Business Type';
+  const tagline = document.getElementById('o-tagline').value.trim() || 'Your tagline here';
+  const hours = document.getElementById('o-hours').value.trim() || 'Mon–Sat 8am–9pm';
+  const customCardText = document.getElementById('o-card-text').value.trim();
+  const cardText = customCardText || bizName;
+  const logoOpt = document.getElementById('o-card-logo-opt').value;
+
+  document.getElementById('phone-preview-name').textContent = bizName;
+  document.getElementById('phone-preview-type').textContent = bizType;
+  document.getElementById('phone-preview-tagline').textContent = tagline;
+  document.getElementById('phone-preview-info-hours').textContent = '🕐 Open: ' + hours;
+
+  if (!photoData.avatar) {
+    document.getElementById('phone-preview-avatar-letter').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
+    document.getElementById('phone-preview-avatar-letter').style.display = 'block';
+    document.getElementById('phone-preview-avatar-img').style.display = 'none';
+  } else {
+    document.getElementById('phone-preview-avatar-letter').style.display = 'none';
+    document.getElementById('phone-preview-avatar-img').style.display = 'block';
+  }
+
+  if (!photoData.logo) {
+    document.getElementById('phone-preview-logo-text').style.display = 'block';
+    document.getElementById('phone-preview-logo-img').style.display = 'none';
+  } else {
+    document.getElementById('phone-preview-logo-text').style.display = 'none';
+    document.getElementById('phone-preview-logo-img').style.display = 'block';
+  }
+
+  document.getElementById('card-mockup-name').textContent = cardText;
+  document.getElementById('card-mockup-logo-placeholder').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
+
+  const cardLogoPlaceholder = document.getElementById('card-mockup-logo-placeholder');
+  const cardLogoImg = document.getElementById('card-mockup-logo-img');
+  
+  if (logoOpt === 'name') {
+    cardLogoPlaceholder.style.display = 'none';
+    cardLogoImg.style.display = 'none';
+    document.getElementById('card-mockup-name').style.display = 'block';
+  } else if (logoOpt === 'logo') {
+    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
+    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
+    document.getElementById('card-mockup-name').style.display = 'none';
+  } else {
+    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
+    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
+    document.getElementById('card-mockup-name').style.display = 'block';
+  }
+
+  // Update dynamic QR preview source on the back card mockup
+  const baseProfileUrl = window.location.origin + window.location.pathname.replace('order.html', '');
+  const testParams = new URLSearchParams({ name: bizName, type: bizType, tagline: tagline });
+  document.getElementById('card-back-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(baseProfileUrl + 'profile.html?' + testParams.toString())}`;
+
+  const linksContainer = document.getElementById('phone-preview-links');
+  linksContainer.innerHTML = '';
+
+  const platforms = [
+    { id: 'o-whatsapp', name: 'WhatsApp', icon: '💬' },
+    { id: 'o-telegram', name: 'Telegram', icon: '✈️' },
+    { id: 'o-facebook', name: 'Facebook', icon: '📘' },
+    { id: 'o-instagram', name: 'Instagram', icon: '📸' },
+    { id: 'o-tiktok', name: 'TikTok', icon: '🎵' },
+    { id: 'o-youtube', name: 'YouTube', icon: '▶️' },
+    { id: 'o-twitter', name: 'Twitter/X', icon: '🐦' },
+    { id: 'o-snapchat', name: 'Snapchat', icon: '👻' },
+    { id: 'o-linkedin', name: 'LinkedIn', icon: '💼' },
+    { id: 'o-maps', name: 'Maps', icon: '📍' },
+    { id: 'o-website', name: 'Website', icon: '🌐' },
+    { id: 'o-tripadvisor', name: 'TripAdvisor', icon: '⭐' }
+  ];
+
+  platforms.forEach(p => {
+    const val = document.getElementById(p.id).value.trim();
+    if (val) {
+      const btn = document.createElement('div');
+      btn.className = 'preview-phone-btn';
+      btn.innerHTML = `<span class="preview-phone-icon">${p.icon}</span><span class="preview-phone-label">${p.name}</span>`;
+      linksContainer.appendChild(btn);
+    }
+  });
+
+  if (linksContainer.children.length === 0) {
+    linksContainer.innerHTML = '<div style="grid-column: span 4; font-size: 0.55rem; color: #9CA3AF; text-align: center; padding: 0.5rem 0;">(Your social links will appear here)</div>';
+  }
+}
+
+// ── 300 DPI HIGH-RES CR80 RENDERER ──
+function drawCardToCanvas(side, order, logoImgElement, qrImgElement) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1013;
+  canvas.height = 638;
+  const ctx = canvas.getContext('2d');
+  
+  ctx.fillStyle = order.cardColor || '#0A1628';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const radialShine = ctx.createRadialGradient(
+    canvas.width * 0.8, canvas.height * 0.2, 0,
+    canvas.width * 0.8, canvas.height * 0.2, canvas.width
+  );
+  radialShine.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
+  radialShine.addColorStop(0.5, 'transparent');
+  ctx.fillStyle = radialShine;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const isLight = isColorLight(order.cardColor || '#0A1628');
+  const textColor = isLight ? '#0A1628' : '#FFFFFF';
+  const subColor = isLight ? 'rgba(10,22,40,0.5)' : 'rgba(255,255,255,0.4)';
+  const goldColor = '#C9922A';
+
+  if (side === 'front') {
+    // 1. Draw Gold Chip
+    const chipGrad = ctx.createLinearGradient(80, 80, 210, 175);
+    chipGrad.addColorStop(0, '#F0C060');
+    chipGrad.addColorStop(1, '#C9922A');
+    ctx.fillStyle = chipGrad;
+    
+    // Draw round rectangle chip
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(80, 80, 130, 95, 12) : drawRoundRectPoly(ctx, 80, 80, 130, 95, 12);
+    ctx.fill();
+    
+    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(92, 92, 106, 71);
+    ctx.beginPath();
+    ctx.moveTo(145, 80); ctx.lineTo(145, 175);
+    ctx.moveTo(80, 127); ctx.lineTo(210, 127);
+    ctx.stroke();
+
+    // 2. Draw Antenna Signal Waves
+    ctx.fillStyle = textColor;
+    ctx.font = '80px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'top';
+    ctx.fillText('📡', canvas.width - 80, 80);
+
+    // 3. Draw Logo & Name text
+    const showLogo = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'logo';
+    const showName = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'name';
+
+    if (showLogo) {
+      if (logoImgElement && logoImgElement.complete && logoImgElement.naturalWidth > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(logoImgElement, 90, canvas.height - 220, 140, 140);
+        ctx.restore();
+      } else {
+        ctx.beginPath();
+        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
+        const logoGrad = ctx.createLinearGradient(90, canvas.height - 220, 230, canvas.height - 80);
+        logoGrad.addColorStop(0, '#C9922A');
+        logoGrad.addColorStop(1, '#F0C060');
+        ctx.fillStyle = logoGrad;
+        ctx.fill();
+        
+        ctx.fillStyle = '#0A1628';
+        ctx.font = '800 65px Syne, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText((order.cardText || order.biz || 'T')[0].toUpperCase(), 160, canvas.height - 150);
+      }
+    }
+
+    if (showName) {
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.font = '800 44px Syne, sans-serif';
+      
+      const textX = showLogo ? 260 : 80;
+      ctx.fillText(order.cardText || order.biz, textX, canvas.height - 170);
+      
+      ctx.fillStyle = subColor;
+      ctx.font = '600 22px Syne, sans-serif';
+      ctx.fillText('TAP TO CONNECT', textX, canvas.height - 120);
+    }
+
+  } else if (side === 'back') {
+    // 1. Draw header brand name
+    ctx.fillStyle = goldColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.font = '800 32px Syne, sans-serif';
+    ctx.fillText('TIOFLOS NFC', canvas.width / 2, 70);
+
+    ctx.fillStyle = textColor;
+    ctx.font = '36px sans-serif';
+    ctx.fillText('📡', canvas.width / 2, 115);
+
+    // 2. Draw Dynamic QR Box
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16) : drawRoundRectPoly(ctx, canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
+    ctx.fill();
+
+    // Draw the QR code image
+    if (qrImgElement && qrImgElement.complete && qrImgElement.naturalWidth > 0) {
+      ctx.drawImage(qrImgElement, canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
+    }
+
+    // 3. Draw instructions footer
+    ctx.fillStyle = textColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.font = '800 24px Syne, sans-serif';
+    ctx.fillText('TAP CARD OR SCAN QR TO CONNECT', canvas.width / 2, canvas.height - 100);
+
+    ctx.fillStyle = subColor;
+    ctx.font = '600 20px Syne, sans-serif';
+    ctx.fillText('Arba Minch, Ethiopia', canvas.width / 2, canvas.height - 65);
+  }
+
+  return canvas.toDataURL('image/png');
 }
 
 function drawRoundRectPoly(ctx, x, y, width, height, radius) {
@@ -912,145 +1190,212 @@ function drawRoundRectPoly(ctx, x, y, width, height, radius) {
   ctx.lineTo(x, y + radius);
   ctx.quadraticCurveTo(x, y, x + radius, y);
 }
+
+// ── SECURE TELEGRAM SENDER ──
+function sendOrderToTelegram(order) {
+  const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendPhoto`;
+  
+  // Convert screenshot local Base64 string to Blob for TG photo upload
+  const blob = base64ToBlob(order.screenshotPhoto);
+  
+  // Build safe URL import payload containing full order data
+  const payload = btoa(unescape(encodeURIComponent(JSON.stringify(order))));
+  const importLink = `${window.location.origin}${window.location.pathname.replace('order.html', 'admin.html')}?import=${payload}`;
+
+  const caption = `
+🎉 New Tioflos NFC Order!
+
+🆔 Order ID: ${order.id}
+📅 Date: ${order.date}
+🏢 Business: ${order.biz} (${order.type})
+📦 Package: ${order.pkg}
+💳 Quantity: ${order.cardQty} card(s)
+💰 Total Price: ${order.totalPrice}
+💵 Payment: ${order.pay}
+📞 Phone: ${order.phone}
+🎨 Card Color: ${order.cardColor}
+🏷️ Card Label: "${order.cardText}"
+
+📝 Notes: ${order.notes || 'None'}
+
+📥 Click link below to import this order into your Admin Dashboard:
+${importLink}
+  `;
+
+  const formData = new FormData();
+  formData.append('chat_id', TG_CHAT_ID);
+  formData.append('photo', blob, 'screenshot.jpg');
+  formData.append('caption', caption);
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Telegram Bot send success:', data);
+  })
+  .catch(err => {
+    console.error('Telegram Bot send error:', err);
+  });
+}
+
+function base64ToBlob(base64Data) {
+  const sliceSize = 512;
+  const byteCharacters = atob(base64Data.split(',')[1]);
+  const byteArrays = [];
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  return new Blob(byteArrays, { type: 'image/jpeg' });
+}
+
+function submitOrder() {
+  if (!selectedPay) { alert('Please select a payment method.'); return; }
+  if (!photoData.screenshot) { alert('Please upload your payment screenshot.'); return; }
+
+  var biz     = document.getElementById('o-biz').value.trim();
+  var type    = document.getElementById('o-type').value;
+  var tagline = document.getElementById('o-tagline').value.trim();
+  var hours   = document.getElementById('o-hours').value.trim();
+  var phone   = document.getElementById('o-phone').value.trim();
+  var notes   = document.getElementById('o-notes').value.trim();
+  var extras  = document.querySelectorAll('#extra-phones input');
+  var phone2  = extras[0] ? extras[0].value.trim() : '';
+  var phone3  = extras[1] ? extras[1].value.trim() : '';
+
+  var customCardText = document.getElementById('o-card-text').value.trim();
+  var printedName = customCardText || biz;
+  var cardLogoOpt = document.getElementById('o-card-logo-opt').value;
+
+  var order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString(),
+    biz: biz,
+    type: type,
+    pkg: selectedPkg,
+    pay: selectedPay,
+    phone: phone,
+    phone2: phone2,
+    phone3: phone3,
+    tagline: tagline,
+    hours: hours,
+    notes: notes,
+    address: '',
+    cardQty: cardQty,
+    totalPrice: document.getElementById('ps-pkg-price').textContent,
+    platforms: {
+      whatsapp:    document.getElementById('o-whatsapp').value.trim(),
+      telegram:    document.getElementById('o-telegram').value.trim(),
+      facebook:    document.getElementById('o-facebook').value.trim(),
+      instagram:   document.getElementById('o-instagram').value.trim(),
+      tiktok:      document.getElementById('o-tiktok').value.trim(),
+      youtube:     document.getElementById('o-youtube').value.trim(),
+      twitter:     document.getElementById('o-twitter').value.trim(),
+      snapchat:    document.getElementById('o-snapchat').value.trim(),
+      linkedin:    document.getElementById('o-linkedin').value.trim(),
+      maps:        document.getElementById('o-maps').value.trim(),
+      website:     document.getElementById('o-website').value.trim(),
+      tripadvisor: document.getElementById('o-tripadvisor').value.trim()
+    },
+    coverPhoto:      photoData.cover,
+    avatarPhoto:     photoData.avatar,
+    logoPhoto:       photoData.logo,
+    screenshotPhoto: photoData.screenshot,
+    cardColor:       selectedCardColor,
+    cardText:        printedName,
+    cardLogoOpt:     cardLogoOpt,
+    status: 'Pending',
+    paid: false,
+    profileLink: '',
+    printFrontFile: '',
+    printBackFile: ''
+  };
+
+  // Generate Profile link URL parameter string
+  var profileParams = new URLSearchParams();
+  profileParams.set('name', biz);
+  if (type)    profileParams.set('type', type);
+  if (tagline) profileParams.set('tagline', tagline);
+  if (phone)   profileParams.set('phone', phone);
+  if (phone2)  profileParams.set('phone2', phone2);
+  if (phone3)  profileParams.set('phone3', phone3);
+  if (hours)   profileParams.set('hours', hours);
+  profileParams.set('color', selectedCardColor || '#0A1628');
+  
+  if (photoData.cover) profileParams.set('cover', photoData.cover);
+  if (photoData.avatar) profileParams.set('avatar', photoData.avatar);
+  if (photoData.logo) profileParams.set('logo', photoData.logo);
+
+  var plats = order.platforms;
+  if (plats.whatsapp)    profileParams.set('whatsapp', plats.whatsapp);
+  if (plats.telegram)    profileParams.set('telegram', plats.telegram);
+  if (plats.facebook)    profileParams.set('facebook', plats.facebook);
+  if (plats.instagram)   profileParams.set('instagram', plats.instagram);
+  if (plats.tiktok)      profileParams.set('tiktok', plats.tiktok);
+  if (plats.youtube)     profileParams.set('youtube', plats.youtube);
+  if (plats.twitter)     profileParams.set('twitter', plats.twitter);
+  if (plats.snapchat)    profileParams.set('snapchat', plats.snapchat);
+  if (plats.linkedin)    profileParams.set('linkedin', plats.linkedin);
+  if (plats.maps)        profileParams.set('maps', plats.maps);
+  if (plats.website)     profileParams.set('website', plats.website);
+  if (plats.tripadvisor) profileParams.set('tripadvisor', plats.tripadvisor);
+  // Build the full profile URL
+  var baseUrl = window.location.origin + window.location.pathname.replace('order.html', '');
+  order.profileLink = baseUrl + 'profile.html?' + profileParams.toString();
+
+  var orders = JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
+  orders.unshift(order);
+  localStorage.setItem('tioflos_orders', JSON.stringify(orders));
+
+  // Send order to Google Sheets (no Telegram needed)
+  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx6kw_DGAJtWiA7JNwlns7PZR6WhzZSUTpIAU0GdRhbFcHNAgWLjbrcip4vkC4aZaaeMA/exec';
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order)
+  }).catch(function(err) {
+    console.error('Google Sheets submission error:', err);
+  });
+
+  document.getElementById('summary-box').innerHTML =
+    '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">' + order.id + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Business</span><span class="sr-val">' + biz + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Package</span><span class="sr-val">' + selectedPkg + '</span></div>' +
+    '<div class="summary-row"><span class="sr-label">Payment</span><span class="sr-val">' + selectedPay + '</span></div>';
+
+  goStep(4);
+}
+
+// Auto-fill package from URL query string if provided
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  const pkg = params.get('pkg');
+  if (pkg) {
+    let pkgCard = null;
+    let pkgNameVal = '';
+    if (pkg === 'starter') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(1)');
+      pkgNameVal = 'Starter - 800 ETB';
+    } else if (pkg === 'business') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(2)');
+      pkgNameVal = 'Business - 7,500 ETB';
+    } else if (pkg === 'premium') {
+      pkgCard = document.querySelector('.pkg-card:nth-child(3)');
+      pkgNameVal = 'Premium - 20,000 ETB';
+    }
+    if (pkgCard) {
+      selectPkg(pkgCard, pkgNameVal);
+    }
+  }
+};
 </script>
-
-<link rel="stylesheet" href="styles.css">
-
-<!-- EDIT MODAL -->
-<div class="modal-overlay" id="edit-modal">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2 id="modal-title">✏️ Edit Order Details</h2>
-      <button class="modal-close-btn" onclick="closeEditModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <form id="edit-form" class="form-dark">
-        <input type="hidden" id="edit-order-id">
-        
-        <div class="form-section-title">🏢 Business Information</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Business / Customer Name</label>
-            <input type="text" id="edit-biz">
-          </div>
-          <div class="form-group">
-            <label>Business Type</label>
-            <select id="edit-type">
-              <option>Hotel / Resort</option>
-              <option>Restaurant / Cafe</option>
-              <option>Shop / Supermarket</option>
-              <option>Clinic / Pharmacy</option>
-              <option>Salon / Spa</option>
-              <option>School / College</option>
-              <option>Freelancer</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label>Tagline</label>
-            <input type="text" id="edit-tagline">
-          </div>
-          <div class="form-group">
-            <label>Opening Hours</label>
-            <input type="text" id="edit-hours">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Primary Phone</label>
-            <input type="text" id="edit-phone">
-          </div>
-          <div class="form-group">
-            <label>Phone 2</label>
-            <input type="text" id="edit-phone2">
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label>Phone 3</label>
-            <input type="text" id="edit-phone3">
-          </div>
-          <div class="form-group">
-            <label>Delivery Address</label>
-            <input type="text" id="edit-address">
-          </div>
-        </div>
-
-        <div class="form-section-title">🎨 Card Design Settings</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Card Color (Hex)</label>
-            <div style="display:flex;gap:0.5rem;align-items:center;">
-              <input type="color" id="edit-card-color-picker" style="width:40px;height:38px;padding:0;cursor:pointer;border:none;" onchange="document.getElementById('edit-card-color').value = this.value">
-              <input type="text" id="edit-card-color" style="flex:1;">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Printed Label Text</label>
-            <input type="text" id="edit-card-text">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Logo Display</label>
-            <select id="edit-card-logo-opt">
-              <option value="both">Show Logo & Name</option>
-              <option value="logo">Show Logo Only</option>
-              <option value="name">Show Name Only</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Card Quantity</label>
-            <input type="number" id="edit-card-qty" min="1">
-          </div>
-        </div>
-
-        <div class="form-section-title">🖼️ Hosted Image URLs</div>
-        <div class="form-group">
-          <label>Cover Photo URL</label>
-          <input type="text" id="edit-cover-photo">
-        </div>
-        <div class="form-group">
-          <label>Avatar Photo URL</label>
-          <input type="text" id="edit-avatar-photo">
-        </div>
-        <div class="form-group">
-          <label>Logo Photo URL</label>
-          <input type="text" id="edit-logo-photo">
-        </div>
-
-        <div class="form-section-title">🔗 Social Platforms & Links</div>
-        <div class="platform-grid">
-          <div class="platform-input"><span class="p-icon">💬</span><input type="text" id="edit-whatsapp" placeholder="WhatsApp"></div>
-          <div class="platform-input"><span class="p-icon">✈️</span><input type="text" id="edit-telegram" placeholder="Telegram"></div>
-          <div class="platform-input"><span class="p-icon">📘</span><input type="text" id="edit-facebook" placeholder="Facebook"></div>
-          <div class="platform-input"><span class="p-icon">📸</span><input type="text" id="edit-instagram" placeholder="Instagram"></div>
-          <div class="platform-input"><span class="p-icon">🎵</span><input type="text" id="edit-tiktok" placeholder="TikTok"></div>
-          <div class="platform-input"><span class="p-icon">▶️</span><input type="text" id="edit-youtube" placeholder="YouTube"></div>
-          <div class="platform-input"><span class="p-icon">🐦</span><input type="text" id="edit-twitter" placeholder="Twitter/X"></div>
-          <div class="platform-input"><span class="p-icon">👻</span><input type="text" id="edit-snapchat" placeholder="Snapchat"></div>
-          <div class="platform-input"><span class="p-icon">💼</span><input type="text" id="edit-linkedin" placeholder="LinkedIn"></div>
-          <div class="platform-input"><span class="p-icon">📍</span><input type="text" id="edit-maps" placeholder="Google Maps"></div>
-          <div class="platform-input"><span class="p-icon">🌐</span><input type="text" id="edit-website" placeholder="Website"></div>
-          <div class="platform-input"><span class="p-icon">⭐</span><input type="text" id="edit-tripadvisor" placeholder="TripAdvisor"></div>
-        </div>
-
-        <div class="form-group" style="margin-top:1rem;">
-          <label>Admin Notes</label>
-          <textarea id="edit-notes" rows="2"></textarea>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-cancel-btn" onclick="closeEditModal()">Cancel</button>
-      <button class="modal-save-btn" onclick="saveEditOrder()">Save Changes ✓</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
