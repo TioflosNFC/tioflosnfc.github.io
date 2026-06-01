@@ -642,7 +642,7 @@ const TG_BOT_TOKEN = '8878906698:AAFWZnRoZFG4otQnJT_RSGU0b8LJO8MRtEY'; // Config
 const TG_CHAT_ID = '8681520921'; // Configurable chat/channel ID
 
 // ── IMGBB AUTO-UPLOAD CONFIGURATION ──
-const IMGBB_API_KEY = '5a66698b671a5c68bbcd86668ce02f43'; // Automated free upload API key
+const IMGBB_API_KEY = '6ab89973131ab4d72e6471ff8a38fe05'; // Automated free upload API key
 
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
@@ -1354,12 +1354,16 @@ function submitOrder() {
   orders.unshift(order);
   localStorage.setItem('tioflos_orders', JSON.stringify(orders));
 
-  // Send the order details & screenshot privately to Telegram Bot!
-  try {
-    sendOrderToTelegram(order);
-  } catch (tgErr) {
-    console.error('Failed to send Telegram notification:', tgErr);
-  }
+  // Send order to Google Sheets (no Telegram needed)
+  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx6kw_DGAJtWiA7JNwlns7PZR6WhzZSUTpIAU0GdRhbFcHNAgWLjbrcip4vkC4aZaaeMA/exec';
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order)
+  }).catch(function(err) {
+    console.error('Google Sheets submission error:', err);
+  });
 
   document.getElementById('summary-box').innerHTML =
     '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">' + order.id + '</span></div>' +
