@@ -302,7 +302,9 @@ function logout() {
 if (sessionStorage.getItem('tioflos_admin') === '1') {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
-  initDashboard();
+  window.addEventListener('DOMContentLoaded', function() {
+    initDashboard();
+  });
 }
 
 // ── DASHBOARD ──
@@ -447,9 +449,6 @@ function renderOrders() {
           <div class="action-btns">
             <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
             <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
-            <button class="act-btn act-link" onclick="openEditModal('${o.id}')">✏️ Edit Details</button>
-            <button class="act-btn act-link" onclick="downloadCardPNG('${o.id}', 'front')">📥 Front (PNG)</button>
-            <button class="act-btn act-link" onclick="downloadCardPNG('${o.id}', 'back')">📥 Back (PNG)</button>
             <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
           </div>
           ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
