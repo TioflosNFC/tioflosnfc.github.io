@@ -22,11 +22,7 @@
 .step-panel.active{display:block}
 .step-title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;color:var(--white);margin-bottom:.5rem}
 .step-sub{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
-
-/* Step-specific width control */
 #step1, #step3, #step4 { max-width:720px; margin:0 auto; }
-
-/* Packages */
 .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
 .pkg-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem 1rem;cursor:pointer;transition:all .2s;text-align:center;position:relative;background:rgba(255,255,255,.03)}
 .pkg-card:hover{border-color:rgba(201,146,42,.5)}
@@ -37,8 +33,6 @@
 .pkg-price{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.4rem}
 .pkg-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.5}
 .pkg-tag{font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.4rem}
-
-/* Form Section Styling */
 .form-sec{font-family:Syne,sans-serif;font-weight:700;font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:2px;margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,146,42,.2)}
 .o-label{display:block;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:.4rem}
 .o-input{width:100%;padding:.75rem 1rem;border:1.5px solid rgba(201,146,42,.25);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:.9rem;background:rgba(255,255,255,.06);color:var(--white);outline:none;transition:border-color .2s;margin-bottom:1.25rem}
@@ -50,8 +44,6 @@
 .phone-row .o-input{margin-bottom:0;flex:1}
 .remove-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;color:#EF4444;font-size:.8rem;padding:.5rem .75rem;cursor:pointer;font-weight:700;white-space:nowrap}
 .add-phone-btn{background:none;border:1px dashed rgba(201,146,42,.4);border-radius:8px;color:var(--gold-light);font-size:.78rem;font-weight:700;padding:.4rem .85rem;cursor:pointer;font-family:Syne,sans-serif;margin-bottom:1.25rem}
-
-/* Photos Upload UI */
 .photo-uploads{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.25rem}
 .photo-upload{border:2px dashed rgba(201,146,42,.3);border-radius:12px;padding:1rem .5rem;text-align:center;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.03);position:relative}
 .photo-upload:hover{border-color:var(--gold)}
@@ -61,8 +53,6 @@
 .pu-sub{font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.2rem}
 .photo-preview{width:100%;height:60px;object-fit:cover;border-radius:8px;display:none;margin-top:.5rem}
 .photo-preview.circle{border-radius:50%;width:50px;height:50px;margin:.5rem auto 0}
-
-/* Platforms Grid */
 .plat-group-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
 .platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
 .platform-row{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,146,42,.2);border-radius:8px;padding:.55rem .75rem;transition:border-color .2s}
@@ -70,8 +60,6 @@
 .platform-row .p-icon{font-size:1.1rem;flex-shrink:0}
 .platform-row input{border:none;background:none;padding:0;margin:0;font-size:.82rem;color:var(--white);width:100%;outline:none}
 .platform-row input::placeholder{color:rgba(255,255,255,.25)}
-
-/* Designer Layout Grid */
 .designer-grid { display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; align-items: start; }
 .designer-inputs { min-width: 0; }
 .designer-preview-wrap {
@@ -89,8 +77,6 @@
   font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
 }
 .preview-tab-btn.active { background: var(--gold); color: var(--navy); }
-
-/* Color Picker */
 .color-options { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.5rem; }
 .color-opt {
   width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
@@ -100,8 +86,6 @@
 .color-opt:hover { transform: scale(1.1); }
 .color-opt.active { border-color: var(--white); box-shadow: 0 0 0 2px var(--gold); }
 .custom-picker-btn { overflow: hidden; }
-
-/* CSS NFC Card Mockup */
 .preview-card {
   width: 100%; max-width: 290px; aspect-ratio: 1.586;
   border-radius: 16px; background: var(--navy-mid); padding: 1.25rem;
@@ -153,8 +137,6 @@
   font-size: 0.55rem; text-transform: uppercase; letter-spacing: 1.5px;
   color: rgba(255,255,255,0.4); font-weight: 600; margin-top: 2px;
 }
-
-/* Phone Screen Mockup */
 .preview-phone {
   width: 230px; margin: 0 auto; background: #1A2744;
   border-radius: 28px; padding: 8px; border: 2px solid rgba(201,146,42,0.3);
@@ -167,8 +149,6 @@
 }
 .preview-phone-icon { font-size: 0.9rem; }
 .preview-phone-label { font-size: 0.45rem; color: #6B7280; font-weight: 600; }
-
-/* Payment & Done details */
 .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
 .pay-card{border:1.5px solid rgba(201,146,42,.25);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s;text-align:center;background:rgba(255,255,255,.03)}
 .pay-card:hover{border-color:rgba(201,146,42,.5)}
@@ -192,16 +172,12 @@
 .ps-label{font-size:.85rem;color:rgba(255,255,255,.6)}
 .ps-pkg{font-family:Syne,sans-serif;font-weight:800;font-size:1rem;color:var(--white)}
 .ps-price{font-family:Syne,sans-serif;font-weight:800;font-size:1.5rem;color:var(--gold)}
-
-/* Button layouts */
 .btn-row{display:flex;gap:1rem;margin-top:1.5rem}
 .btn-next{flex:1;padding:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:Syne,sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:background .2s}
 .btn-next:hover{background:var(--gold-light)}
 .btn-next:disabled{opacity:.4;cursor:not-allowed}
 .btn-back{padding:1rem 1.5rem;background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;font-family:Syne,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
 .btn-back:hover{border-color:rgba(255,255,255,.5);color:var(--white)}
-
-/* Success */
 .success-screen{text-align:center;padding:2rem 0}
 .success-icon{font-size:4rem;margin-bottom:1rem}
 .success-screen h2{font-size:2rem;font-weight:800;color:var(--gold);margin-bottom:1rem}
@@ -211,7 +187,12 @@
 .summary-row:last-child{border-bottom:none}
 .sr-label{color:rgba(255,255,255,.45)}
 .sr-val{color:var(--white);font-weight:600}
-
+/* Submitting overlay */
+.submitting-overlay{position:fixed;inset:0;background:rgba(10,22,40,0.85);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+.submitting-overlay.show{display:flex;}
+.spin{width:50px;height:50px;border:4px solid rgba(201,146,42,0.3);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.submitting-text{font-family:Syne,sans-serif;font-weight:700;color:var(--gold-light);font-size:1rem;}
 @media(max-width:900px){
   .designer-grid{grid-template-columns:1fr}
   .designer-preview-wrap{position:static;min-height:auto}
@@ -227,6 +208,12 @@
 </style>
 </head>
 <body>
+
+<!-- SUBMITTING OVERLAY -->
+<div class="submitting-overlay" id="submitting-overlay">
+  <div class="spin"></div>
+  <div class="submitting-text" id="submitting-text">Submitting your order...</div>
+</div>
 
 <nav>
   <a class="nav-logo" href="index.html">
@@ -262,7 +249,7 @@
 <div class="order-page">
   <div class="order-container">
 
-    <!-- PROGRESS BAR (4 steps) -->
+    <!-- PROGRESS BAR -->
     <div class="progress-bar">
       <div class="progress-step">
         <div class="progress-circle active" id="pc1">1</div>
@@ -321,13 +308,10 @@
     <!-- STEP 2: PROFILE + CARD DESIGNER -->
     <div class="step-panel" id="step2">
       <h1 class="step-title">Design Your Card & Profile</h1>
-      <p class="step-sub">Fill in your business details and customize your NFC card design. Watch it build in real-time on the preview panel!</p>
+      <p class="step-sub">Fill in your business details and customize your NFC card design.</p>
 
       <div class="designer-grid">
-        <!-- LEFT: INPUTS -->
         <div class="designer-inputs">
-          
-          <!-- Business Info -->
           <div class="form-sec">Business Information</div>
           <div class="o-row">
             <div>
@@ -366,7 +350,6 @@
           <div id="extra-phones"></div>
           <button type="button" class="add-phone-btn" onclick="addPhone()">+ Add Another Phone</button>
 
-          <!-- Design Physical Card -->
           <div class="form-sec">Design Your NFC Card</div>
           <div class="o-form-group">
             <label class="o-label">Select Card Background Color</label>
@@ -397,33 +380,31 @@
             </div>
           </div>
 
-          <!-- Photos -->
           <div class="form-sec">Photos & Assets</div>
           <div class="photo-uploads">
             <div class="photo-upload" onclick="document.getElementById('up-cover').click()">
               <input type="file" id="up-cover" accept="image/*" onchange="previewPhoto(this,'prev-cover',false)">
-              <div class="pu-icon">🖼</div>
+              <div class="pu-icon" id="icon-cover">🖼</div>
               <div class="pu-label">Cover Photo</div>
               <div class="pu-sub">Banner image</div>
               <img class="photo-preview" id="prev-cover">
             </div>
             <div class="photo-upload" onclick="document.getElementById('up-avatar').click()">
               <input type="file" id="up-avatar" accept="image/*" onchange="previewPhoto(this,'prev-avatar',true)">
-              <div class="pu-icon">👤</div>
+              <div class="pu-icon" id="icon-avatar">👤</div>
               <div class="pu-label">Profile Photo</div>
               <div class="pu-sub">Circular avatar</div>
               <img class="photo-preview circle" id="prev-avatar">
             </div>
             <div class="photo-upload" onclick="document.getElementById('up-logo').click()">
               <input type="file" id="up-logo" accept="image/*" onchange="previewPhoto(this,'prev-logo',false)">
-              <div class="pu-icon">🏢</div>
+              <div class="pu-icon" id="icon-logo">🏢</div>
               <div class="pu-label">Logo</div>
               <div class="pu-sub">Company logo</div>
               <img class="photo-preview" id="prev-logo">
             </div>
           </div>
 
-          <!-- Links -->
           <div class="form-sec">Your Links & Social Media</div>
           <div class="plat-group-label">Messaging</div>
           <div class="platform-grid">
@@ -447,7 +428,6 @@
             <div class="platform-row"><span class="p-icon">⭐</span><input type="text" id="o-tripadvisor" placeholder="TripAdvisor link" oninput="updateDesignerPreview()"></div>
           </div>
 
-          <!-- Notes -->
           <div class="form-sec">Additional Notes</div>
           <textarea class="o-input" id="o-notes" rows="3" placeholder="Special requests, logo colors, menu items, card design preferences..."></textarea>
 
@@ -464,91 +444,57 @@
             <button type="button" class="preview-tab-btn" id="tab-btn-card" onclick="switchPreviewTab('card')">💳 Physical Card</button>
           </div>
 
-          <!-- Digital Profile Preview (Phone) -->
           <div class="preview-phone-wrap" id="preview-panel-profile">
             <div class="preview-phone">
               <div class="preview-screen">
-                <div class="preview-header-img-wrap" id="phone-preview-cover-wrap" style="height:90px; background:#e2e8f0; position:relative; overflow:hidden;">
+                <div id="phone-preview-cover-wrap" style="height:90px; background:#e2e8f0; position:relative; overflow:hidden;">
                   <img id="phone-preview-cover" style="width:100%; height:100%; object-fit:cover; display:none;">
                 </div>
-                <div class="preview-header" id="phone-preview-header" style="background:#0A1628; padding: 1rem 0.75rem 0.5rem; text-align:center; position:relative; margin-top:-35px; transition: background-color 0.3s;">
-                  <div class="preview-avatar-wrap" style="display:flex; justify-content:space-between; align-items:flex-end; padding:0 0.5rem; margin-bottom:0.5rem;">
-                    <div class="preview-avatar" id="phone-preview-avatar" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--white); background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--white); overflow:hidden;">
+                <div id="phone-preview-header" style="background:#0A1628; padding: 1rem 0.75rem 0.5rem; text-align:center; position:relative; margin-top:-35px; transition: background-color 0.3s;">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-end; padding:0 0.5rem; margin-bottom:0.5rem;">
+                    <div id="phone-preview-avatar" style="width:50px; height:50px; border-radius:50%; border:2px solid var(--white); background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--white); overflow:hidden;">
                       <span id="phone-preview-avatar-letter">T</span>
                       <img id="phone-preview-avatar-img" style="width:100%; height:100%; object-fit:cover; display:none;">
                     </div>
-                    <div class="preview-logo-box" style="width:60px; height:40px; border-radius:6px; border:2px solid var(--white); background:var(--white); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                    <div style="width:60px; height:40px; border-radius:6px; border:2px solid var(--white); background:var(--white); display:flex; align-items:center; justify-content:center; overflow:hidden;">
                       <span id="phone-preview-logo-text" style="font-size:0.5rem; color:var(--mid); font-weight:700;">LOGO</span>
                       <img id="phone-preview-logo-img" style="width:100%; height:100%; object-fit:contain; padding:2px; display:none;">
                     </div>
                   </div>
-                  <div class="preview-name" id="phone-preview-name" style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business Name</div>
+                  <div id="phone-preview-name" style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--white);">Your Business Name</div>
                   <div style="font-size:0.6rem; color:var(--gold-light); margin-top:2px;" id="phone-preview-type">Business Type</div>
-                  <div class="preview-tagline" id="phone-preview-tagline" style="font-size:0.65rem; color:rgba(255,255,255,0.6); margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Your tagline here</div>
+                  <div id="phone-preview-tagline" style="font-size:0.65rem; color:rgba(255,255,255,0.6); margin-top:4px;">Your tagline here</div>
                 </div>
                 <div style="padding:0.75rem">
-                  <div class="preview-btns" id="phone-preview-links" style="display:grid; grid-template-columns: repeat(4,1fr); gap:6px;">
-                    <!-- Links populated dynamically by JS -->
-                  </div>
+                  <div id="phone-preview-links" style="display:grid; grid-template-columns: repeat(4,1fr); gap:6px;"></div>
                   <div style="margin-top:0.75rem;padding:0.4rem;background:#F3F4F6;border-radius:6px;font-size:0.6rem;color:#374151;font-weight:700;text-transform:uppercase;letter-spacing:1px">Business Info</div>
                   <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280; border-bottom: 1px solid #f3f4f6;" id="phone-preview-info-hours">🕐 Open: Mon–Sat 8am–9pm</div>
-                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280;" id="phone-preview-info-location">📍 Arba Minch, Ethiopia</div>
+                  <div style="padding:0.4rem 0;font-size:0.65rem;color:#6B7280;">📍 Arba Minch, Ethiopia</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Physical Card Preview -->
-          <div class="preview-card-wrap" id="preview-panel-card" style="display:none; padding:1.5rem 0;">
-            <div class="card-container-3d">
-              <div class="preview-card-inner" id="card-inner-mockup">
-                
-                <!-- Front Side -->
-                <div class="preview-card-front">
-                  <div class="preview-card" id="card-mockup" style="margin:0;">
-                    <div class="card-shine"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
-                      <div class="card-nfc-chip"></div>
-                      <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
-                    </div>
-                    
-                    <div class="card-logo-area">
-                      <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
-                      <img class="card-logo-img" id="card-mockup-logo-img">
-                      <div style="display:flex; flex-direction:column; min-width:0;">
-                        <div class="card-name-text" id="card-mockup-name" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Your Business</div>
-                        <div class="card-tap-hint" id="card-mockup-hint">Tioflos NFC</div>
-                      </div>
-                    </div>
-                  </div>
+          <div id="preview-panel-card" style="display:none; padding:1.5rem 0;">
+            <div class="preview-card" id="card-mockup">
+              <div class="card-shine"></div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+                <div class="card-nfc-chip"></div>
+                <div class="card-nfc-wave" id="card-mockup-wave">📡</div>
+              </div>
+              <div class="card-logo-area">
+                <div class="card-logo-placeholder" id="card-mockup-logo-placeholder">T</div>
+                <img class="card-logo-img" id="card-mockup-logo-img">
+                <div style="display:flex; flex-direction:column; min-width:0;">
+                  <div class="card-name-text" id="card-mockup-name">Your Business</div>
+                  <div class="card-tap-hint">Tioflos NFC</div>
                 </div>
-                
-                <!-- Back Side -->
-                <div class="preview-card-back" id="card-back-mockup">
-                  <div class="card-back-header">
-                    <span class="card-back-brand">Tioflos NFC</span>
-                    <span class="card-back-logo">📡</span>
-                  </div>
-                  <div class="card-back-content">
-                    <div class="card-back-qr-box">
-                      <img id="card-back-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tioflosnfc.github.io" alt="QR Profile">
-                    </div>
-                  </div>
-                  <div class="card-back-footer">
-                    <div class="card-back-instruction">Tap Card or Scan QR to Connect</div>
-                    <div class="card-back-powered">Arba Minch, Ethiopia</div>
-                  </div>
-                </div>
-                
               </div>
             </div>
-            
-            <div style="text-align:center; margin-top:1.5rem;">
-              <button type="button" class="add-phone-btn" style="margin-bottom:0;" onclick="flipCard()">🔄 Flip Card</button>
+            <div style="text-align:center; margin-top:1rem;">
+              <p style="font-size:0.7rem; color:rgba(255,255,255,0.4);">Front side preview</p>
             </div>
-            <p style="text-align:center; font-size:0.7rem; color:rgba(255,255,255,0.4); margin-top:0.75rem;" id="card-preview-side-text">Front side design. Rounded corner card with premium matte coating.</p>
           </div>
-
         </div>
       </div>
     </div>
@@ -566,7 +512,6 @@
         <div class="ps-price" id="ps-pkg-price">-</div>
       </div>
 
-      <!-- CARD QUANTITY SELECTOR -->
       <div style="margin-bottom: 2rem;">
         <label class="o-label">Card Quantity & Pricing Calculator</label>
         <div style="display:flex; align-items:center; gap:1.5rem; background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px; border:1px solid rgba(201,146,42,0.2);">
@@ -580,9 +525,7 @@
             <button type="button" class="remove-btn" style="padding:0.4rem 0.8rem; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff; font-size:1rem;" onclick="adjustQty(1)">+</button>
           </div>
         </div>
-        <div id="extra-cards-notice" style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; line-height:1.4;">
-          Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.
-        </div>
+        <div id="extra-cards-notice" style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem; line-height:1.4;"></div>
       </div>
 
       <label class="o-label">Choose Payment Method</label>
@@ -611,14 +554,14 @@
       <label class="o-label" style="margin-top:1rem;">Payment Screenshot</label>
       <div class="screenshot-upload">
         <input type="file" id="up-screenshot" accept="image/*" onchange="previewScreenshot(this)">
-        <div class="su-icon">📷</div>
+        <div class="su-icon" id="icon-screenshot">📷</div>
         <div class="su-text"><strong>Click to upload</strong> your payment screenshot</div>
         <img id="screenshot-preview">
       </div>
 
       <div class="btn-row">
         <button class="btn-back" onclick="goStep(2)">Back</button>
-        <button class="btn-next" onclick="submitOrder()">Submit Order ✓</button>
+        <button class="btn-next" id="submit-btn" onclick="submitOrder()">Submit Order ✓</button>
       </div>
     </div>
 
@@ -627,7 +570,7 @@
       <div class="success-screen">
         <div class="success-icon">🎉</div>
         <h2>Order Submitted!</h2>
-        <p>Your order has been received. We will review your payment and contact you within 1–2 hours to confirm delivery.</p>
+        <p>Your order has been received and saved. We will review your payment and contact you within 1–2 hours to confirm.</p>
         <div class="summary-box" id="summary-box"></div>
         <a href="index.html" class="btn-next" style="display:block;text-decoration:none;text-align:center;">Back to Home</a>
       </div>
@@ -637,12 +580,9 @@
 </div>
 
 <script>
-// ── TELEGRAM BOT CONFIGURATION ──
-const TG_BOT_TOKEN = '8878906698:AAFWZnRoZFG4otQnJT_RSGU0b8LJO8MRtEY'; // Configurable TG token
-const TG_CHAT_ID = '8681520921'; // Configurable chat/channel ID
-
-// ── IMGBB AUTO-UPLOAD CONFIGURATION ──
-const IMGBB_API_KEY = '6ab89973131ab4d72e6471ff8a38fe05'; // Automated free upload API key
+// ── CONFIGURATION ──
+const IMGBB_API_KEY = '6ab89973131ab4d72e6471ff8a38fe05';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzUvZ1AEQgcfoi60HzTRO0NKe6bzCXs1_AjehXQCZVYFq5aigjJhnAqbQL8xCmnBMaE0w/exec';
 
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
@@ -651,749 +591,340 @@ function toggleMenu() {
 let selectedPkg = '', selectedPay = '', phoneCount = 1;
 let photoData = { cover:'', avatar:'', logo:'', screenshot:'' };
 let selectedCardColor = '#0A1628';
-let isFlipped = false;
-
-// Card quantity variables
-let cardQty = 1;
-let baseQty = 1;
-let basePrice = 800;
-let extraPrice = 500;
+let cardQty = 1, baseQty = 1, basePrice = 800, extraPrice = 500;
 
 function goStep(n) {
-  // Validate step 2 inputs
   if (n === 3) {
     var b = document.getElementById('o-biz').value.trim();
     var t = document.getElementById('o-type').value;
     var p = document.getElementById('o-phone').value.trim();
-    if (!b || !t || !p) {
-      alert('Please fill in Business Name, Type, and Phone Number.');
-      return;
-    }
+    if (!b || !t || !p) { alert('Please fill in Business Name, Type, and Phone Number.'); return; }
   }
-  
-  // Set up package parameters for Step 3 calculator
   if (n === 3) {
     if (selectedPkg.startsWith('Starter')) {
-      baseQty = 1;
-      basePrice = 800;
-      extraPrice = 500;
-      document.getElementById('qty-desc-text').textContent = 'Includes 1 blank card';
-      document.getElementById('extra-cards-notice').textContent = 'Starter package includes 1 card. Extra blank cards cost 500 ETB each.';
+      baseQty=1; basePrice=800; extraPrice=500;
+      document.getElementById('qty-desc-text').textContent='Includes 1 blank card';
+      document.getElementById('extra-cards-notice').textContent='Starter package includes 1 card. Extra blank cards cost 500 ETB each.';
     } else if (selectedPkg.startsWith('Business')) {
-      baseQty = 5;
-      basePrice = 7500;
-      extraPrice = 2000;
-      document.getElementById('qty-desc-text').textContent = 'Includes 5 custom cards';
-      document.getElementById('extra-cards-notice').textContent = 'Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.';
+      baseQty=5; basePrice=7500; extraPrice=2000;
+      document.getElementById('qty-desc-text').textContent='Includes 5 custom cards';
+      document.getElementById('extra-cards-notice').textContent='Business package includes 5 cards. Extra custom-printed cards cost 2,000 ETB each.';
     } else if (selectedPkg.startsWith('Premium')) {
-      baseQty = 10;
-      basePrice = 20000;
-      extraPrice = 4000;
-      document.getElementById('qty-desc-text').textContent = 'Includes 10 custom cards';
-      document.getElementById('extra-cards-notice').textContent = 'Premium package includes 10 cards. Extra custom-printed cards cost 4,000 ETB each.';
+      baseQty=10; basePrice=20000; extraPrice=4000;
+      document.getElementById('qty-desc-text').textContent='Includes 10 custom cards';
+      document.getElementById('extra-cards-notice').textContent='Premium package includes 10 cards. Extra custom-printed cards cost 4,000 ETB each.';
     }
     cardQty = baseQty;
     calculatePrice();
   }
-
   document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
-  document.getElementById('step' + n).classList.add('active');
+  document.getElementById('step'+n).classList.add('active');
   updateProgress(n);
-  
-  if (n === 2) {
-    updateDesignerPreview();
-  }
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n===2) updateDesignerPreview();
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
 function updateProgress(current) {
-  for (var i = 1; i <= 4; i++) {
-    var c = document.getElementById('pc' + i);
-    var l = document.getElementById('pl' + i);
-    var ln = document.getElementById('line' + i);
-    c.classList.remove('active','done');
-    l.classList.remove('active');
-    if (i < current) {
-      c.classList.add('done');
-      c.innerHTML = '✓';
-    } else if (i === current) {
-      c.classList.add('active');
-      c.innerHTML = i;
-      l.classList.add('active');
-    } else {
-      c.innerHTML = i;
-    }
-    if (ln && i < current) ln.classList.add('done');
+  for (var i=1; i<=4; i++) {
+    var c=document.getElementById('pc'+i), l=document.getElementById('pl'+i), ln=document.getElementById('line'+i);
+    c.classList.remove('active','done'); l.classList.remove('active');
+    if (i<current){ c.classList.add('done'); c.innerHTML='✓'; }
+    else if (i===current){ c.classList.add('active'); c.innerHTML=i; l.classList.add('active'); }
+    else { c.innerHTML=i; }
+    if (ln && i<current) ln.classList.add('done');
     else if (ln) ln.classList.remove('done');
   }
 }
 
 function selectPkg(el, val) {
   document.querySelectorAll('.pkg-card').forEach(function(c){ c.classList.remove('selected'); });
-  el.classList.add('selected');
-  selectedPkg = val;
-  document.getElementById('btn-next1').disabled = false;
+  el.classList.add('selected'); selectedPkg=val;
+  document.getElementById('btn-next1').disabled=false;
 }
 
 function selectPay(el, method) {
   document.querySelectorAll('.pay-card').forEach(function(c){ c.classList.remove('selected'); });
-  el.classList.add('selected');
-  selectedPay = method;
+  el.classList.add('selected'); selectedPay=method;
   document.getElementById('pay-details-telebirr').classList.remove('show');
   document.getElementById('pay-details-cbe').classList.remove('show');
-  if (method === 'Telebirr') document.getElementById('pay-details-telebirr').classList.add('show');
-  if (method === 'CBE Birr') document.getElementById('pay-details-cbe').classList.add('show');
+  if (method==='Telebirr') document.getElementById('pay-details-telebirr').classList.add('show');
+  if (method==='CBE Birr') document.getElementById('pay-details-cbe').classList.add('show');
 }
 
 function addPhone() {
-  if (phoneCount >= 3) { alert('Maximum 3 phone numbers.'); return; }
+  if (phoneCount>=3){ alert('Maximum 3 phone numbers.'); return; }
   phoneCount++;
-  var d = document.createElement('div');
-  d.className = 'phone-row';
-  d.innerHTML = '<input class="o-input" type="tel" placeholder="+251... (Phone ' + phoneCount + ')" oninput="updateDesignerPreview()"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;updateDesignerPreview();">✕</button>';
+  var d=document.createElement('div'); d.className='phone-row';
+  d.innerHTML='<input class="o-input" type="tel" placeholder="+251... (Phone '+phoneCount+')" oninput="updateDesignerPreview()"><button type="button" class="remove-btn" onclick="this.parentElement.remove();phoneCount--;updateDesignerPreview();">✕</button>';
   document.getElementById('extra-phones').appendChild(d);
 }
 
-// ── AUTOMATED IMGBB UPLOAD ──
+// ── IMGBB UPLOAD ──
 function uploadToImgBB(file) {
   const formData = new FormData();
   formData.append('image', file);
-  
-  return fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('ImgBB Upload Error');
-    return res.json();
-  })
-  .then(data => {
-    if (data && data.data && data.data.url) {
-      return data.data.url;
-    }
-    throw new Error('Invalid ImgBB Response');
-  });
+  return fetch('https://api.imgbb.com/1/upload?key='+IMGBB_API_KEY, { method:'POST', body:formData })
+    .then(res => { if(!res.ok) throw new Error('ImgBB Error'); return res.json(); })
+    .then(data => { if(data&&data.data&&data.data.url) return data.data.url; throw new Error('Invalid response'); });
 }
 
 function previewPhoto(input, previewId, isCircle) {
-  if (input.files && input.files[0]) {
-    // Show visual loading spinner in upload box
-    const parent = input.closest('.photo-upload');
-    const icon = parent.querySelector('.pu-icon');
-    const prevText = icon.textContent;
-    icon.textContent = '⏳';
-    
-    uploadToImgBB(input.files[0])
-    .then(url => {
-      icon.textContent = prevText;
-      
-      // Update form preview
-      var img = document.getElementById(previewId);
-      img.src = url;
-      img.style.display = 'block';
-      
-      var key = input.id === 'up-cover' ? 'cover' : input.id === 'up-avatar' ? 'avatar' : 'logo';
-      photoData[key] = url;
+  if (!input.files || !input.files[0]) return;
+  const key = input.id==='up-cover'?'cover':input.id==='up-avatar'?'avatar':'logo';
+  const iconId = 'icon-'+key;
+  const icon = document.getElementById(iconId);
+  const prevIcon = icon.textContent;
+  icon.textContent='⏳';
 
-      // Update interactive Mockups
-      if (key === 'cover') {
-        const coverImg = document.getElementById('phone-preview-cover');
-        coverImg.src = url;
-        coverImg.style.display = 'block';
-      } else if (key === 'avatar') {
-        const avatarImg = document.getElementById('phone-preview-avatar-img');
-        avatarImg.src = url;
-        avatarImg.style.display = 'block';
-        document.getElementById('phone-preview-avatar-letter').style.display = 'none';
-      } else if (key === 'logo') {
-        // Phone preview
-        const logoImg = document.getElementById('phone-preview-logo-img');
-        logoImg.src = url;
-        logoImg.style.display = 'block';
-        document.getElementById('phone-preview-logo-text').style.display = 'none';
+  uploadToImgBB(input.files[0])
+  .then(url => {
+    icon.textContent='✅';
+    var img=document.getElementById(previewId);
+    img.src=url; img.style.display='block';
+    photoData[key]=url;
 
-        // Card front mockup preview
-        const cardLogoImg = document.getElementById('card-mockup-logo-img');
-        cardLogoImg.src = url;
-        cardLogoImg.style.display = 'block';
-        document.getElementById('card-mockup-logo-placeholder').style.display = 'none';
-      }
-      updateDesignerPreview();
-    })
-    .catch(err => {
-      console.error('ImgBB Upload Error:', err);
-      icon.textContent = '❌';
-      alert('Failed to host image. Please verify your internet connection and try again.');
-    });
-  }
+    if (key==='cover'){
+      const ci=document.getElementById('phone-preview-cover');
+      ci.src=url; ci.style.display='block';
+    } else if (key==='avatar'){
+      const ai=document.getElementById('phone-preview-avatar-img');
+      ai.src=url; ai.style.display='block';
+      document.getElementById('phone-preview-avatar-letter').style.display='none';
+    } else if (key==='logo'){
+      const li=document.getElementById('phone-preview-logo-img');
+      li.src=url; li.style.display='block';
+      document.getElementById('phone-preview-logo-text').style.display='none';
+      const cli=document.getElementById('card-mockup-logo-img');
+      cli.src=url; cli.style.display='block';
+      document.getElementById('card-mockup-logo-placeholder').style.display='none';
+    }
+    updateDesignerPreview();
+  })
+  .catch(err => {
+    icon.textContent=prevIcon;
+    alert('Failed to upload image. Please check your internet connection and try again.');
+  });
 }
 
-// Payment screenshot stays 100% private in local base64
 function previewScreenshot(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var img = document.getElementById('screenshot-preview');
-      img.src = e.target.result;
-      img.style.display = 'block';
-      photoData.screenshot = e.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+  if (!input.files || !input.files[0]) return;
+  const icon = document.getElementById('icon-screenshot');
+  icon.textContent='⏳';
+  uploadToImgBB(input.files[0])
+  .then(url => {
+    icon.textContent='✅';
+    var img=document.getElementById('screenshot-preview');
+    img.src=url; img.style.display='block';
+    photoData.screenshot=url;
+  })
+  .catch(err => {
+    icon.textContent='📷';
+    alert('Failed to upload screenshot. Please try again.');
+  });
 }
 
-// ── CARD FLIPPING LOGIC ──
-function flipCard() {
-  isFlipped = !isFlipped;
-  const inner = document.getElementById('card-inner-mockup');
-  const text = document.getElementById('card-preview-side-text');
-  if (isFlipped) {
-    inner.classList.add('flipped');
-    text.textContent = 'Back side design. Dynamic profile QR code embedded.';
-  } else {
-    inner.classList.remove('flipped');
-    text.textContent = 'Front side design. Rounded corner card with premium matte coating.';
-  }
-}
-
-function setCardColor(color, el) {
-  selectedCardColor = color;
-  document.querySelectorAll('.color-opt').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  
-  // Front background
-  document.getElementById('card-mockup').style.backgroundColor = color;
-  // Back background
-  document.getElementById('card-back-mockup').style.backgroundColor = color;
-  
-  const isLight = isColorLight(color);
-  const cardNameText = document.getElementById('card-mockup-name');
-  const backMockup = document.getElementById('card-back-mockup');
-  
-  if (isLight) {
-    cardNameText.style.color = '#0A1628';
-    document.getElementById('card-mockup-wave').style.color = 'rgba(10,22,40,0.3)';
-    document.getElementById('card-mockup-hint').style.color = 'rgba(10,22,40,0.4)';
-    
-    // Back mockup styling
-    backMockup.style.color = '#0A1628';
-    backMockup.querySelector('.card-back-brand').style.color = '#0A1628';
-    backMockup.querySelector('.card-back-logo').style.color = 'rgba(10,22,40,0.4)';
-    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(10,22,40,0.6)';
-    backMockup.querySelector('.card-back-powered').style.color = 'rgba(10,22,40,0.3)';
-  } else {
-    cardNameText.style.color = '#FFFFFF';
-    document.getElementById('card-mockup-wave').style.color = 'rgba(255,255,255,0.3)';
-    document.getElementById('card-mockup-hint').style.color = 'rgba(255,255,255,0.4)';
-    
-    // Back mockup styling
-    backMockup.style.color = '#FFFFFF';
-    backMockup.querySelector('.card-back-brand').style.color = 'var(--gold-light)';
-    backMockup.querySelector('.card-back-logo').style.color = 'rgba(255,255,255,0.4)';
-    backMockup.querySelector('.card-back-instruction').style.color = 'rgba(255,255,255,0.45)';
-    backMockup.querySelector('.card-back-powered').style.color = 'rgba(255,255,255,0.25)';
-  }
-
-  const phoneHeader = document.getElementById('phone-preview-header');
-  if (phoneHeader) {
-    phoneHeader.style.backgroundColor = color;
-  }
-}
-
-function isColorLight(hex) {
-  if (hex.startsWith('#')) hex = hex.substring(1);
-  if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-  return brightness > 180;
-}
-
-function switchPreviewTab(tab) {
-  document.querySelectorAll('.preview-tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById('preview-panel-profile').style.display = 'none';
-  document.getElementById('preview-panel-card').style.display = 'none';
-  
-  if (tab === 'profile') {
-    document.getElementById('tab-btn-profile').classList.add('active');
-    document.getElementById('preview-panel-profile').style.display = 'block';
-  } else if (tab === 'card') {
-    document.getElementById('tab-btn-card').classList.add('active');
-    document.getElementById('preview-panel-card').style.display = 'block';
-  }
-}
-
-// ── PRICE CALCULATOR ENGINE ──
 function adjustQty(diff) {
-  const newQty = cardQty + diff;
-  if (newQty < baseQty) {
-    alert(`Minimum card count for this package is ${baseQty} card(s).`);
-    return;
-  }
-  cardQty = newQty;
-  calculatePrice();
+  const newQty=cardQty+diff;
+  if (newQty<baseQty){ alert('Minimum card count for this package is '+baseQty+' card(s).'); return; }
+  cardQty=newQty; calculatePrice();
 }
 
 function calculatePrice() {
-  let total = basePrice;
-  if (cardQty > baseQty) {
-    total += (cardQty - baseQty) * extraPrice;
+  let total=basePrice;
+  if (cardQty>baseQty) total+=(cardQty-baseQty)*extraPrice;
+  document.getElementById('qty-display').textContent=cardQty;
+  const fmt=total.toLocaleString()+' ETB';
+  document.getElementById('ps-pkg-price').textContent=fmt;
+  document.getElementById('ps-pkg-name').textContent=selectedPkg;
+  document.getElementById('pay-details-telebirr').innerHTML=`<h4>Pay via Telebirr</h4><p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light);font-size:1.1rem;">${fmt}</strong> via Telebirr, then upload your screenshot below.</p>`;
+  document.getElementById('pay-details-cbe').innerHTML=`<h4>Pay via CBE Birr</h4><p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light);font-size:1.1rem;">${fmt}</strong> via CBE Birr, then upload your screenshot below.</p>`;
+}
+
+function setCardColor(color, el) {
+  selectedCardColor=color;
+  document.querySelectorAll('.color-opt').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('card-mockup').style.backgroundColor=color;
+  const phoneHeader=document.getElementById('phone-preview-header');
+  if (phoneHeader) phoneHeader.style.backgroundColor=color;
+}
+
+function switchPreviewTab(tab) {
+  document.querySelectorAll('.preview-tab-btn').forEach(btn=>btn.classList.remove('active'));
+  document.getElementById('preview-panel-profile').style.display='none';
+  document.getElementById('preview-panel-card').style.display='none';
+  if (tab==='profile'){
+    document.getElementById('tab-btn-profile').classList.add('active');
+    document.getElementById('preview-panel-profile').style.display='block';
+  } else {
+    document.getElementById('tab-btn-card').classList.add('active');
+    document.getElementById('preview-panel-card').style.display='block';
   }
-  document.getElementById('qty-display').textContent = cardQty;
-  
-  const formattedTotal = total.toLocaleString() + ' ETB';
-  document.getElementById('ps-pkg-price').textContent = formattedTotal;
-  
-  // Re-render payment helper details with calculated pricing
-  document.getElementById('pay-details-telebirr').innerHTML = `
-    <h4>Pay via Telebirr</h4>
-    <p>Send payment to:<br><span class="acct">+251 906 368 383</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via Telebirr, then upload your screenshot below.</p>
-  `;
-  document.getElementById('pay-details-cbe').innerHTML = `
-    <h4>Pay via CBE Birr</h4>
-    <p>Send payment to:<br><span class="acct">1000365753931</span><br>Account name: <strong>TEWDROS ASSEFA</strong><br><br>Please pay exactly <strong style="color:var(--gold-light); font-size:1.1rem;">${formattedTotal}</strong> via CBE Birr, then upload your screenshot below.</p>
-  `;
 }
 
 function updateDesignerPreview() {
-  const bizName = document.getElementById('o-biz').value.trim() || 'Your Business Name';
-  const bizType = document.getElementById('o-type').value || 'Business Type';
-  const tagline = document.getElementById('o-tagline').value.trim() || 'Your tagline here';
-  const hours = document.getElementById('o-hours').value.trim() || 'Mon–Sat 8am–9pm';
-  const customCardText = document.getElementById('o-card-text').value.trim();
-  const cardText = customCardText || bizName;
-  const logoOpt = document.getElementById('o-card-logo-opt').value;
+  const bizName=document.getElementById('o-biz').value.trim()||'Your Business Name';
+  const bizType=document.getElementById('o-type').value||'Business Type';
+  const tagline=document.getElementById('o-tagline').value.trim()||'Your tagline here';
+  const hours=document.getElementById('o-hours').value.trim()||'Mon–Sat 8am–9pm';
+  const customCardText=document.getElementById('o-card-text').value.trim();
+  const cardText=customCardText||bizName;
 
-  document.getElementById('phone-preview-name').textContent = bizName;
-  document.getElementById('phone-preview-type').textContent = bizType;
-  document.getElementById('phone-preview-tagline').textContent = tagline;
-  document.getElementById('phone-preview-info-hours').textContent = '🕐 Open: ' + hours;
+  document.getElementById('phone-preview-name').textContent=bizName;
+  document.getElementById('phone-preview-type').textContent=bizType;
+  document.getElementById('phone-preview-tagline').textContent=tagline;
+  document.getElementById('phone-preview-info-hours').textContent='🕐 Open: '+hours;
+  document.getElementById('card-mockup-name').textContent=cardText;
+  document.getElementById('card-mockup-logo-placeholder').textContent=bizName[0]?bizName[0].toUpperCase():'T';
 
-  if (!photoData.avatar) {
-    document.getElementById('phone-preview-avatar-letter').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
-    document.getElementById('phone-preview-avatar-letter').style.display = 'block';
-    document.getElementById('phone-preview-avatar-img').style.display = 'none';
-  } else {
-    document.getElementById('phone-preview-avatar-letter').style.display = 'none';
-    document.getElementById('phone-preview-avatar-img').style.display = 'block';
+  if (!photoData.avatar){
+    document.getElementById('phone-preview-avatar-letter').textContent=bizName[0]?bizName[0].toUpperCase():'T';
+    document.getElementById('phone-preview-avatar-letter').style.display='block';
+    document.getElementById('phone-preview-avatar-img').style.display='none';
   }
 
-  if (!photoData.logo) {
-    document.getElementById('phone-preview-logo-text').style.display = 'block';
-    document.getElementById('phone-preview-logo-img').style.display = 'none';
-  } else {
-    document.getElementById('phone-preview-logo-text').style.display = 'none';
-    document.getElementById('phone-preview-logo-img').style.display = 'block';
-  }
-
-  document.getElementById('card-mockup-name').textContent = cardText;
-  document.getElementById('card-mockup-logo-placeholder').textContent = bizName[0] ? bizName[0].toUpperCase() : 'T';
-
-  const cardLogoPlaceholder = document.getElementById('card-mockup-logo-placeholder');
-  const cardLogoImg = document.getElementById('card-mockup-logo-img');
-  
-  if (logoOpt === 'name') {
-    cardLogoPlaceholder.style.display = 'none';
-    cardLogoImg.style.display = 'none';
-    document.getElementById('card-mockup-name').style.display = 'block';
-  } else if (logoOpt === 'logo') {
-    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
-    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
-    document.getElementById('card-mockup-name').style.display = 'none';
-  } else {
-    cardLogoPlaceholder.style.display = photoData.logo ? 'none' : 'flex';
-    cardLogoImg.style.display = photoData.logo ? 'block' : 'none';
-    document.getElementById('card-mockup-name').style.display = 'block';
-  }
-
-  // Update dynamic QR preview source on the back card mockup
-  const baseProfileUrl = window.location.origin + window.location.pathname.replace('order.html', '');
-  const testParams = new URLSearchParams({ name: bizName, type: bizType, tagline: tagline });
-  document.getElementById('card-back-qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(baseProfileUrl + 'profile.html?' + testParams.toString())}`;
-
-  const linksContainer = document.getElementById('phone-preview-links');
-  linksContainer.innerHTML = '';
-
-  const platforms = [
-    { id: 'o-whatsapp', name: 'WhatsApp', icon: '💬' },
-    { id: 'o-telegram', name: 'Telegram', icon: '✈️' },
-    { id: 'o-facebook', name: 'Facebook', icon: '📘' },
-    { id: 'o-instagram', name: 'Instagram', icon: '📸' },
-    { id: 'o-tiktok', name: 'TikTok', icon: '🎵' },
-    { id: 'o-youtube', name: 'YouTube', icon: '▶️' },
-    { id: 'o-twitter', name: 'Twitter/X', icon: '🐦' },
-    { id: 'o-snapchat', name: 'Snapchat', icon: '👻' },
-    { id: 'o-linkedin', name: 'LinkedIn', icon: '💼' },
-    { id: 'o-maps', name: 'Maps', icon: '📍' },
-    { id: 'o-website', name: 'Website', icon: '🌐' },
-    { id: 'o-tripadvisor', name: 'TripAdvisor', icon: '⭐' }
+  const linksContainer=document.getElementById('phone-preview-links');
+  linksContainer.innerHTML='';
+  const platforms=[
+    {id:'o-whatsapp',name:'WhatsApp',icon:'💬'},{id:'o-telegram',name:'Telegram',icon:'✈️'},
+    {id:'o-facebook',name:'Facebook',icon:'📘'},{id:'o-instagram',name:'Instagram',icon:'📸'},
+    {id:'o-tiktok',name:'TikTok',icon:'🎵'},{id:'o-youtube',name:'YouTube',icon:'▶️'},
+    {id:'o-twitter',name:'Twitter/X',icon:'🐦'},{id:'o-snapchat',name:'Snapchat',icon:'👻'},
+    {id:'o-linkedin',name:'LinkedIn',icon:'💼'},{id:'o-maps',name:'Maps',icon:'📍'},
+    {id:'o-website',name:'Website',icon:'🌐'},{id:'o-tripadvisor',name:'TripAdvisor',icon:'⭐'}
   ];
-
-  platforms.forEach(p => {
-    const val = document.getElementById(p.id).value.trim();
-    if (val) {
-      const btn = document.createElement('div');
-      btn.className = 'preview-phone-btn';
-      btn.innerHTML = `<span class="preview-phone-icon">${p.icon}</span><span class="preview-phone-label">${p.name}</span>`;
+  platforms.forEach(p=>{
+    const val=document.getElementById(p.id).value.trim();
+    if (val){
+      const btn=document.createElement('div'); btn.className='preview-phone-btn';
+      btn.innerHTML=`<span class="preview-phone-icon">${p.icon}</span><span class="preview-phone-label">${p.name}</span>`;
       linksContainer.appendChild(btn);
     }
   });
-
-  if (linksContainer.children.length === 0) {
-    linksContainer.innerHTML = '<div style="grid-column: span 4; font-size: 0.55rem; color: #9CA3AF; text-align: center; padding: 0.5rem 0;">(Your social links will appear here)</div>';
+  if (linksContainer.children.length===0){
+    linksContainer.innerHTML='<div style="grid-column:span 4;font-size:0.55rem;color:#9CA3AF;text-align:center;padding:0.5rem 0;">(Your social links will appear here)</div>';
   }
 }
 
-// ── 300 DPI HIGH-RES CR80 RENDERER ──
-function drawCardToCanvas(side, order, logoImgElement, qrImgElement) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 1013;
-  canvas.height = 638;
-  const ctx = canvas.getContext('2d');
-  
-  ctx.fillStyle = order.cardColor || '#0A1628';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  const radialShine = ctx.createRadialGradient(
-    canvas.width * 0.8, canvas.height * 0.2, 0,
-    canvas.width * 0.8, canvas.height * 0.2, canvas.width
-  );
-  radialShine.addColorStop(0, 'rgba(255, 255, 255, 0.08)');
-  radialShine.addColorStop(0.5, 'transparent');
-  ctx.fillStyle = radialShine;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+// ── SUBMIT ORDER TO GOOGLE SHEETS ──
+async function submitOrder() {
+  if (!selectedPay){ alert('Please select a payment method.'); return; }
+  if (!photoData.screenshot){ alert('Please upload your payment screenshot.'); return; }
 
-  const isLight = isColorLight(order.cardColor || '#0A1628');
-  const textColor = isLight ? '#0A1628' : '#FFFFFF';
-  const subColor = isLight ? 'rgba(10,22,40,0.5)' : 'rgba(255,255,255,0.4)';
-  const goldColor = '#C9922A';
+  const biz=document.getElementById('o-biz').value.trim();
+  const type=document.getElementById('o-type').value;
+  const tagline=document.getElementById('o-tagline').value.trim();
+  const hours=document.getElementById('o-hours').value.trim();
+  const phone=document.getElementById('o-phone').value.trim();
+  const notes=document.getElementById('o-notes').value.trim();
+  const extras=document.querySelectorAll('#extra-phones input');
+  const phone2=extras[0]?extras[0].value.trim():'';
+  const phone3=extras[1]?extras[1].value.trim():'';
+  const customCardText=document.getElementById('o-card-text').value.trim();
+  const printedName=customCardText||biz;
+  const cardLogoOpt=document.getElementById('o-card-logo-opt').value;
 
-  if (side === 'front') {
-    // 1. Draw Gold Chip
-    const chipGrad = ctx.createLinearGradient(80, 80, 210, 175);
-    chipGrad.addColorStop(0, '#F0C060');
-    chipGrad.addColorStop(1, '#C9922A');
-    ctx.fillStyle = chipGrad;
-    
-    // Draw round rectangle chip
-    ctx.beginPath();
-    ctx.roundRect ? ctx.roundRect(80, 80, 130, 95, 12) : drawRoundRectPoly(ctx, 80, 80, 130, 95, 12);
-    ctx.fill();
-    
-    ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-    ctx.lineWidth = 4;
-    ctx.strokeRect(92, 92, 106, 71);
-    ctx.beginPath();
-    ctx.moveTo(145, 80); ctx.lineTo(145, 175);
-    ctx.moveTo(80, 127); ctx.lineTo(210, 127);
-    ctx.stroke();
+  // Build profile link
+  const profileParams=new URLSearchParams();
+  profileParams.set('name',biz);
+  if (type) profileParams.set('type',type);
+  if (tagline) profileParams.set('tagline',tagline);
+  if (phone) profileParams.set('phone',phone);
+  if (phone2) profileParams.set('phone2',phone2);
+  if (phone3) profileParams.set('phone3',phone3);
+  if (hours) profileParams.set('hours',hours);
+  profileParams.set('color',selectedCardColor||'#0A1628');
+  if (photoData.cover) profileParams.set('cover',photoData.cover);
+  if (photoData.avatar) profileParams.set('avatar',photoData.avatar);
+  if (photoData.logo) profileParams.set('logo',photoData.logo);
 
-    // 2. Draw Antenna Signal Waves
-    ctx.fillStyle = textColor;
-    ctx.font = '80px sans-serif';
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'top';
-    ctx.fillText('📡', canvas.width - 80, 80);
-
-    // 3. Draw Logo & Name text
-    const showLogo = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'logo';
-    const showName = order.cardLogoOpt === 'both' || order.cardLogoOpt === 'name';
-
-    if (showLogo) {
-      if (logoImgElement && logoImgElement.complete && logoImgElement.naturalWidth > 0) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(logoImgElement, 90, canvas.height - 220, 140, 140);
-        ctx.restore();
-      } else {
-        ctx.beginPath();
-        ctx.arc(160, canvas.height - 150, 70, 0, Math.PI * 2);
-        const logoGrad = ctx.createLinearGradient(90, canvas.height - 220, 230, canvas.height - 80);
-        logoGrad.addColorStop(0, '#C9922A');
-        logoGrad.addColorStop(1, '#F0C060');
-        ctx.fillStyle = logoGrad;
-        ctx.fill();
-        
-        ctx.fillStyle = '#0A1628';
-        ctx.font = '800 65px Syne, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText((order.cardText || order.biz || 'T')[0].toUpperCase(), 160, canvas.height - 150);
-      }
-    }
-
-    if (showName) {
-      ctx.fillStyle = textColor;
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.font = '800 44px Syne, sans-serif';
-      
-      const textX = showLogo ? 260 : 80;
-      ctx.fillText(order.cardText || order.biz, textX, canvas.height - 170);
-      
-      ctx.fillStyle = subColor;
-      ctx.font = '600 22px Syne, sans-serif';
-      ctx.fillText('TAP TO CONNECT', textX, canvas.height - 120);
-    }
-
-  } else if (side === 'back') {
-    // 1. Draw header brand name
-    ctx.fillStyle = goldColor;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.font = '800 32px Syne, sans-serif';
-    ctx.fillText('TIOFLOS NFC', canvas.width / 2, 70);
-
-    ctx.fillStyle = textColor;
-    ctx.font = '36px sans-serif';
-    ctx.fillText('📡', canvas.width / 2, 115);
-
-    // 2. Draw Dynamic QR Box
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.roundRect ? ctx.roundRect(canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16) : drawRoundRectPoly(ctx, canvas.width / 2 - 120, canvas.height / 2 - 120, 240, 240, 16);
-    ctx.fill();
-
-    // Draw the QR code image
-    if (qrImgElement && qrImgElement.complete && qrImgElement.naturalWidth > 0) {
-      ctx.drawImage(qrImgElement, canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
-    }
-
-    // 3. Draw instructions footer
-    ctx.fillStyle = textColor;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    ctx.font = '800 24px Syne, sans-serif';
-    ctx.fillText('TAP CARD OR SCAN QR TO CONNECT', canvas.width / 2, canvas.height - 100);
-
-    ctx.fillStyle = subColor;
-    ctx.font = '600 20px Syne, sans-serif';
-    ctx.fillText('Arba Minch, Ethiopia', canvas.width / 2, canvas.height - 65);
-  }
-
-  return canvas.toDataURL('image/png');
-}
-
-function drawRoundRectPoly(ctx, x, y, width, height, radius) {
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-}
-
-// ── SECURE TELEGRAM SENDER ──
-function sendOrderToTelegram(order) {
-  const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendPhoto`;
-  
-  // Convert screenshot local Base64 string to Blob for TG photo upload
-  const blob = base64ToBlob(order.screenshotPhoto);
-  
-  // Build safe URL import payload containing full order data
-  const payload = btoa(unescape(encodeURIComponent(JSON.stringify(order))));
-  const importLink = `${window.location.origin}${window.location.pathname.replace('order.html', 'admin.html')}?import=${payload}`;
-
-  const caption = `
-🎉 New Tioflos NFC Order!
-
-🆔 Order ID: ${order.id}
-📅 Date: ${order.date}
-🏢 Business: ${order.biz} (${order.type})
-📦 Package: ${order.pkg}
-💳 Quantity: ${order.cardQty} card(s)
-💰 Total Price: ${order.totalPrice}
-💵 Payment: ${order.pay}
-📞 Phone: ${order.phone}
-🎨 Card Color: ${order.cardColor}
-🏷️ Card Label: "${order.cardText}"
-
-📝 Notes: ${order.notes || 'None'}
-
-📥 Click link below to import this order into your Admin Dashboard:
-${importLink}
-  `;
-
-  const formData = new FormData();
-  formData.append('chat_id', TG_CHAT_ID);
-  formData.append('photo', blob, 'screenshot.jpg');
-  formData.append('caption', caption);
-
-  fetch(url, {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log('Telegram Bot send success:', data);
-  })
-  .catch(err => {
-    console.error('Telegram Bot send error:', err);
+  const platIds=['whatsapp','telegram','facebook','instagram','tiktok','youtube','twitter','snapchat','linkedin','maps','website','tripadvisor'];
+  const platforms={};
+  platIds.forEach(k=>{
+    const v=document.getElementById('o-'+k).value.trim();
+    platforms[k]=v;
+    if (v) profileParams.set(k,v);
   });
-}
 
-function base64ToBlob(base64Data) {
-  const sliceSize = 512;
-  const byteCharacters = atob(base64Data.split(',')[1]);
-  const byteArrays = [];
-  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-  return new Blob(byteArrays, { type: 'image/jpeg' });
-}
+  const baseUrl=window.location.origin+window.location.pathname.replace('order.html','');
+  const profileLink=baseUrl+'profile.html?'+profileParams.toString();
 
-function submitOrder() {
-  if (!selectedPay) { alert('Please select a payment method.'); return; }
-  if (!photoData.screenshot) { alert('Please upload your payment screenshot.'); return; }
-
-  var biz     = document.getElementById('o-biz').value.trim();
-  var type    = document.getElementById('o-type').value;
-  var tagline = document.getElementById('o-tagline').value.trim();
-  var hours   = document.getElementById('o-hours').value.trim();
-  var phone   = document.getElementById('o-phone').value.trim();
-  var notes   = document.getElementById('o-notes').value.trim();
-  var extras  = document.querySelectorAll('#extra-phones input');
-  var phone2  = extras[0] ? extras[0].value.trim() : '';
-  var phone3  = extras[1] ? extras[1].value.trim() : '';
-
-  var customCardText = document.getElementById('o-card-text').value.trim();
-  var printedName = customCardText || biz;
-  var cardLogoOpt = document.getElementById('o-card-logo-opt').value;
-
-  var order = {
-    id: 'ORD-' + Date.now(),
-    date: new Date().toLocaleString(),
-    biz: biz,
-    type: type,
-    pkg: selectedPkg,
-    pay: selectedPay,
-    phone: phone,
-    phone2: phone2,
-    phone3: phone3,
-    tagline: tagline,
-    hours: hours,
-    notes: notes,
-    address: '',
-    cardQty: cardQty,
-    totalPrice: document.getElementById('ps-pkg-price').textContent,
-    platforms: {
-      whatsapp:    document.getElementById('o-whatsapp').value.trim(),
-      telegram:    document.getElementById('o-telegram').value.trim(),
-      facebook:    document.getElementById('o-facebook').value.trim(),
-      instagram:   document.getElementById('o-instagram').value.trim(),
-      tiktok:      document.getElementById('o-tiktok').value.trim(),
-      youtube:     document.getElementById('o-youtube').value.trim(),
-      twitter:     document.getElementById('o-twitter').value.trim(),
-      snapchat:    document.getElementById('o-snapchat').value.trim(),
-      linkedin:    document.getElementById('o-linkedin').value.trim(),
-      maps:        document.getElementById('o-maps').value.trim(),
-      website:     document.getElementById('o-website').value.trim(),
-      tripadvisor: document.getElementById('o-tripadvisor').value.trim()
-    },
-    coverPhoto:      photoData.cover,
-    avatarPhoto:     photoData.avatar,
-    logoPhoto:       photoData.logo,
-    screenshotPhoto: photoData.screenshot,
-    cardColor:       selectedCardColor,
-    cardText:        printedName,
-    cardLogoOpt:     cardLogoOpt,
-    status: 'Pending',
-    paid: false,
-    profileLink: '',
-    printFrontFile: '',
-    printBackFile: ''
+  const order={
+    orderId:'ORD-'+Date.now(),
+    date:new Date().toLocaleString(),
+    businessName:biz,
+    ownerName:biz,
+    phone:phone,
+    email:'',
+    package:selectedPkg,
+    location:'Arba Minch',
+    whatsapp:platforms.whatsapp,
+    facebook:platforms.facebook,
+    instagram:platforms.instagram,
+    website:platforms.website,
+    cardColor:selectedCardColor,
+    avatarUrl:photoData.avatar,
+    coverUrl:photoData.cover,
+    logoUrl:photoData.logo,
+    paymentScreenshot:photoData.screenshot,
+    profileLink:profileLink,
+    cardQty:cardQty,
+    totalPrice:document.getElementById('ps-pkg-price').textContent,
+    paymentMethod:selectedPay,
+    tagline:tagline,
+    hours:hours,
+    phone2:phone2,
+    phone3:phone3,
+    notes:notes,
+    cardText:printedName,
+    cardLogoOpt:cardLogoOpt,
+    platforms:JSON.stringify(platforms)
   };
 
-  // Generate Profile link URL parameter string
-  var profileParams = new URLSearchParams();
-  profileParams.set('name', biz);
-  if (type)    profileParams.set('type', type);
-  if (tagline) profileParams.set('tagline', tagline);
-  if (phone)   profileParams.set('phone', phone);
-  if (phone2)  profileParams.set('phone2', phone2);
-  if (phone3)  profileParams.set('phone3', phone3);
-  if (hours)   profileParams.set('hours', hours);
-  profileParams.set('color', selectedCardColor || '#0A1628');
-  
-  if (photoData.cover) profileParams.set('cover', photoData.cover);
-  if (photoData.avatar) profileParams.set('avatar', photoData.avatar);
-  if (photoData.logo) profileParams.set('logo', photoData.logo);
+  // Show loading overlay
+  const overlay=document.getElementById('submitting-overlay');
+  const submitBtn=document.getElementById('submit-btn');
+  overlay.classList.add('show');
+  submitBtn.disabled=true;
 
-  var plats = order.platforms;
-  if (plats.whatsapp)    profileParams.set('whatsapp', plats.whatsapp);
-  if (plats.telegram)    profileParams.set('telegram', plats.telegram);
-  if (plats.facebook)    profileParams.set('facebook', plats.facebook);
-  if (plats.instagram)   profileParams.set('instagram', plats.instagram);
-  if (plats.tiktok)      profileParams.set('tiktok', plats.tiktok);
-  if (plats.youtube)     profileParams.set('youtube', plats.youtube);
-  if (plats.twitter)     profileParams.set('twitter', plats.twitter);
-  if (plats.snapchat)    profileParams.set('snapchat', plats.snapchat);
-  if (plats.linkedin)    profileParams.set('linkedin', plats.linkedin);
-  if (plats.maps)        profileParams.set('maps', plats.maps);
-  if (plats.website)     profileParams.set('website', plats.website);
-  if (plats.tripadvisor) profileParams.set('tripadvisor', plats.tripadvisor);
-  // Build the full profile URL
-  var baseUrl = window.location.origin + window.location.pathname.replace('order.html', '');
-  order.profileLink = baseUrl + 'profile.html?' + profileParams.toString();
+  try {
+    document.getElementById('submitting-text').textContent='Saving your order...';
+    const response=await fetch(SHEETS_URL,{
+      method:'POST',
+      body:JSON.stringify(order)
+    });
+    const result=await response.json();
 
-  var orders = JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
-  orders.unshift(order);
-  localStorage.setItem('tioflos_orders', JSON.stringify(orders));
+    overlay.classList.remove('show');
+    submitBtn.disabled=false;
 
-  // Send order to Google Sheets (no Telegram needed)
-  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx6kw_DGAJtWiA7JNwlns7PZR6WhzZSUTpIAU0GdRhbFcHNAgWLjbrcip4vkC4aZaaeMA/exec';
-  fetch(SHEETS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(order)
-  }).catch(function(err) {
-    console.error('Google Sheets submission error:', err);
-  });
-
-  document.getElementById('summary-box').innerHTML =
-    '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">' + order.id + '</span></div>' +
-    '<div class="summary-row"><span class="sr-label">Business</span><span class="sr-val">' + biz + '</span></div>' +
-    '<div class="summary-row"><span class="sr-label">Package</span><span class="sr-val">' + selectedPkg + '</span></div>' +
-    '<div class="summary-row"><span class="sr-label">Payment</span><span class="sr-val">' + selectedPay + '</span></div>';
-
-  goStep(4);
+    if (result.success){
+      document.getElementById('summary-box').innerHTML=
+        '<div class="summary-row"><span class="sr-label">Order ID</span><span class="sr-val">'+order.orderId+'</span></div>'+
+        '<div class="summary-row"><span class="sr-label">Business</span><span class="sr-val">'+biz+'</span></div>'+
+        '<div class="summary-row"><span class="sr-label">Package</span><span class="sr-val">'+selectedPkg+'</span></div>'+
+        '<div class="summary-row"><span class="sr-label">Payment</span><span class="sr-val">'+selectedPay+'</span></div>'+
+        '<div class="summary-row"><span class="sr-label">Total</span><span class="sr-val">'+order.totalPrice+'</span></div>';
+      goStep(4);
+    } else {
+      alert('Something went wrong saving your order. Please try again.');
+    }
+  } catch(err) {
+    overlay.classList.remove('show');
+    submitBtn.disabled=false;
+    alert('Connection error. Please check your internet and try again.');
+  }
 }
 
-// Auto-fill package from URL query string if provided
 window.onload = function() {
-  const params = new URLSearchParams(window.location.search);
-  const pkg = params.get('pkg');
-  if (pkg) {
-    let pkgCard = null;
-    let pkgNameVal = '';
-    if (pkg === 'starter') {
-      pkgCard = document.querySelector('.pkg-card:nth-child(1)');
-      pkgNameVal = 'Starter - 800 ETB';
-    } else if (pkg === 'business') {
-      pkgCard = document.querySelector('.pkg-card:nth-child(2)');
-      pkgNameVal = 'Business - 7,500 ETB';
-    } else if (pkg === 'premium') {
-      pkgCard = document.querySelector('.pkg-card:nth-child(3)');
-      pkgNameVal = 'Premium - 20,000 ETB';
-    }
-    if (pkgCard) {
-      selectPkg(pkgCard, pkgNameVal);
-    }
+  const params=new URLSearchParams(window.location.search);
+  const pkg=params.get('pkg');
+  if (pkg){
+    let pkgCard=null, pkgNameVal='';
+    if (pkg==='starter'){ pkgCard=document.querySelector('.pkg-card:nth-child(1)'); pkgNameVal='Starter - 800 ETB'; }
+    else if (pkg==='business'){ pkgCard=document.querySelector('.pkg-card:nth-child(2)'); pkgNameVal='Business - 7,500 ETB'; }
+    else if (pkg==='premium'){ pkgCard=document.querySelector('.pkg-card:nth-child(3)'); pkgNameVal='Premium - 20,000 ETB'; }
+    if (pkgCard) selectPkg(pkgCard, pkgNameVal);
   }
 };
 </script>

@@ -242,6 +242,7 @@
         <option value="paid">Paid</option>
         <option value="unpaid">Unpaid</option>
       </select>
+      <button class="add-demo-btn" onclick="refreshOrders()">🔄 Refresh Orders</button>
       <button class="add-demo-btn" onclick="addDemoOrder()">+ Add Demo Order</button>
     </div>
 
@@ -311,33 +312,62 @@ if (sessionStorage.getItem('tioflos_admin') === '1') {
 function initDashboard() {
   updateClock();
   setInterval(updateClock, 1000);
-  
-  // 1-Click Telegram Import decoding logic
-  const params = new URLSearchParams(window.location.search);
-  const importData = params.get('import');
-  if (importData) {
-    try {
-      const decoded = JSON.parse(decodeURIComponent(escape(atob(importData))));
-      const orders = getOrders();
-      if (!orders.some(o => o.id === decoded.id)) {
-        orders.unshift(decoded);
-        saveOrders(orders);
-        alert(`🎉 Successfully imported order for "${decoded.biz}"!`);
-      } else {
-        alert(`ℹ️ Order "${decoded.id}" is already in your dashboard.`);
-      }
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } catch (e) {
-      console.error('Failed to decode import data:', e);
-      alert('❌ Failed to import order. The link might be invalid or corrupted.');
-    }
-  }
-  
-  renderOrders();
+  refreshOrders();
 }
 
+async function refreshOrders() {
+  const orders = await loadOrdersFromSheets();
+  saveOrders(orders);
+  renderOrders();
+}
 function updateClock() {
   document.getElementById('dash-time').textContent = new Date().toLocaleString();
+}
+
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzUvZ1AEQgcfoi60HzTRO0NKe6bzCXs1_AjehXQCZVYFq5aigjJhnAqbQL8xCmnBMaE0w/exec';
+
+// ── LOAD ORDERS FROM GOOGLE SHEETS ──
+async function loadOrdersFromSheets() {
+  try {
+    document.getElementById('orders-tbody').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.4);">⏳ Loading orders...</td></tr>';
+    const res = await fetch(SHEETS_URL);
+    const data = await res.json();
+    if (data.success && data.orders) {
+      // Convert sheet rows to order objects
+      const orders = data.orders.map(row => ({
+        id: row['Order ID'] || '',
+        date: row['Date'] || '',
+        biz: row['Business Name'] || '',
+        type: row['Owner Name'] || '',
+        phone: row['Phone'] || '',
+        pkg: row['Package'] || '',
+        pay: row['Payment'] || '',
+        cardColor: row['Card Color'] || '#0A1628',
+        avatarPhoto: row['Avatar URL'] || '',
+        coverPhoto: row['Cover URL'] || '',
+        logoPhoto: row['Logo URL'] || '',
+        screenshotPhoto: row['Payment Screenshot'] || '',
+        status: row['Status'] || 'New',
+        profileLink: row['Profile Link'] || '',
+        paid: (row['Status'] || '').toLowerCase() === 'paid',
+        totalPrice: row['Total Price'] || '',
+        cardQty: row['Card Qty'] || 1,
+        notes: row['Notes'] || '',
+        whatsapp: row['WhatsApp'] || '',
+        facebook: row['Facebook'] || '',
+        instagram: row['Instagram'] || '',
+        website: row['Website'] || '',
+        platforms: {}
+      }));
+      // Cache in localStorage for offline fallback
+      localStorage.setItem('tioflos_orders', JSON.stringify(orders));
+      return orders;
+    }
+  } catch(e) {
+    console.error('Failed to load from Sheets:', e);
+  }
+  // Fallback to localStorage
+  return JSON.parse(localStorage.getItem('tioflos_orders') || '[]');
 }
 
 function getOrders() {
