@@ -514,14 +514,6 @@ function addDemoOrder() {
     { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
   ];
   const d = demos[Math.floor(Math.random() * demos.length)];
-  const order = {
-    id: 'ORD-' + Date.now(),
-    date: new Date().toLocaleString(),
-    ...d,
-    status: 'Pending',
-    paid: false,
-    profileLink: ''
-  };
   const orders = getOrders();
   
   // Set prices and cardQty based on package
