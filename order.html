@@ -582,7 +582,7 @@
 <script>
 // ── CONFIGURATION ──
 const IMGBB_API_KEY = '6ab89973131ab4d72e6471ff8a38fe05';
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzUvZ1AEQgcfoi60HzTRO0NKe6bzCXs1_AjehXQCZVYFq5aigjJhnAqbQL8xCmnBMaE0w/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwvchBbriXv2LARryXdNefQruVxKK0DOdFDgh8exx5xLK-27Vp0A1ftVCV3fC8o34x4hA/exec';
 
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
@@ -853,32 +853,31 @@ async function submitOrder() {
     orderId:'ORD-'+Date.now(),
     date:new Date().toLocaleString(),
     businessName:biz,
-    ownerName:biz,
+    type:type,
     phone:phone,
-    email:'',
+    phone2:phone2,
+    phone3:phone3,
     package:selectedPkg,
-    location:'Arba Minch',
-    whatsapp:platforms.whatsapp,
-    facebook:platforms.facebook,
-    instagram:platforms.instagram,
-    website:platforms.website,
+    paymentMethod:selectedPay,
     cardColor:selectedCardColor,
+    cardText:printedName,
+    cardLogoOpt:cardLogoOpt,
+    cardQty:cardQty,
+    totalPrice:document.getElementById('ps-pkg-price').textContent,
     avatarUrl:photoData.avatar,
     coverUrl:photoData.cover,
     logoUrl:photoData.logo,
     paymentScreenshot:photoData.screenshot,
-    profileLink:profileLink,
-    cardQty:cardQty,
-    totalPrice:document.getElementById('ps-pkg-price').textContent,
-    paymentMethod:selectedPay,
+    whatsapp:platforms.whatsapp,
+    facebook:platforms.facebook,
+    instagram:platforms.instagram,
+    website:platforms.website,
+    platforms:JSON.stringify(platforms),
     tagline:tagline,
     hours:hours,
-    phone2:phone2,
-    phone3:phone3,
     notes:notes,
-    cardText:printedName,
-    cardLogoOpt:cardLogoOpt,
-    platforms:JSON.stringify(platforms)
+    location:'Arba Minch',
+    profileLink:profileLink
   };
 
   // Show loading overlay
