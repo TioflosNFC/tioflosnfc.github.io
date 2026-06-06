@@ -449,10 +449,6 @@ function renderOrders() {
           <div class="action-btns">
             <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
             <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
-            ${o.profileLink ? `<button class="act-btn act-link" onclick="sendToClient('${o.id}')">📤 Send to Client</button>` : ''}
-            ${o.cardColor ? `<button class="act-btn act-link" onclick="downloadCardPNG('${o.id}','front')">📥 Card Front</button>` : ''}
-            ${o.cardColor ? `<button class="act-btn act-link" onclick="downloadCardPNG('${o.id}','back')">📥 Card Back</button>` : ''}
-            <button class="act-btn act-link" onclick="openEditModal('${o.id}')">✏️ Edit</button>
             <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
           </div>
           ${o.address ? `<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-top:4px;">📍 ${o.address}</div>` : ''}
@@ -511,23 +507,6 @@ function deleteOrder(id) {
   renderOrders();
 }
 
-function sendToClient(id) {
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o || !o.profileLink) { alert('No profile link available for this order.'); return; }
-  const phone = (o.platforms && o.platforms.whatsapp) ? o.platforms.whatsapp.replace(/\D/g,'') : '';
-  const msg = encodeURIComponent(
-    'Hello ' + (o.biz || '') + '! Your NFC profile is ready.\n\n' +
-    'Tap this link to view your profile:\n' + o.profileLink + '\n\n' +
-    'Program this link into your NFC card. - Tioflos NFC'
-  );
-  if (phone) {
-    window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
-  } else {
-    prompt('Copy this profile link to send to client:', o.profileLink);
-  }
-}
-
 function addDemoOrder() {
   const demos = [
     { biz:'Lante Hotel', type:'Hotel / Resort', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251911234567', address:'Sikela area', notes:'Blue and gold logo', platforms:{whatsapp:'+251911234567',instagram:'@lantehotel',maps:'maps.google.com',telegram:'@lantehotel'} },
@@ -535,19 +514,32 @@ function addDemoOrder() {
     { biz:'Beauty Palace', type:'Salon / Spa', pkg:'Business — 7,500 ETB', pay:'Telebirr', phone:'+251933456789', address:'Shecha area', notes:'Pink and white colors', platforms:{whatsapp:'+251933456789',instagram:'@beautypalace',tiktok:'@beautypalace'} },
   ];
   const d = demos[Math.floor(Math.random() * demos.length)];
-
+  const order = {
+    id: 'ORD-' + Date.now(),
+    date: new Date().toLocaleString(),
+    ...d,
+    status: 'Pending',
+    paid: false,
+    profileLink: ''
+  };
+  const orders = getOrders();
+  
+  // Set prices and cardQty based on package
   let baseP = 800, extraP = 500, baseQ = 1;
   if (d.pkg.toLowerCase().includes('business')) {
     baseP = 7500; extraP = 2000; baseQ = 5;
   } else if (d.pkg.toLowerCase().includes('premium')) {
     baseP = 20000; extraP = 4000; baseQ = 10;
   }
+  
+  const cardQty = baseQ;
+  const totalPrice = baseP.toLocaleString() + ' ETB';
 
   const order = {
     id: 'ORD-' + Date.now(),
     date: new Date().toLocaleString(),
-    cardQty: baseQ,
-    totalPrice: baseP.toLocaleString() + ' ETB',
+    cardQty: cardQty,
+    totalPrice: totalPrice,
     cardColor: '#0A1628',
     cardText: d.biz,
     cardLogoOpt: 'both',
@@ -556,7 +548,6 @@ function addDemoOrder() {
     paid: false,
     profileLink: ''
   };
-  const orders = getOrders();
   orders.unshift(order);
   saveOrders(orders);
   renderOrders();
@@ -915,6 +906,16 @@ function drawRoundRectPoly(ctx, x, y, width, height, radius) {
 </script>
 
 <link rel="stylesheet" href="styles.css">
+<style>
+  body { background: #0A1628 !important; color: #ffffff; }
+  .dashboard { background: #0A1628 !important; }
+  .dash-body { background: #0A1628 !important; }
+  .orders-wrap { background: #0A1628 !important; }
+  table { background: #0A1628 !important; }
+  tbody tr { background: transparent !important; }
+  tbody td { background: transparent !important; }
+  .empty-state { background: #0A1628 !important; }
+</style>
 
 <!-- EDIT MODAL -->
 <div class="modal-overlay" id="edit-modal">
@@ -1054,5 +1055,3 @@ function drawRoundRectPoly(ctx, x, y, width, height, radius) {
 </div>
 </body>
 </html>
-
-
