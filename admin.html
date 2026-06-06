@@ -477,6 +477,7 @@ function renderOrders() {
         </td>
         <td>
           <div class="action-btns">
+            <button class="act-btn act-link" onclick="openEditModal('${o.id}')">✏️ Edit</button>
             <button class="act-btn act-status" onclick="cycleStatus('${o.id}')">⟳ Status</button>
             <button class="act-btn act-paid" onclick="togglePaid('${o.id}')">${o.paid ? '✓ Paid' : '💳 Mark Paid'}</button>
             <button class="act-btn act-delete" onclick="deleteOrder('${o.id}')">🗑</button>
@@ -618,6 +619,30 @@ function openEditModal(id) {
   document.getElementById('edit-notes').value = o.notes || '';
 
   document.getElementById('edit-modal').classList.add('active');
+}
+
+function sendProfileToClient() {
+  const id = document.getElementById('edit-order-id').value;
+  const orders = getOrders();
+  const o = orders.find(x => x.id === id);
+  if (!o) return;
+  if (!o.profileLink) {
+    alert('Please save the order first to generate the profile link.');
+    return;
+  }
+  const phone = (o.phone || '').replace(/[^\d]/g, '');
+  if (!phone) {
+    alert('No phone number found for this client.');
+    return;
+  }
+  const message = encodeURIComponent(
+    'Hello ' + o.biz + '! 👋\n\n' +
+    'Your Tioflos NFC digital profile is ready! 🎉\n\n' +
+    '🔗 Your Profile Link:\n' + o.profileLink + '\n\n' +
+    'Share this link with your customers or tap your NFC card to connect.\n\n' +
+    '— Tioflos NFC, Arba Minch'
+  );
+  window.open('https://wa.me/' + phone + '?text=' + message, '_blank');
 }
 
 function closeEditModal() {
@@ -1072,6 +1097,7 @@ function drawRoundRectPoly(ctx, x, y, width, height, radius) {
     <div class="modal-footer">
       <button class="modal-cancel-btn" onclick="closeEditModal()">Cancel</button>
       <button class="modal-save-btn" onclick="saveEditOrder()">Save Changes ✓</button>
+      <button class="modal-save-btn" style="background:rgba(37,211,102,0.2);color:#25D366;border:1px solid #25D366;" onclick="sendProfileToClient()">💬 Send to Client</button>
     </div>
   </div>
 </div>
